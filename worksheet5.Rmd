@@ -1,0 +1,120 @@
+---
+title: "MATH163 – Week 05: Generating Multiple Samples"
+output: html_notebook
+---
+
+```{r}
+set.seed(163)
+```
+
+# INTRODUCTION
+
+In this lab we’ll:
+- generate many random samples from a known distribution (Geometric),
+- store them as columns of a matrix (so each column is one sample),
+- compute column summaries (means, medians, minima, maxima),
+- and see how these summaries vary from sample to sample.
+
+We’ll also do a quick visual check of the classic approximation
+Binomial(n, p) ≈ Poisson(λ = n p) for small p.
+
+---
+
+# WORKED EXAMPLE (WITH ANSWERS)
+
+## 1) Build the same 100×150 dataset three ways
+
+Goal: create a matrix with 100 rows × 150 columns, where each column is a sample of size 100 from a Geometric distribution with parameter p = 0.1.
+`rgeom(n, p)` generates counts of failures before the first success; values are 0,1,2,…
+
+```{r}
+# Method A: generate one long vector then reshape it
+m1 <- rgeom(100 * 150, prob = 0.1)  # 15,000 numbers in one go
+dim(m1) <- c(100, 150)              # give it matrix dimensions (100 rows, 150 cols)
+
+# Method B: pre-allocate a matrix and fill row-by-row in a for-loop
+m2 <- matrix(NA_integer_, nrow = 100, ncol = 150)
+for (i in 1:100) {
+  # each loop fills the i-th row with 150 draws
+  m2[i, ] <- rgeom(150, prob = 0.1)
+}
+
+# Method C: use replicate() to make 150 columns, each column a length-100 draw
+m3 <- replicate(150, rgeom(100, prob = 0.1))  # result is 100×150
+```
+
+## 2) Compare sample means and sample medians across columns
+
+```{r}
+# Column-wise summaries
+means_m1   <- colMeans(m1)                # fast mean per column
+medians_m1 <- apply(m1, 2, median)        # general "apply over columns"
+
+# Side-by-side histograms to compare their distributions
+op <- par(mfrow = c(1, 2))  # 1 row, 2 plots
+hist(means_m1,
+     main = "100-sample means (Geom p=0.1)",
+     xlab = "mean of one column")
+hist(medians_m1,
+     main = "100-sample medians (Geom p=0.1)",
+     xlab = "median of one column")
+par(op)  # restore layout
+```
+
+## 3) Minima and maxima (shape intuition)
+
+```{r}
+mins_m1 <- apply(m1,  2, min)
+maxs_m1 <- apply(m1,  2, max)
+
+op <- par(mfrow = c(1, 2))
+hist(mins_m1, main = "Column minima (Geom p=0.1, n=100)",
+     xlab = "min per column")
+hist(maxs_m1, main = "Column maxima (Geom p=0.1, n=100)",
+     xlab = "max per column")
+par(op)
+```
+
+## 4) Binomial → Poisson overlay (one case)
+
+We’ll simulate a Binomial with n = 100, p = 0.05 many times, approximate its PMF by relative frequencies, and overlay the PMF of Poisson with λ = n p = 5.
+
+```{r}
+# Empirical Binomial PMF via many draws
+n   <- 100
+p   <- 0.05
+lam <- n * p
+
+B   <- rbinom(2e5, size = n, prob = p)    # many draws for a smooth empirical PMF
+tab <- table(B)
+k   <- as.integer(names(tab))             # support values with at least one count
+emp <- as.numeric(tab) / sum(tab)         # empirical probability mass at each k
+
+# Theoretical Poisson PMF at the same support
+pois_pmf <- dpois(k, lambda = lam)
+
+# Plot empirical PMF as bars and overlay the Poisson curve
+plot(k, emp, type = "h", lwd = 3,
+     main = "Binomial(n=100,p=0.05) vs Poisson(λ=5)",
+     xlab = "k", ylab = "Probability")
+lines(k, pois_pmf, lwd = 2)
+legend("topright", legend = c("Empirical Binomial", "Poisson(λ=5)"),
+       lwd = c(3,2), bty = "n")
+```
+
+---
+
+# TRY IT YOURSELF (NO ANSWERS HERE)
+
+- **[5-TY-1]** Build a 50×300 matrix of Geom(p = 0.2) using `replicate()`.
+  Make side-by-side histograms of column means and medians; comment on how they compare.
+
+- **[5-TY-2]** Using `m1`, draw histograms of column minima and column maxima.
+  Explain the shapes in terms of the geometric distribution and sample size per column.
+
+- **[5-TY-3]** For n = 100, run the Binomial→Poisson visual check for p ∈ {0.01, 0.05, 0.1}.
+  For each p:
+  1) generate many Binomial draws,
+  2) barplot the empirical PMF,
+  3) overlay Poisson(λ = n p).
+  A visual assessment is fine—note when/why the approximation looks best.

@@ -1,0 +1,112 @@
+---
+title: "MATH163 – Week 06: R Markdown & Simple CMR Simulation"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+set.seed(163)
+```
+
+# What is R Markdown? (very short)
+- **R Markdown** lets you mix explanatory text with runnable **R code chunks** (fenced by three backticks and `{r}`) and see outputs under each chunk.
+- **Preview** shows the *last-run* outputs; it does **not** re-run chunks.
+- **Knit** runs everything cleanly and writes an **HTML** file (good for hand‑ins).
+
+Example chunk shape (don’t run this block; it’s just showing the syntax):
+
+```{r}
+x <- 1:5
+mean(x)
+plot(x, x^2)
+```
+
+---
+
+# Worked example: Simulate Capture–Mark–Recapture (CMR)
+
+We’ll simulate a **closed population** of size \(N\). In visit 1, we capture and mark \(n_1\) individuals and release them. In visit 2, we capture \(n_2\) individuals and count how many of them were previously marked (call this \(m_2\)). Under ideal mixing, \(m_2\) follows a **hypergeometric** model.
+
+A classic point estimate of \(N\) is the **Lincoln–Petersen** estimator
+\[
+\hat N = \frac{n_1\,n_2}{m_2},
+\]
+which is undefined when \(m_2=0\). Today we’ll **simulate** the process many times and look at the distribution of \(\hat N\).
+
+## Step 1: one CMR replicate
+```{r}
+# One simulated CMR replicate given true N, n1, n2
+cmr_once <- function(N, n1, n2) {
+  # Draw the number of marked recaptures: m2 ~ Hypergeom(N, n1, n2)
+  m2 <- rhyper(nn = 1, m = n1, n = N - n1, k = n2)
+  # Lincoln–Petersen point estimate (NA if m2 == 0)
+  Nhat <- if (m2 > 0) (n1 * n2) / m2 else NA_real_
+  # Return both the recapture count and the estimate
+  data.frame(m2 = m2, Nhat = Nhat)
+}
+
+# Demo run
+cmr_once(N = 500, n1 = 60, n2 = 50)
+```
+
+## Step 2: repeat many times and summarise
+```{r}
+simulate_many <- function(N, n1, n2, B = 5000) {
+  out <- replicate(B, cmr_once(N, n1, n2), simplify = FALSE)
+  do.call(rbind, out)
+}
+
+N_true <- 500; n1 <- 60; n2 <- 50
+res <- simulate_many(N_true, n1, n2, B = 10000)
+
+# Basic summaries
+mean_Nhat   <- mean(res$Nhat, na.rm = TRUE)
+prop_m2_zero <- mean(res$m2 == 0)
+c(mean_Nhat = mean_Nhat, prop_m2_zero = prop_m2_zero)
+```
+
+## Step 3: visualise the sampling distribution of \(\hat N\)
+```{r}
+op <- par(mfrow = c(1,2))
+hist(res$Nhat, breaks = 60, col = "gray",
+     main = expression(paste("Sampling dist. of ", hat(N))),
+     xlab = expression(hat(N)))
+abline(v = N_true, col = "red", lwd = 2)  # true N
+
+plot(ecdf(na.omit(res$Nhat)), main = "ECDF of Nhat")
+abline(v = N_true, col = "red", lwd = 2)
+par(op)
+```
+
+**Observation.** For moderate \(n_1, n_2\), the average \(\hat N\) tends to be **above** the true \(N\) (and there are occasional `NA` runs when \(m_2=0\)). We’ll explore how this changes with larger sample sizes below.
+
+---
+
+# TRY IT YOURSELF (no answers here)
+
+## [6-TY-1] Explain the code
+Open the `cmr_once()` function above. In your own words, explain **each line** of the function (what it does and why). Keep your explanation brief but precise.
+
+## [6-TY-2] Vary the sample sizes
+Fix \(N=500\). For each pair \((n_1, n_2)\) below, run `simulate_many()` with `B=10000` and record:
+- the mean of \(\hat N\) (ignore `NA`s);
+- the proportion of runs with \(m_2=0\);
+- a histogram of \(\hat N\) with a vertical line at \(N\).
+
+Suggested designs:
+- **A:** \((n_1, n_2) = (30, 30)\)
+- **B:** \((n_1, n_2) = (60, 50)\)
+- **C:** \((n_1, n_2) = (120, 100)\)
+
+Comment on how the centre and spread of \(\hat N\) change as \(n_1, n_2\) increase. What happens to the chance that \(m_2=0\)?
+
+## [6-TY-3] Convergence picture
+Make a simple plot of **mean** \(\hat N\) versus a **size index** for several designs (e.g., use the three designs above and add a couple more). Add a horizontal line at \(N=500\). Do the means seem to approach \(N\) from **above** as sample sizes grow?
+
+## [6-TY-4] Handling \(m_2=0\)
+Report the proportion of runs with \(m_2=0\) for each design. In one sentence, explain why \(m_2=0\) becomes rarer as \(n_1\) and \(n_2\) increase.
+
+---
+
+# Tips
+- If a histogram looks very spiky, increase `B` or adjust `breaks=`.
+- Keep your chunks small and label them (e.g. `{r cmr-sim-a}`) when you knit a report.

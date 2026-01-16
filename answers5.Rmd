@@ -1,0 +1,36 @@
+---
+title: "MATH163 – Week 05: TRY SOLUTIONS"
+output: html_notebook
+---
+
+```{r}
+set.seed(163)
+```
+
+## [5-TY-1]
+```{r}
+m_ty <- replicate(300, rgeom(50, 0.2))
+par(mfrow=c(1,2))
+hist(colMeans(m_ty), main="Means (p=0.2)")
+hist(apply(m_ty,2,median), main="Medians (p=0.2)")
+par(mfrow=c(1,1))
+```
+
+## [5-TY-2]
+```{r}
+m1 <- matrix(rgeom(100*150, 0.1), 100, 150)
+mins <- apply(m1,2,min); maxs <- apply(m1,2,max)
+par(mfrow=c(1,2)); hist(mins); hist(maxs); par(mfrow=c(1,1))
+```
+
+## [5-TY-3]
+```{r}
+overlay_poisson <- function(n=100,p=0.01,B=20000){
+  x <- rbinom(B, size=n, prob=p)
+  tb <- table(x); barplot(tb/sum(tb), border=NA,
+                          main=paste0("Bin(n=",n,", p=",p,") vs Pois(", n*p,")"),
+                          ylab="Rel. freq", xlab="k")
+  ks <- as.integer(names(tb)); lines(ks, dpois(ks, n*p), type="b", lwd=2)
+}
+par(mfrow=c(1,3)); overlay_poisson(p=.01); overlay_poisson(p=.05); overlay_poisson(p=.1); par(mfrow=c(1,1))
+```

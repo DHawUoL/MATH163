@@ -1,0 +1,167 @@
+---
+title: "MATH163 – Week 06: TRY SOLUTIONS"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+set.seed(163)
+```
+
+# Part A — Intro tasks (from notebook warm‑up)
+
+```{r}
+# A1: mean(Nile) and plot
+mean(Nile)
+plot(Nile, main = "Nile river flow", xlab = "Year", ylab = "Flow")
+```
+
+```{r}
+# A2: head of iris
+head(iris, 10)
+```
+
+```{r}
+# A3: simple regression and inline slope
+fit <- lm(Sepal.Length ~ Petal.Length, data = iris)
+coef(fit)
+```
+Slope (inline) = `r round(coef(fit)[2], 3)`.
+
+Recall: **Knit** re-runs all chunks into a fresh HTML; **Preview** shows cached outputs.
+
+---
+
+# Part B — CMR simulation answers
+
+We reuse the same simulation functions as the worksheet, then solve the TIY tasks.
+
+## Functions (same as worksheet)
+```{r}
+cmr_once <- function(N, n1, n2) {
+  # Draw the number of marked recaptures: m2 ~ Hypergeom(N, n1, n2)
+  m2 <- rhyper(nn = 1, m = n1, n = N - n1, k = n2)
+  # Lincoln–Petersen point estimate (NA if m2 == 0)
+  Nhat <- if (m2 > 0) (n1 * n2) / m2 else NA_real_
+  # Return both the recapture count and the estimate
+  data.frame(m2 = m2, Nhat = Nhat)
+}
+
+simulate_many <- function(N, n1, n2, B = 5000) {
+  out <- replicate(B, cmr_once(N, n1, n2), simplify = FALSE)
+  do.call(rbind, out)
+}
+```
+
+## [6-TY-1] Explain the code (one possible commentary)
+```{r, echo=FALSE}
+# cmr_once():
+# - Arguments N (true pop size), n1 (first capture size), n2 (second capture size).
+# - rhyper(...) samples m2 ~ Hypergeometric with population size N,
+#   number of "success" items m=n1 (marked), and draw size k=n2 (second capture).
+# - If m2 > 0, compute Lincoln–Petersen Nhat = (n1 * n2) / m2; otherwise set NA (undefined).
+# - Return a small data.frame with both m2 and Nhat for convenient stacking later.
+#
+# simulate_many():
+# - Replicate cmr_once(...) B times into a list, then bind rows into one data.frame.
+```
+
+## [6-TY-2] Vary the sample sizes (A, B, C)
+```{r}
+N_true <- 500
+designs <- list(
+  A = c(n1 = 30,  n2 = 30),
+  B = c(n1 = 60,  n2 = 50),
+  C = c(n1 = 120, n2 = 100)
+)
+
+summaries <- lapply(names(designs), function(lbl){
+  n1 <- designs[[lbl]]["n1"]; n2 <- designs[[lbl]]["n2"]
+  res <- simulate_many(N_true, n1, n2, B = 10000)
+  mean_Nhat <- mean(res$Nhat, na.rm = TRUE)
+  prop_zero <- mean(res$m2 == 0)
+  list(label = lbl, n1 = n1, n2 = n2, mean_Nhat = mean_Nhat, prop_m2_zero = prop_zero, res = res)
+})
+
+# Show numeric summaries
+data.frame(
+  design = sapply(summaries, `[[`, "label"),
+  n1     = sapply(summaries, `[[`, "n1"),
+  n2     = sapply(summaries, `[[`, "n2"),
+  mean_Nhat    = sapply(summaries, `[[`, "mean_Nhat"),
+  prop_m2_zero = sapply(summaries, `[[`, "prop_m2_zero")
+)
+```
+
+```{r}
+# Histograms for each design with true N marked
+op <- par(mfrow = c(1,3))
+for (s in summaries) {
+  hist(s$res$Nhat, breaks = 60, main = paste0("Design ", s$label, "
+(n1=", s$n1, ", n2=", s$n2, ")"),
+       xlab = expression(hat(N)), col = "gray")
+  abline(v = N_true, col = "red", lwd = 2)
+}
+par(op)
+```
+
+**Notes:** As \(n_1, n_2\) increase, the mean of \(\hat N\) moves closer to \(N\) and the spread shrinks; the chance of \(m_2=0\) decreases.
+
+## [6-TY-3] Convergence picture
+```{r}
+# Add two more designs to make the trend clearer
+more_designs <- list(
+  D = c(n1 = 80,  n2 = 80),
+  E = c(n1 = 150, n2 = 150)
+)
+
+all_designs <- c(designs, more_designs)
+
+conv <- lapply(names(all_designs), function(lbl){
+  n1 <- all_designs[[lbl]]["n1"]; n2 <- all_designs[[lbl]]["n2"]
+  res <- simulate_many(N_true, n1, n2, B = 8000)
+  data.frame(label = lbl, n1 = n1, n2 = n2,
+             mean_Nhat = mean(res$Nhat, na.rm = TRUE),
+             prop_m2_zero = mean(res$m2 == 0))
+})
+conv_df <- do.call(rbind, conv)
+conv_df
+```
+
+```{r}
+# Plot mean(Nhat) vs size index (use n1+n2 as a simple size proxy)
+size_index <- conv_df$n1 + conv_df$n2
+plot(size_index, conv_df$mean_Nhat, pch = 16,
+     xlab = "size index (n1 + n2)", ylab = "mean(Nhat)",
+     main = "Convergence of mean(Nhat) toward true N")
+abline(h = N_true, col = "red", lwd = 2)
+text(size_index, conv_df$mean_Nhat, labels = conv_df$label, pos = 3, cex = 0.9)
+```
+
+**Conclusion:** The mean of \(\hat N\) approaches \(N\) from **above** as sample sizes grow.
+
+## [6-TY-4] Handling \(m_2=0\)
+```{r}
+conv_df[, c("label","n1","n2","prop_m2_zero")]
+```
+**Reason:** With larger \(n_1\) and \(n_2\), the expected number of marked recaptures \(E[m_2] = n_2 (n_1/N)\) increases, so \(m_2=0\) becomes rarer.
+
+---
+
+# (Optional) ECDF overlays to compare designs
+```{r}
+# Compare distributions more directly
+plot(0, 0, type = "n", xlim = c(N_true*0.8, N_true*1.6), ylim = c(0,1),
+     xlab = expression(hat(N)), ylab = "ECDF",
+     main = "ECDFs of Nhat across designs")
+cols <- c(A="black",B="blue",C="darkgreen",D="purple",E="orange")
+for (i in seq_along(all_designs)) {
+  lbl <- names(all_designs)[i]
+  n1 <- all_designs[[i]]["n1"]; n2 <- all_designs[[i]]["n2"]
+  res <- simulate_many(N_true, n1, n2, B = 3000)
+  lines(ecdf(na.omit(res$Nhat)), col = cols[lbl])
+}
+abline(v = N_true, col = "red", lwd = 2)
+legend("bottomright", legend = names(all_designs), col = cols[names(all_designs)],
+       lty = 1, cex = 0.9, title = "Design")
+```
+

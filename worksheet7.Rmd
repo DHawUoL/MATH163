@@ -1,0 +1,82 @@
+---
+title: "MATH163 – Week 07: Sampling from a Real Dataset"
+output: html_notebook
+---
+
+```{r}
+suppressPackageStartupMessages(library(readxl))
+suppressPackageStartupMessages(library(here))
+set.seed(163)
+```
+
+# INTRODUCTION
+
+In this lab you will:
+
+- Import monthly **exchange rates** from Excel (OECD file) for the UK and China.
+- Treat each country's column as a **population** for the purpose of simulation.
+- Draw many random **samples with replacement**.
+- Look at the distributions of **sample means** and **sample variances** and how they change with the sample size `n`.
+- See a visual form of the **Central Limit Theorem** by overlaying a Normal curve on the histogram of sample means.
+
+**Data location:** put `exchangerates.xlsx` in a `data/` subfolder under your course folder (same location you used in previous weeks).
+
+```{r message=FALSE, warning=FALSE}
+# --- LOAD DATA (with a brief check) ----------------------------------
+excel_path <- here::here("data", "exchangerates.xlsx")
+if (!file.exists(excel_path)) {
+  stop("I can't find the file at: ", excel_path,
+       "\nFix: place 'exchangerates.xlsx' in a 'data' folder under your course folder.")
+}
+# The first 5 rows are source notes/headers in the OECD sheet, so we skip 5.
+exrates <- readxl::read_excel(excel_path, skip = 5)
+
+# Extract the two columns we need robustly (avoid quoting issues in names)
+UK_col    <- grep("^United Kingdom$", names(exrates))
+China_col <- grep("^China \\(People's Republic of\\)$", names(exrates))
+UK    <- as.numeric(exrates[[UK_col]])
+China <- as.numeric(exrates[[China_col]])
+
+# Drop NAs that might appear at the tail of the sheet
+UK    <- UK[!is.na(UK)]
+China <- China[!is.na(China)]
+
+summary(UK); summary(China)
+length(UK); length(China)
+```
+
+# WORKED EXAMPLE (WITH ANSWERS)
+
+**Goal:** For the UK series, simulate `B = 500` random samples of size `n = 5`, each *with replacement*. For each sample compute the **mean** and **variance**. Then look at the histograms.
+
+```{r}
+B <- 500   # number of bootstrap-like samples
+n <- 5     # sample size for each draw
+
+UK_means <- replicate(B, mean(sample(UK,   size = n, replace = TRUE)))
+UK_vars  <- replicate(B, var( sample(UK,   size = n, replace = TRUE)))
+
+par(mfrow = c(1,2))
+hist(UK_means, main = "UK sample means (n=5)", xlab = "mean", col = "grey")
+hist(UK_vars,  main = "UK sample variances (n=5)", xlab = "variance", col = "grey")
+par(mfrow = c(1,1))
+```
+
+**Interpretation:** As `n` increases, the **spread** of the means should **shrink** roughly like \(\sigma/\sqrt{n}\). Variances are more skewed and do not “concentrate” in the same way.
+
+**Quick CLT overlay (Normal) for the means:** We overlay a Normal with mean `mean(UK)` and sd `sd(UK)/sqrt(n)`.
+
+```{r}
+par(mfrow = c(1,1))
+h <- hist(UK_means, breaks = "FD", main = "UK means (n=5) with Normal overlay",
+          xlab = "mean", col = "lightgray", freq = FALSE)
+xs <- seq(min(UK_means), max(UK_means), length.out = 400)
+curve(dnorm(x, mean = mean(UK), sd = sd(UK)/sqrt(n)), add = TRUE, lwd = 2)
+```
+
+# TRY IT YOURSELF (NO ANSWERS HERE)
+
+- **[7-TY-1]** Repeat the UK analysis **for China** (use `n=5` and `n=50`). Compare histograms of the **means** for UK vs China. Which one looks more variable at the same `n`? Why?  
+- **[7-TY-2]** For the **UK**, run `n ∈ {5, 10, 50, 100}` with `B = 500` each time. Make a **2×2 grid** of histograms of the sample means. Comment on how the spread changes with `n`.  
+- **[7-TY-3]** Combine vectors: `both <- c(UK, China)`. For `n = 50`, draw `B = 500` sample means from `both`. Plot a histogram (density scale) and **overlay a Normal** with mean `mean(both)` and standard deviation `sd(both)/sqrt(n)`. What do you see?  
+- **[7-TY-4] (Optional)** Try a **t overlay** for `n = 10` (centered at `mean(UK)`, scale `sd(UK)/sqrt(n)`, df = `n-1`). Does it look different from the Normal overlay at this `n`? (Note: the t-distribution is covered in week 10. This may be familiar from A-level, otherwise you encouraged to look it up in advance.)

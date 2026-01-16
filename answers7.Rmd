@@ -1,0 +1,94 @@
+---
+title: "MATH163 – Week 07: TRY SOLUTIONS"
+output: html_notebook
+---
+
+```{r}
+suppressPackageStartupMessages(library(readxl))
+suppressPackageStartupMessages(library(here))
+set.seed(163)
+```
+
+# A. Load & tidy
+```{r message=FALSE, warning=FALSE}
+excel_path <- here::here("data", "exchangerates.xlsx")
+stopifnot(file.exists(excel_path))
+exrates <- readxl::read_excel(excel_path, skip = 5)
+
+UK_col    <- grep("^United Kingdom$", names(exrates))
+China_col <- grep("^China \\(People's Republic of\\)$", names(exrates))
+UK    <- as.numeric(exrates[[UK_col]])
+China <- as.numeric(exrates[[China_col]])
+UK    <- UK[!is.na(UK)]
+China <- China[!is.na(China)]
+summary(UK); summary(China)
+```
+
+# [7-TY-1] China analysis (n=5 and n=50)
+```{r}
+B <- 500
+n5  <- 5
+n50 <- 50
+
+CH_means_5  <- replicate(B, mean(sample(China, size = n5,  replace = TRUE)))
+CH_means_50 <- replicate(B, mean(sample(China, size = n50, replace = TRUE)))
+
+par(mfrow = c(1,2))
+hist(CH_means_5,  freq = FALSE, main = "China means (n=5)",  xlab = "mean", col = "lightgray")
+curve(dnorm(x, mean = mean(China), sd = sd(China)/sqrt(n5)), add = TRUE, lwd = 2)
+hist(CH_means_50, freq = FALSE, main = "China means (n=50)", xlab = "mean", col = "lightgray")
+curve(dnorm(x, mean = mean(China), sd = sd(China)/sqrt(n50)), add = TRUE, lwd = 2)
+par(mfrow = c(1,1))
+```
+
+**Comment:** At the same `n`, whichever country has larger population sd will show wider means. Increasing `n` tightens the distribution (CLT).
+
+# [7-TY-2] UK means for n ∈ {5,10,50,100}
+```{r}
+B <- 500
+ns <- c(5,10,50,100)
+UK_means_list <- lapply(ns, function(n) replicate(B, mean(sample(UK, n, replace = TRUE))))
+
+par(mfrow = c(2,2))
+for (i in seq_along(ns)) {
+  n <- ns[i]
+  hist(UK_means_list[[i]], freq = FALSE,
+       main = paste0("UK means (n=", n, ")"), xlab = "mean", col = "lightgray")
+  curve(dnorm(x, mean = mean(UK), sd = sd(UK)/sqrt(n)), add = TRUE, lwd = 2)
+}
+par(mfrow = c(1,1))
+```
+
+**Comment:** Spread clearly shrinks roughly as `1/sqrt(n)`.
+
+# [7-TY-3] Pooled series (UK + China) with Normal overlay
+```{r}
+both <- c(UK, China)
+B <- 500; n <- 50
+both_means <- replicate(B, mean(sample(both, size = n, replace = TRUE)))
+
+hist(both_means, freq = FALSE, main = "Means from pooled series (n=50)",
+     xlab = "mean", col = "lightgray")
+curve(dnorm(x, mean = mean(both), sd = sd(both)/sqrt(n)), add = TRUE, lwd = 2)
+```
+
+**Comment:** The Normal overlay is typically very close by `n = 50` (CLT).
+
+# [7-TY-4] Optional: t overlay for n=10
+```{r}
+n <- 10
+UK_means_n10 <- replicate(500, mean(sample(UK, size = n, replace = TRUE)))
+hist(UK_means_n10, freq = FALSE, main = "UK means (n=10): Normal vs t", xlab = "mean", col = "lightgray")
+
+# Normal overlay
+curve(dnorm(x, mean = mean(UK), sd = sd(UK)/sqrt(n)), add = TRUE, lwd = 2)
+
+# t overlay (approximate visual): center at mean(UK); scale sd(UK)/sqrt(n); df = n-1
+xs <- seq(min(UK_means_n10), max(UK_means_n10), length.out = 400)
+mu  <- mean(UK); s <- sd(UK)/sqrt(n); df <- n - 1
+lines(xs, dt((xs - mu)/s, df = df)/s, lwd = 2, lty = 2)
+legend("topright", legend = c("Normal", "t (df=9)"),
+       lwd = 2, lty = c(1,2), bty = "n")
+```
+
+**Comment:** For moderate `n` the Normal and t overlays are very similar on the means scale. Differences become negligible as `n` grows.
