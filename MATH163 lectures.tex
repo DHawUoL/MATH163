@@ -1,0 +1,6212 @@
+\documentclass{beamer}
+
+%\usetheme{Singapore}
+\usetheme{Malmoe}
+\usefonttheme[onlymath]{serif}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{tcolorbox}
+\usepackage{tabularx}
+\setbeamertemplate{headline}{%
+  \begin{beamercolorbox}[ht=2.5ex,dp=1.125ex]{section in head/foot}
+   \hspace*{0.2cm}  \insertsectionhead \hspace*{0.2cm}
+  \end{beamercolorbox}%
+}
+\usepackage{pgfpages}
+\usepackage{amsmath,amsthm,amsfonts,amssymb, mathrsfs}
+%Set up conditionals for controlling output (only one should be true at any one time).
+\newif\ifframes\framesfalse
+\newif\ifhandouts\handoutsfalse
+\newif\ifnotes\notesfalse
+\newcommand{\blue}{\color{blue}}
+\framestrue
+%\handoutstrue
+
+\ifhandouts \pgfpagesuselayout{2 on 1}[a4paper,border shrink=0mm] \fi
+
+%Set up \DamianPause and \DamianPhantom commands so that
+% framestrue produces pauses;
+% handoutstrue produces no pauses and blanks;
+% notestrue produces no pauses and no blanks.
+
+\newcommand{\blank}[1]{\ifhandouts {\phantom{#1}} \else \!\!{#1}\!\! \fi}
+\newcommand{\blankb}[1]{\ifhandouts {\phantom{#1}} \else {#1} \fi}
+%\newcommand{lp}{\ifframes {} \fi}
+% \newcommand{}{ }
+\newcommand{\vsp}{\vspace*{0.5cm}}
+\newcommand{\dsty}{\displaystyle}
+\newcommand{\ph}{\phantom}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Pb}{\mathbb{P}}
+\setlength{\parskip}{2ex}
+
+
+\setbeamertemplate{footline}{\hfill\insertpagenumber\hfill}
+
+
+\def\P{\mathbb{P}}
+\newcommand{\ddr}{\mathrm{d}}
+\newcommand{\lp}{\ifframes {} \fi}
+\newcommand{\R}{\mathbb R}
+\def\FF{\mathcal{F}}
+\newcommand{\E}{\mathbb E}
+\newcommand{\var}{\mbox{var}}
+\def\X{\mathcal{X}}
+\def\XX{\bm{\mathcal{X}}}
+%\def\FF{\mathscr{F}}
+\AtBeginSection[]
+{
+ \begin{frame}<beamer>
+ \frametitle{Plan}
+ \tableofcontents[currentsection]
+ \end{frame}
+}
+
+\newcommand\blfootnote[1]{
+    \begingroup
+    \renewcommand\thefootnote{}\footnote{#1}
+    \addtocounter{footnote}{-1}
+    \endgroup
+}
+
+
+\title{MATH163: Introduction to Statistics using R}
+\subtitle{Lecture slides}
+\author{Dr.\ Linglong Yuan}
+\institute{University of Liverpool}
+\date{\today}
+
+
+
+
+\begin{document}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Plan}
+  \tableofcontents
+\end{frame}
+
+
+\section{Week 1: Descriptive statistics}
+
+\begin{frame}{Week 1: Descriptive statistics }
+
+
+
+\begin{enumerate}
+\item Part 1 
+\begin{itemize}
+\item Basic concepts: variable, data, population \& sample
+\item Module overview
+\end{itemize}
+\item Part 2 
+\begin{itemize}
+\item Types of data/variable
+\item Basic descriptive statistics
+\begin{itemize}
+\item measures of central tendency: mode, median, mean
+\item measures of spread: range, IQR, boxplot, shape (skewness), variance
+\end{itemize}
+\end{itemize}
+
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+
+Part 1: \begin{itemize}
+\item Basic concepts
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Variable and Data}
+
+A {\bf variable} is any characteristic of an object (a person or thing).
+
+{\bf Data} are observed values of a variable.
+
+
+Example: $12\quad 5\quad 8\quad 9\quad 13\quad 15\quad 6$
+
+
+These values can be the data for
+\begin{itemize}
+\item {\blue Time} in days of 7 group for completing a report
+\item {\blue Age} in year of 7 children 
+\item {\blue Number of tails} before getting the first heads in the coin-tossing experiment 
+\end{itemize}
+
+{\blue Time, Age, Number of tails} are the variables of different objects. 
+\end{frame}
+
+\begin{frame}{Population}
+
+A {\bf population} is any group of objects (individuals or things) we may be interested in.
+May be finite or infinite; existential or hypothetical. 
+
+
+\begin{itemize}
+\item all current UK electors (finite, existential);
+\item all species to die out in the year of 2100 (finite, hypothetical); 
+\item all outcomes of tossing a coin infinitely many times (infinite, hypothetical)
+\item all natural numbers (infinite, existential).
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Sampling and sample}
+
+{\bf Sampling} is a process that generates a {\bf sample} or {\bf samples}.
+\begin{itemize}
+\item[$\rhd$] It collects a subset  ({\bf sample}) of observations from a larger set ({\bf population}) of observations of interest. 
+%\item[$\rhd$]  The common approach is to use {\bf Uniform Sampling}.  
+\end{itemize}
+
+Using {\bf samples} to study the population is {\bf fundamental} in statistics. 
+\end{frame}
+
+
+
+\begin{frame}{Census vs Sampling}
+Census 
+\begin{itemize}
+\item[Pros] We can tell exactly what the population is based on the census. 
+\item[Cons] Sometimes, it is not possible to do a census (lack of resources, ethics, availability, constantly changing, etc)
+\end{itemize}
+
+
+Sampling
+\begin{itemize}
+\item[Pros] \begin{itemize}
+\item It is much easier to sample data. 
+\item We can make informed guess about the population using the sample, up to acceptable margin errors. 
+\item A high-quality sample is better than low-quality census data.  
+\end{itemize}
+\item[Cons] \begin{itemize}
+\item[] We have to learn stats and programming (R)!
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Statistics}
+The sample does not contain everything from the population. 
+
+Thus, based on the sample, the characteristics of the population are {\bf uncertain.} 
+
+{\bf Statistics} is to find ways to make best use of the
+sample and deal with the uncertainty.
+\end{frame}
+
+\begin{frame}{Probability}
+Uncertainty is commonly quantified and expressed in terms of
+probabilities
+
+
+
+The probability of an event $A$ can be written as $\Pb(A)$
+\begin{itemize}
+\item[$\rhd$] It ranges from 0 (certain not to occur) to 1 (certain to occur)
+\end{itemize}
+
+
+
+A reasonable (but not the only) interpretation of a probability:
+\begin{itemize}
+\item[$\rhd$] as the relative frequency with which an event $A$ occurs in the long run
+\item[$\rhd$] Example: coin-tossing experiment. 
+\end{itemize}
+
+
+
+\end{frame}
+
+
+\begin{frame}{Statistical modelling}
+
+{\bf Statistical modelling} is the process of constructing a model to {\bf understand} 
+the observed data and {\bf predict}
+new observations
+
+\begin{itemize}
+\item[$\rhd$] What does the population look like?
+\item[$\rhd$] How are the data sampled? 
+\end{itemize}
+
+
+Example: we got 60 heads in the first 100 coin-tossing experiments. How many heads we will get for the next 100 experiments? 
+
+
+\end{frame}
+
+\begin{frame}{Statistical inference}
+
+{\bf Statistical inference} is to use the sample to make inference of the population generated by the model.
+
+
+It is a special case of statistical modelling. 
+\begin{itemize}
+\item[$\rhd$] {\bf Parameter estimation: }
+
+how to estimate the probability $\Pb(\text{heads})$ in tossing a coin? 
+\item[$\rhd$] {\bf Hypothesis testing: }
+
+can we reject the hypothesis that the coin is fair? 
+\end{itemize}
+
+
+
+\end{frame}
+
+
+\begin{frame}
+
+Part 1: \begin{itemize}
+\item Basic concepts
+
+\item  Module overview 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Overview}
+
+Understand  key concepts and methods of statistical
+reasoning
+\begin{itemize}
+\item lectures
+\item tutorial sessions
+\end{itemize}
+
+Familiarise with the R statistical software
+\begin{itemize}
+\item R sessions
+\end{itemize}
+
+Use R to solve simple statistical problems
+\begin{itemize}
+\item R knowledge will be tested in M\"obius homework (1 and 2)
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+
+
+\begin{enumerate}
+\item Part 1 
+\begin{itemize}
+\item Basic concepts: variable, data, population \& sample
+?
+\item Course overview \& teaching approach
+\end{itemize}
+\item Part 2 
+\begin{itemize}
+\item Types of data/variable
+
+\end{itemize}
+
+
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Scales of measurement}
+\textcolor{blue}{Qualitative}: categories/groups 
+\begin{itemize}
+\item[$\rhd$]  \textcolor{orange}{Categorical=nominal}: mutually exclusive, un-ordered\\
+Example: gender
+\item[$\rhd$] \textcolor{orange}{Ordinal}: mutually exclusive, order matters\\
+Example: education level (“BSc”,“MSc”,“PhD”)
+\end{itemize}
+
+\textcolor{blue}{Quantitative}: measured numerical values
+\begin{itemize}
+\item[$\rhd$] \textcolor{orange}{Ordinal} (by default)
+\begin{itemize}
+\item[$\rhd$] \textcolor{orange}{Interval}:  difference between two values is meaningful\\
+Example: temperature in Fahrenheit or Celsius
+\begin{itemize}
+\item[$\rhd$] \textcolor{orange}{Ratio}:  zero means "none"\\
+Example: temperature in Kelvin 
+\end{itemize}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Quantitative: Discrete vs continuous }
+
+Discrete: restricted in the values that can
+legitimately occur\\
+Example: outcomes of die rolling; date
+
+Continuous: can take on intermediate values within a
+range\\
+Example: long jump distance;
+
+
+\end{frame}
+
+
+\begin{frame}{More examples}
+\begin{tabular}{lll} \hline
+{\bf Variable} & {\bf Possible values} & {\bf Type} \\ \hline
+Hair colour & {Brown, Red, Blonde, etc.} & {Nominal} \\ \hline
+Pain rating & {None, Mild, Moderate, Severe} & {Ordinal} \\ \hline
+Age group & {1 = $< 18$ yrs,} & {Ordinal} \\
+& {2 = 18--44 yrs,} & \\
+& {3 = 45--59 yrs,} & \\
+& {4 = $> 59$ yrs.} & \\ 
+& &  {(discrete)} \\ \hline
+Time (00:00) & {14:23}, etc & {Interval}  \\
+& &  {(continuous)} \\ \hline
+No.\ of children & {$0,1,2,3,\ldots$} & {Ratio} \\
+in family & & {(discrete)}  \\ \hline
+\end{tabular}
+\end{frame}
+\begin{frame}
+\begin{enumerate}
+\item Part 1 
+\begin{itemize}
+\item Basic concepts: variable, data, population \& sample
+?
+\item Course overview \& teaching approach
+\end{itemize}
+\item Part 2 
+\begin{itemize}
+\item Types of data/variable
+\item Basic descriptive statistics
+\end{itemize}
+
+
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Parameter vs statistics}
+
+A {\bf parameter} is a property of the {\bf population}
+
+A {\bf statistic} is a property of a {\bf sample}. 
+It provides a way to estimate a
+population parameter
+
+Example:  population mean $\mu$ vs sample mean $\overline x$
+
+Notation: generically, we use $\theta$ for population parameter and $\hat \theta$ for sample statistics
+
+
+\end{frame}
+
+
+\begin{frame}{Sample descriptive statistics}
+
+\begin{itemize}
+\item[$\rhd$] \textcolor{blue}{Measures of central tendency}: mode, median, mean
+\item[$\rhd$] \textcolor{blue}{Measures of spread}: skewness, variance
+\end{itemize}
+
+When necessary, we should add the adjective "sample", such as sample variance. 
+
+\end{frame}
+
+\begin{frame}
+
+\begin{enumerate}
+\item Part 1 
+\begin{itemize}
+\item Basic concepts: variable, data, population \& sample
+?
+\item Course overview \& teaching approach
+\end{itemize}
+\item Part 2 
+\begin{itemize}
+\item Types of data/variable
+\item Basic descriptive statistics
+\begin{itemize}
+\item measures of central tendency: mode, median, mean
+\end{itemize}
+\end{itemize}
+
+
+\end{enumerate}
+
+
+\end{frame}
+
+
+\begin{frame}{Mode}
+The {\bf most common} value
+\begin{itemize}
+\item[$\rhd$] $5,9,8,8,6,6,5,8$\\ 
+The mode of the above data set is 8
+
+\item[$\rhd$] A data set may have a single (unimodal) mode or multiple modes (bimodal, trimodal, multimodal)
+\item[$\rhd$] It works {\bf best for discrete} rather than continuous data
+\item[$\rhd$] Especially appropriate for categorical data, where there is no order relationship 
+\end{itemize}
+
+\end{frame}
+\begin{frame}{Mode: R code}
+We can find the {\bf frequency table} of the given data set. 
+\begin{figure}
+\includegraphics[scale=0.5]{moder}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}{Median}
+The {\bf central} value in a set of numbers
+\begin{itemize}
+\item[$\rhd$] $3,5,10,11,20,22,30$\\ 
+The median of the above data set is 11
+
+\item[$\rhd$] If the sample size is even, the convention is to take the mid-
+point between the two central values as the median\\
+Example: the median of the following data set 
+$$3,5,10,11,20,22,30,50$$
+is $(11+20)/2=15.5$
+\end{itemize}
+
+
+\end{frame}
+\begin{frame}{Median: R code}
+Sample size is odd 
+\begin{figure}
+\includegraphics[scale=0.5]{medianoddr}
+\end{figure}
+Sample size is even
+\begin{figure}
+\includegraphics[scale=0.5]{medianevenr}
+\end{figure}
+If you prefer to see it by eyes, then we should order the data first 
+\begin{figure}
+\includegraphics[scale=0.5]{sortr}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Mean}
+It is the most widely used measure of central tendency. It is also known as {\bf average} 
+\begin{itemize}
+\item[$\rhd$] The mean of the following data set :\\
+$$5,9,8,8,6,6,5,8$$
+is $(5+9+8+8+6+6+5+8)/8=6.875$
+\item[$\rhd$] The formula for the mean of a set of numbers $x_1,\ldots,x_n$ is 
+$$\overline x:=\frac{x_1+x_2+\cdots+x_n}{n}$$
+\item[$\rhd$] Unlike mode and median, it uses all the values in the data set 
+\end{itemize}
+
+\end{frame}
+\begin{frame}{Mean: R code}
+We can find the mean of the given data set by R. 
+\begin{figure}
+\includegraphics[scale=0.5]{meanr}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Median vs Mean }
+The median 
+\begin{itemize}
+\item[Pros] is insensitive to extreme values
+\item[Cons] only uses one or two values in the data set 
+\end{itemize}
+
+
+The mean 
+\begin{itemize}
+\item[Pros] takes into account all data values 
+\item[Cons] is sensitive to extreme values
+\end{itemize}
+
+
+
+Example: 
+$$1,2,3,4,5,6,7,8,9,10$$
+$$1,2,3,4,5, 6,7,8,9,1000000$$
+\end{frame}
+
+
+
+
+\begin{frame}
+
+\begin{enumerate}
+\item Part 1 
+\begin{itemize}
+\item Basic concepts: variable, data, population \& sample
+?
+\item Course overview \& teaching approach
+\end{itemize}
+\item Part 2 
+\begin{itemize}
+\item Types of data/variable
+\item Basic descriptive statistics
+\begin{itemize}
+\item measures of central tendency: mode, median, mean
+\item measures of spread: range, IQR, boxplot, shape (skewness), variance
+\end{itemize}
+\end{itemize}
+
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Motivation}
+Compare these two datasets 
+$$\text{S1}: -2,-1,0,1,2$$
+$$\text{S2}: -20,-10,0,10,20$$
+
+
+They have the same mean and median, but are very different. 
+S2 is more spread out. 
+
+\textcolor{blue}{Measures of spread}: {range, IQR, boxplot, shape (skewness), variance}, etc
+\end{frame}
+
+\begin{frame}{Range}
+It is the difference between the max and the min 
+$$\text{S1}: -2,-1,0,1,2$$
+$$\text{S2}: -20,-10,0,10,20$$
+
+
+
+The range for $S1$ is $2-(-2)=4$
+
+The range for $S2$ is $20-(-20)=40$
+
+
+Cons: very sensitive to extreme values 
+
+An alternative is to use IQR: Interquartile range 
+\end{frame}
+
+\begin{frame}{IQR}
+$$IQR:=Q_3-Q_1$$
+where\begin{itemize} 
+\item $Q_1$  is the first (or lower) quartile ($25\%$ percentile) 
+\item $Q_3$ is the third (or upper) quartile ($75\%$ percentile)
+\item The second quartile $Q_2$ is the median ($50\%$ percentile)
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Summary}
+Summary: min, Q1,  Q2 (=median), mean, Q3, max. 
+\begin{figure}
+  \includegraphics[width=.9\linewidth]{summaryr}
+\end{figure}
+IQR=$Q_3-Q_1$
+\begin{figure}
+  \includegraphics[width=.5\linewidth]{iqrr}
+\end{figure}
+Question: can you figure out the formula for $Q_1$ and $Q_3$ in R? 
+\end{frame}
+
+\begin{frame}{Boxplot}
+\begin{figure}
+  \includegraphics[scale=0.07]{boxplotexample}
+\end{figure}
+
+The maximum length of a whisker is usually $1.5\times IQR$. If no points exceed that distance, then the whiskers are simply the minimum and maximum values. If there are points beyond that distance, the largest point that does not exceed that distance becomes the whisker
+\end{frame}
+
+
+\begin{frame}{Boxplot: R code}
+\begin{figure}
+  \includegraphics[width=.4\linewidth]{boxplotr}
+\end{figure}
+\begin{figure}
+  \includegraphics[width=.6\linewidth]{boxplot}
+\end{figure}
+\end{frame}
+
+
+
+
+\begin{frame}{Shape for discrete data: frequency}
+
+{\bf Discrete} data/variable: plot the {\bf frequency} (try barplot(y) in R). 
+
+
+
+\begin{figure}
+  \includegraphics[width=.9\linewidth]{frequencyr}
+\end{figure}
+\begin{figure}
+  \includegraphics[width=.5\linewidth]{frequency}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}{Shape for continuous data: histogram}
+
+{\bf Continuous} data/variable: plot the {\bf histogram}
+
+
+\begin{figure}
+  \includegraphics[width=.9\linewidth]{histr}
+\end{figure}
+\begin{figure}
+  \includegraphics[width=.5\linewidth]{hist}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Skewness: a special form of asymmetry}
+Right skewed/positively skewed: most data on the left
+
+Left skewed/negatively skewed: most data on the right
+
+
+\begin{figure}
+     \centering
+     \begin{subfigure}{\textwidth}
+         \centering
+         \includegraphics[width=0.4\textwidth]{frequency}
+      %   \caption{Right}
+     \end{subfigure}
+     \begin{subfigure}{\textwidth}
+         \centering
+         \includegraphics[width=0.4\textwidth]{hist}
+      %  \caption{Left}
+     \end{subfigure}
+     
+First plot: Right skewed; Second plot: left skewed
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Skewness: a special form of asymmetry}
+The following statements are very likely true: 
+
+
+Right skewed/positively skewed: mean $>$ median \\
+Example: 1,2,3,4,5,1000
+
+Left skewed/negatively skewed: mean $<$ median \\ 
+Example: -1000,1,2,3,4,5
+
+Symmetric: mean $\approx$ median 
+
+
+\begin{figure}
+     \centering
+     \begin{subfigure}{\textwidth}
+         \centering
+         \includegraphics[width=0.4\textwidth]{frequency}
+      %   \caption{Right}
+     \end{subfigure}
+     \begin{subfigure}{\textwidth}
+         \centering
+         \includegraphics[width=0.4\textwidth]{hist}
+      %  \caption{Left}
+     \end{subfigure}
+  
+\end{figure}
+
+
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{Skewness as seen from the boxplot: examples}
+
+{Take into account the box ($Q_2$ is closer to $Q_1$ or $Q_3$) and whiskers (which one is longer)}
+
+\vspace{3 mm}
+	\setlength{\unitlength}{1mm}
+	\vspace*{-1cm}
+	
+	\hspace{3cm}
+	\begin{picture}(80,80)
+	\put(-5,68){{Symmetric}}
+	\put(30,68){\line(0,1){4}}
+	\put(30,70){\line(1,0){10}}
+	\put(40,64){\line(0,1){12}}
+	\put(40,64){\line(1,0){16}}
+	\put(40,76){\line(1,0){16}}
+	\put(48,64){\line(0,1){12}}
+	\put(56,64){\line(0,1){12}}
+	\put(56,70){\line(1,0){10}}
+	\put(66,68){\line(0,1){4}}
+	
+	
+	\put(-5,48){{Right} skewed}
+	\put(30,48){\line(0,1){4}} % Min
+	\put(30,50){\line(1,0){6}}
+	\put(36,44){\line(0,1){12}} % Lower hinge
+	\put(36,44){\line(1,0){16}}
+	\put(36,56){\line(1,0){16}}
+	\put(38,44){\line(0,1){12}} % Median
+	\put(52,44){\line(0,1){12}} % Upper hinge
+	\put(52,50){\line(1,0){24}}
+	\put(76,48){\line(0,1){4}} % Max
+	
+	\put(-5,28){{Left} skewed}
+	\put(30,28){\line(0,1){4}} % Min
+	\put(30,30){\line(1,0){24}}
+	\put(54,24){\line(0,1){12}} % Lower hinge
+	\put(54,24){\line(1,0){16}}
+	\put(54,36){\line(1,0){16}}
+	\put(68,24){\line(0,1){12}} % Median
+	\put(70,24){\line(0,1){12}} % Upper hinge
+	\put(70,30){\line(1,0){6}}
+	\put(76,28){\line(0,1){4}} % Max
+	
+	\put(20,18){\line(1,0){60}}
+	\multiput(20,18)(20,0){4}{\line(0,-1){1}}
+	\put(18,14){0}
+	\put(38,14){10}
+	\put(58,14){20}
+	\put(78,14){30}
+	\end{picture}
+
+
+\end{frame}
+
+\begin{frame}{Skewness as seen from the boxplot: conclusions}
+
+When $Q_2$ is closer to $Q_3$ than to $Q_1$, and if the whisker to $Q_3$ is shorter, then the distribution is {\bf more likely} left skewed/negatively skewed. 
+
+When $Q_2$ is closer to $Q_1$ than to $Q_3$, and if the whisker to $Q_1$ is shorter, then the distribution is {\bf more likely} right skewed/positively skewed. 
+
+The outliers are not taken into account when checking skewness in the boxplot
+\end{frame}
+
+\begin{frame}{Variance and standard deviation}
+For data values $x_1,x_2,\ldots,x_n$ with mean $\overline x$, 
+the {\bf (sample) variance} is \footnote{Exercise: prove the second equality}
+$$s^2:=\frac{\sum_{i=1}^n(x_i-\overline x)^2}{n-1}=\frac{\sum_{i=1}^nx_i^2-n\overline x^2}{n-1}$$
+and the {\bf (sample) standard deviation} is 
+$$s:=\sqrt{s^2}$$
+
+We use $n-1$ instead of $n$ because we have only $n-1$ degrees of freedom (one degree was used to compute $\overline x$)
+
+{\bf Larger $s$ or $s^2$ implies a wider spread. } However similarly to the mean, they are sensitive to outliers. 
+\end{frame}
+
+\begin{frame}{Variance and standard deviation: R code}
+\begin{figure}
+  \includegraphics[width=.7\linewidth]{varsdr}
+\end{figure}
+\end{frame}
+
+\begin{frame}{R code summary}
+Frequency: table()
+
+Median: median()
+
+Order data values: sort()
+
+Mean: mean()
+
+IQR: IQR()
+
+Summary: summary()
+
+Boxplot: boxplot()
+
+Plot: plot(), barplot(), hist()
+
+Variance: var()
+
+Standard deviation: sd()
+
+\end{frame}
+
+\section{Week 2: Random variable and its distribution}
+
+\begin{frame}{Week 2: Random variable and its distribution}
+\begin{enumerate}
+\item Random variable: definition, distribution and equality 
+\item Characterising the distribution of a random variable with
+\begin{itemize}
+\item pmf (discrete)
+\item cdf (any)
+\item pdf (continuous)
+\end{itemize}
+\item Distribution of a new random variable
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}
+\begin{enumerate}
+\item Random variable: definition, distribution and equality 
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Variable and random variable}
+A {\bf random variable}\footnote{There exists a more mathematical definition of a random variable, see MATH254} is any characteristic of a random object (a person or a thing)
+
+%The random object can be resulting from an experiment or a trial 
+
+%\begin{itemize}
+%\item Example: choose a student at random, the nationality of the random student is a random variable
+%\end{itemize}
+
+
+A {\bf sample} of data are observations of a set of random variables
+
+\begin{itemize}
+\item Example: choose 10 students at random, the set of recorded nationalities of these students is a sample of data
+\end{itemize}
+
+Before observation: random variable(s); \\
+After observation: sample data
+\end{frame}
+
+
+
+
+\begin{frame}{Function vs random variable}
+
+A function has an input and an output. Different inputs may produce the same output, but one input can only have one output 
+\begin{itemize}
+\item Example: $f:\R\to[0,1], f(x)=(1+x^2)^{-1}.$ For any input $x\in\R$, there is only one output $f(x)$
+\end{itemize}
+
+
+
+A random variable has no input, and the output is random
+\begin{itemize}
+\item Example: rolling a die and the outcome is a random variable taking values in $\{1,2,3,4,5,6\}$. We know the outcome is one of the 6 values, but we don't know which one. It is just random
+\end{itemize}
+We use $f,g,h, F, G\ldots$ to denote functions, and $X,Y,Z,U,V,W\ldots$ to denote random variables
+\end{frame}
+
+
+
+\begin{frame}{Distribution of a random variable}
+How to describe a random variable?  The information we want to record is:
+\begin{itemize}
+\item what the possible {\bf outcomes} are, and
+\item what the {\bf probabilities} of all different outcomes are
+\end{itemize}
+{\bf A distribution is charaterised}\footnote{More formally, the notion of distribution is equivalent to  ``probability space". The latter will be introduced next week} if we know all the possible {\bf outcomes} and the corresponding {\bf probabilities}
+
+Example: Consider \(X\) the result of rolling a die. We can write
+\begin{equation}\label{x=x}
+\mathbb P(X=x)=
+\begin{cases}
+\frac{1}{6} & \text{if }x=1,2,3,4,5,6,\\
+0 & \text{otherwise.}
+\end{cases}
+\end{equation}
+
+\end{frame}
+
+
+\begin{frame}{Equality between random variables}
+
+{\bf Two random variables are equal:} $X=X'$
+
+Example: suppose I am playing a game in which I will win the number of pounds equal to the value of $X$, which is the outcome of the die roll. Let $X'$ be the number of pounds I win. Then clearly $X=X'$
+
+
+
+{\bf Two random variables are equal in distribution:} $X\stackrel{d}{=}X'$
+
+Example: I roll a die twice independently. Let $X$ be the number I get from the first rolling and $X'$ from the second rolling. Then $X$ and $X'$ have the same distribution, but we know they are not the same variable, as it is possible that $X\neq X'$ can occur
+
+
+ 
+{\bf Question:} which equality is stronger?
+\end{frame}
+
+\begin{frame}
+\begin{enumerate}
+\item Random variable: definition, distribution and equality 
+\item Characterising the distribution of a random variable with
+\begin{itemize}
+\item pmf (discrete)
+\end{itemize}
+
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}{Discrete random variable}
+
+A random variable \(U\), or its distribution, is said to be \emph{\bf discrete} if there are 
+\begin{itemize}
+\item finitely many or  countably many points 
+\item that each occurs with strictly positive probability
+\item and these together account for all of the probability that sums up to $1$
+\end{itemize}
+
+
+
+The distribution is determined if we list every possible {\bf outcome} and its {\bf probability}
+
+
+{\bf Question}:  why the total probability is equal to $1$?
+\end{frame}
+
+
+\begin{frame}{Probability mass function: pmf}
+Consider a discrete random variable $X$ such that  \begin{equation}\label{x=x}
+\mathbb P(X=x)=
+\begin{cases}
+\frac{1}{6} & \text{if }x=1,2,3,4,5,6,\\
+0 & \text{otherwise.}
+\end{cases}
+\end{equation}
+Introduce the function $f_X$ such that $f_X(x)=\mathbb P(X=x)$ for any $x$
+
+We call $f_X$ the {\bf probability mass function (or pmf)} of $X$
+
+Thus 
+$$f_X(x)=
+\begin{cases}
+\frac{1}{6} & \text{if }x=1,2,3,4,5,6,\\
+0 & \text{otherwise.}
+\end{cases}$$
+
+The {\bf pmf characterises the distribution} of any  discrete random variable 
+\end{frame}
+
+
+
+\begin{frame}{Probability mass function: pmf}
+The plot of the pmf of $X$
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.4]{pmfdie}
+\caption{Probability mass function of $X$}
+\end{center}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Probability mass function: pmf}
+The {\bf properties of pmf} $f_X(x)$
+\begin{itemize}
+\item $f_X$ is non-negative 
+\item $\sum_{x\in \mathbb R}f_X(x)=1$
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Probability mass function: pmf}
+
+{\bf Exercise: }
+
+We toss a fair coin such that if the Heads appears, let $X=1$; otherwise let $X=0.$ Write down the pmf of $X$
+
+
+
+{\bf Solution: }
+
+\iffalse{$$f_X(x)=
+\begin{cases}
+\frac{1}{2} & \text{if }x=0,1,\\
+0 & \text{otherwise.}
+\end{cases}$$}\fi
+\end{frame}
+
+\begin{frame}{Probability mass function: pmf}
+
+{\bf Exercise: }
+
+The random variable $Z$ has the probability mass function below.
+ \begin{center}
+    \begin{tabular}{  c | c | c |c|c}
+    \hline
+    $z$  &0& 1&2&3 \\ \hline
+    $f_Z(z)$ &0.2 &0.16 &0.41 &$a$\\
+    \hline
+    \end{tabular}
+\end{center}
+What is the value of $a$?
+
+
+
+{\bf Solution:}
+
+\iffalse{The sum of all probabilities is equal to $1$. So  we should have
+$$\sum_{z\in\{0,1,2,3\}}f_Z(z)=0.2+0.16+0.41+a=1.$$
+Thus $a=0.23$.
+}\fi
+\end{frame}
+
+
+\begin{frame}{Continuous random variable}
+We say that a random variable \(U\), or its distribution, is \underline{continuous}, if there are no single points that occur with strictly positive probability 
+
+Example:  long jump distance; 
+
+
+
+By definition $f_U(u)=0$ for any $u\in \mathbb R$. Therefore the pmf of a continuous random variable is meaningless 
+
+
+Then how to characterise the \underline{distribution} of a continuous random variable? 
+
+\end{frame}
+
+\begin{frame}
+\begin{enumerate}
+\item Random variable: definition, distribution and equality 
+\item Characterising the distribution of a random variable with
+\begin{itemize}
+\item pmf (discrete)
+\item cdf (any)
+\end{itemize}
+\end{enumerate}
+\end{frame}
+\begin{frame}{Cumulative distribution function: cdf}
+
+We denote the {\bf cumulative distribution function (or cdf)} of a random variable \(U\) by \(F_U\): $$F_U(u)=\mathbb P(U\leq u),\quad \text{for all } u.$$ 
+%In particular, we can compute the probability of taking any value $u$: 
+%\begin{equation}\label{u=u}\mathbb P(U=u)=F_U(u)-F_U(u-).\end{equation}
+%Here $F_U(u-)$ is the left limit of $F_U$ at the point $u$.
+
+The {\bf cdf characterises\footnote{This is related to the probability space. We will see why we say so next week} the distribution} of any random variable, be it discrete or continuous or anything else
+
+
+%\begin{itemize}
+%\item The cdf yields the pmf for discrete random variables 
+%\item The cdf characterises any random variable, being it discrete or continuous or anything else
+%\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Cumulative distribution function: cdf}
+
+\begin{figure}[ht]
+\includegraphics[scale=0.5]{cdfplot.pdf}
+\caption{$F_U(u)$ is increasing in $u$; \\ $F_U(u)$ decreases to $0$ as $u\to -\infty$ ($F_U(-\infty)=\lim_{u\to-\infty}F_U(u)=0$); \\ $F_U(u)$ increases to $1$ as $u\to \infty$ ($F_U(\infty)=\lim_{u\to\infty}F_U(u)=1$)}
+\end{figure}
+
+
+
+\end{frame}
+
+\begin{frame}{Cdf for discrete random variables}
+If $U$ is a discrete random variable then 
+$$F_U(u)=\sum_{k\leq u}\mathbb P(U=k)$$
+
+{\bf Exercise:}
+
+If the pmf of $X$ is 
+$$f_X(x)=
+\begin{cases}
+\frac{1}{6} & \text{if }x=1,2,3,4,5,6,\\
+0 & \text{otherwise.}
+\end{cases}$$
+What is the cdf of $X$?
+\end{frame}
+
+\begin{frame}{Cdf for discrete random variables}
+\iffalse{
+By simple computations, we get  \[ 
+F_X(x)=\mathbb P(X\leq x)=
+             \begin{cases} 
+            0, &  \mbox{if $x<1$},\\  
+            1/6,  & \mbox{if $1\leq x<2$},\\
+            2/6,  & \mbox{if $2\leq x<3$},\\
+            3/6,  & \mbox{if $3\leq x<4$},\\
+            4/6,  & \mbox{if $4\leq x<5$},\\
+            5/6,  & \mbox{if $5\leq x<6$},\\
+            1=6/6,  & \mbox{if $6\leq x$}.
+                        \end{cases}  
+\]}\fi
+\end{frame}
+
+\begin{frame}{Cdf for discrete random variables}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.35]{diecdf}
+\caption{Cumulative distribution function of $X$\label{fig:cdfdie}}
+\end{center}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Cdf for continuous random variables}
+For a continuous random variable, we will be able to show in the future that 
+its \underline{cdf is a continuous} function
+
+
+
+But, how can we \underline{calculate the cdf} of a continuous random variable? 
+
+
+%Note that 
+%\begin{align*}
+%\mathbb P(U=u)&=\mathbb P(U\leq u)-\mathbb P(U<u)&\\
+%&=\mathbb P(U\leq u)-\lim_{x \nearrow u}\mathbb P(U\leq x)=F_U(u)-F_U(u-)&
+%\end{align*}
+
+
+\end{frame}
+
+\begin{frame}
+\begin{enumerate}
+\item Random variable: definition, distribution and equality 
+\item Characterising the distribution of a random variable with
+\begin{itemize}
+\item pmf (discrete)
+\item cdf (any)
+\item pdf (continuous)
+\end{itemize}
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}{Pdf for continuous random variables}
+For nice\footnote{We only consider nice variables in this module} continuous random variables, say $X$, its cdf $F_X(x)$ is differentiable 
+
+We call  
+$$f_X(x)=\frac{dF_X(x)}{dx}$$
+the {\bf probability density function (or pdf)}, of $X$
+
+
+Using the Fundamental Theorem of Calculus, conversely, we have 
+$$F_X(x)=F_X(x)-F_X(-\infty)=\int_{-\infty}^xf_X(t)dt$$
+
+
+The {\bf pdf characterises the distribution} of any continuous random variable 
+\end{frame}
+
+\begin{frame}{Pdf for continuous random variables}
+
+\begin{figure}[ht]
+\includegraphics[scale=0.5]{pdfarea.pdf}
+\caption{ $f_X(x)$ is non-negative;
+$\int_{-\infty}^\infty f_X(t)dt=1$}
+\end{figure}
+
+Cdf being an increasing function implies nonnegativity of pdf. $1=\lim_{x\to\infty}F_X(x)=\lim_{x\to\infty}\int_{-\infty}^xf_X(t)dt=\int_{-\infty}^\infty f_X(t)dt.$
+
+NB: we use the same letter $f$ for pmf (discrete) and pdf (continuous), and the same letter $F$ for the cdf of any random variables 
+\end{frame}
+
+\begin{frame}{Exercise}
+Assume the cdf of $Y$ is 
+\begin{equation}\label{Y}
+F_Y(y)=
+\begin{cases}
+0 & y< 0,\\
+\frac{1}{16384}\left(3y^5-60y^4+320y^3\right) & 0\leq y \leq 8,\\
+1 & 8\leq y.
+\end{cases}
+\end{equation}
+What is the pdf of $Y$? 
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[scale=0.25]{jumpcdf.pdf}
+\end{center}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Exercise}
+
+{\bf Solution:}
+\iffalse{
+By taking the derivative of $F_Y(y)$, we get 
+\[
+f_Y(y)=\frac{dF_Y(y)}{dy}=\begin{cases}
+\frac{1}{16384}\left(15y^4-240y^3+960y^2\right) & y\in[0,8],\\
+0 & \text{else}.
+\end{cases}\]}\fi
+\end{frame}
+
+\begin{frame}{Exercise}
+
+We say $X$ is a uniform random variable on $(0,1)$ if its pdf is a positive constant on the interval and zero elsewhere. Find the pdf and cdf
+ 
+ 
+ 
+{\bf Solution: }
+
+\iffalse{Assume $f_X(x)=a$ if $x\in(0,1)$. Then 
+
+$$1=\int_{-\infty}^\infty f_X(x)dx=\int_0^1adx=a.$$
+Therefore $a=1$, and $f_X(x)=1$ on $(0,1)$ and zero elsewhere
+
+Then the cdf is 
+$$F_X(x)=\int_{-\infty}^xf_X(t)dt=\begin{cases}x, \quad x\in(0,1)\\
+0, \quad x\leq 0\\
+1, \quad x\geq 1
+\end{cases}$$}\fi
+
+\end{frame}
+
+
+\begin{frame}{Exercise}
+
+Find the constant $C$ for the following pdf with $k>0$,
+$$f(x):=\begin{cases}
+Ce^{-kx},&\text{if }x\geq0,\\
+0,& \text{otherwise.}
+\end{cases}$$
+
+
+
+{\bf Solution: }
+
+\iffalse{We should have
+$$1=\int_{-\infty}^{+\infty}f(x){d x}=C\int_{0}^{+\infty}e^{-kx}{d x}=C\left[\frac{-e^{-kx}}{k}\right]_{0}^{+\infty}=\frac{C}{k},$$
+which gives $C=k$. }\fi
+\end{frame}
+
+
+
+\begin{frame}{What is the distribution of $X$?}
+To answer this question, we should give anything that characterises the distribution of $X$
+
+
+
+In this module\footnote{There are other tools which can also characterise the distribution, apart from pmf, cdf and pdf. But we do not cover them in this module.}, it is asking if you can find the pmf, cdf or pdf of $X$. We only need to show one of them
+
+\end{frame}
+
+
+\begin{frame}
+\begin{enumerate}
+\item Random variable: definition, distribution and equality 
+\item Characterising the distribution of a random variable with
+\begin{itemize}
+\item pmf (discrete)
+\item cdf (any)
+\item pdf (continuous)
+\end{itemize}
+\item Distribution of a new random variable
+\end{enumerate}
+\end{frame}
+
+
+
+
+\begin{frame}{Operations for random variables}
+Just like the operations between functions! 
+\begin{itemize}
+\item $2X+1$
+\item $X+Y$
+\item $X^2-3Y+Z/2$
+\end{itemize}
+If $\mathbb P(Z<0)\neq 0$, then $\sqrt{Z}$ is not a real-valued random variable, but a \underline{complex random variable} (taking values in the set of complex numbers)
+\end{frame}
+
+\begin{frame}{Distribution of a new discrete random variable}
+Let $X$ be a discrete random variable with pmf 
+$$f_X(x):=\begin{cases}
+p_i,&\text{if }x=x_i, 1\leq i\leq n,\\
+0,& \text{otherwise.}
+\end{cases}$$
+
+
+Let $G$ be a strictly monotone function and let $Y=G(X)$. Then the pmf of $Y$ is 
+$$f_Y(y):=\begin{cases}
+p_i,&\text{if }y=G(x_i), 1\leq i\leq n,\\
+0,& \text{otherwise.}
+\end{cases}$$
+
+\end{frame}
+
+\begin{frame}{Distribution of a new discrete random variable}
+
+{\bf Exercise:} If $X$ has pmf 
+$$f_X(x)=
+\begin{cases}
+\frac{1}{6} & \text{if }x=1,2,3,4,5,6,\\
+0 & \text{otherwise.}
+\end{cases}$$
+What is the pmf of $Y=X^2+1$? 
+
+
+
+{\bf Solution:} 
+\iffalse{Note that 
+$$X\to X^2+1: 1\to2, 2\to5, 3\to10, 4\to 17,5\to26, 6\to37$$
+Then $Y$ has pmf 
+$$f_Y(y)=
+\begin{cases}
+\frac{1}{6} & \text{if } y=2,5,10,17,26,37,\\
+0 & \text{otherwise.}
+\end{cases}$$}\fi
+ 
+
+
+\end{frame}
+
+
+\begin{frame}{Distribution of any new random variable}
+If $X$ is any random variable and $G$ is any function, what is the distribution of  $Y=G(X)$?
+
+If $X$ is not discrete, then we should consider the cdf of $Y$. 
+
+
+
+Steps\footnote{A more advanced approach will be given in MATH254}:
+\begin{enumerate}
+\item For any $y\in\mathbb R$, 
+$$F_Y(y)=\mathbb P(Y\leq y)=\mathbb P(G(X)\leq y)=\mathbb P(X\in A_y)$$
+where $A_y=\{x: G(x)\leq y\}$ 
+\item If we can compute $\mathbb P(X\in A_y)$, then we obtain $F_Y(y)$, and if $Y$ is continuous, we can get the pdf $f_Y(y)$ as well 
+\end{enumerate}
+We will learn later how to compute $\mathbb P(X\in A_y)$ for an arbitrary $A_y$
+\end{frame}
+
+\begin{frame}{Distribution of any new random variable}
+
+{\bf Exercise:} If $U$ has cdf 
+\[ 
+F_U(u)=\left\{  
+             \begin{array}{lr}  
+  1- e^{-u},  & \mbox{if $u\geq 0$}\\
+            0, &  \mbox{if $u<0$}
+              \end{array}  
+\right.\] 
+what is the distribution of $V=U/2$?
+
+
+
+{\bf Solution:} 
+
+\iffalse{\begin{align*}
+F_V(v)&= \mathbb P(V\leq v)\\
+&= {\textstyle \mathbb P\left(\frac{1}{2}U \leq v\right)}\\
+&= \mathbb P(U\leq 2v)\\
+&= F_U(2v)\\
+&=\left\{  
+             \begin{array}{lr}  
+           1-e^{-2v},  & \mbox{if $v\geq 0$},\\
+            0, &  \mbox{if $v<0$},\\  
+              \end{array}  
+\right. 
+\end{align*}
+and\begin{align*}
+f_V(v)&=\frac{d}{dv}F_V(v)=\left\{  
+             \begin{array}{lr}  
+   2e^{-2v},  & \mbox{if $v\geq 0$},\\
+            0, &  \mbox{if $v<0$}.
+              \end{array}  
+\right. 
+\end{align*}}\fi
+\end{frame}
+
+\section{Week 3: Compute the probabilities}
+
+\frame{\frametitle{Week 3: Compute the probabilities}
+\begin{itemize}
+\item Part 1: Counting
+ \begin{itemize}
+\item Discrete uniform distribution
+\item Counting: fundamental counting principle, permutation, combination, permutation with repetition
+\end{itemize}
+\item Part 2: General principles of computation of probabilities 
+\begin{itemize}
+\item Probability space
+\item Basic laws of sets and axioms of probability
+\end{itemize}
+\item Part 3: Advanced principles of computation of probability 
+\begin{itemize}
+\item Conditional probability 
+\item The multiplication principle 
+\item The law of total probability 
+\item Bayes' formula
+\end{itemize}
+\item Part 4: Independence of events
+\begin{itemize}
+\item Independence of two events
+\item Independence of more than two events
+\end{itemize}
+\end{itemize}
+}
+
+
+\frame{
+\begin{itemize}
+\item Part 1: Counting
+ \begin{itemize}
+\item Discrete uniform distribution
+\end{itemize}
+\end{itemize}
+}
+\frame{
+\frametitle{Discrete uniform distribution}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition: Discrete uniform distribution]
+Let $\Omega$ be a finite  set. Assume that in an experiment,  each element in $\Omega$ is selected with equal probability. Let $X$ denote the selected element (thus the pmf $f_X$ is constant). Then for any set $A\subset \Omega$, we have
+$$\mathbb{P}(X\in A)=\mathbb{P}(A)=\frac{|A|}{|\Omega|}.$$
+We say $X$ follows the discrete uniform distribution
+\end{tcolorbox}
+
+In this simple situation, we only need to find out $|A|$ and $|\Omega|$. It becomes a problem of counting!
+}
+
+\frame{
+\frametitle{Discrete uniform distribution: exercise}
+{\bf Exercise:}
+
+From the set $\{1,2,3,\cdots, 10\}$, we select a number at random. What is the probability that we get a number divisible by 3? 
+
+
+
+{\bf Solution:}
+\iffalse{
+Let $X$ be the random variable. Then the probability we are looking for is $\mathbb{P}(X\in A)=\frac{\mathbb{P}(A)}{\mathbb{P}(\Omega)}=\frac{3}{10}$ 
+where $\Omega=\{1,2,3,\cdots,10\}$ and $A=\{3,6,9\}$.  
+}\fi
+}
+
+
+
+\frame{
+\begin{itemize}
+\item Part 1: Counting
+ \begin{itemize}
+\item Discrete uniform distribution
+\item Counting: fundamental counting principle, permutation, combination, permutation with repetition
+\end{itemize}
+\end{itemize}
+}
+
+\frame{
+\frametitle{Fundamental counting principle}
+
+
+The \underline{fundamental counting principle} states that if there are $p$ ways to do one thing, and if with any way chosen, there are always $q$ ways to do another thing, then there are $p\times q$ ways to do both things. Similarly in the case of more than 2 things. 
+
+
+{\bf Example:}
+
+A small community consists of 10 mothers, each of whom has 3 children. If one mother and one of her children are to be chosen as mother and child of the year, how many different choices are possible?
+
+
+{\bf Solution:} \iffalse{There are 10 ways to choose a mother, and once a mother is chosen, there are always 3 ways to choose one of her children. By the fundamental counting principle,   the total number of choices is $10*3=30$}\fi
+}
+
+\frame{
+\frametitle{Fundamental counting principle (cont.)}
+
+{\bf Example:}
+
+The SSLC committee consists of 3 students from year 1, 5 from year 2 and 6 from year 3. Now a subcommittee of size 3 is to be formed which consists of members from all different years. How many different subcommittees are possible?
+
+
+
+{\bf Solution:} \iffalse{Since the subcommittee is of size 3 and there are 3 years, there will be exact 1 student from each year in the subcommittee
+
+For year 1, there are 3 choices; for year 2,  there are 5 choices; for year 3, there are 6 choices. By the fundamental counting principle, the total number of possible subcommittees is $3\times5\times6=90$
+}\fi}
+
+
+
+\frame{
+\frametitle{Permutation}
+
+{\bf Example:}
+
+Consider the 4~letters a,~b,~c,~d.
+Taking two in turn, how many different ({\em ordered}) results are possible?
+
+
+
+{\bf Solution:}
+\iffalse{
+There are two things to do. Firstly, we select one letter at random, which has $4$ ways. Secondly, we select another one from the remaining letters, which has $3$ ways. 
+
+Then the total number of results is $4\times3=12$
+ 
+\begin{center}
+\begin{tabular}{ccc}
+ab & ac & ad \\
+ba & bc & bd \\
+ca & cb & cd \\
+da & db & dc
+\end{tabular}
+\end{center}
+}\fi
+}
+
+\frame{
+\frametitle{Permutation: Formula}
+
+More generally, if there are $n$ distinct elements, and we select $k$ of them and order the selected elements, then the total number of results is 
+$$P_n^k=n\times(n-1)\times(n-2)\times\cdots\times(n-k+1)=\frac{n!}{(n-k)!}$$
+}
+
+
+
+
+\frame{
+\frametitle{Combination}
+
+{\bf Example:}
+
+Consider the 4~letters a,~b,~c,~d. Select two letters and do not order them. How many different results are possible?
+
+
+
+{\bf Solution:}
+\iffalse{
+If the two letters are ordered,  then the total number of results is $P_4^2=\frac{4!}{2!}=12$
+
+But once the two letters are fixed, all different orderings should be considered as the same
+
+How many orderings are there? There are $P_2^2=2!=2$ orderings. This is to select 2 elements from a set of 2 elements and order them 
+
+Therefore, the number of unordered results is $\frac{P_4^2}{P_2^2}=\frac{4!}{2!2!}=6$}\fi
+
+}
+
+
+
+
+\frame{
+\frametitle{Combination: Formula}
+
+More generally, if there are $n$ distinct elements, and we select $k$ of them and do not order them, then the total number of results is 
+$$C_n^k={n\choose k}=\frac{P_n^k}{k!}=\frac{n!}{k!(n-k)!}$$
+}
+
+\frame{\frametitle{Permutation with repetition}
+
+{\bf Example:}
+
+There are 3 black cats, 2 white cats, and 5 yellow cats. We consider that cats with the same colour are  identical. 
+
+There are 10 labelled (which means ordered) boxes to fill in the 10 cats (one cat for one box). How many possible fillings are there? 
+
+
+{\bf Solution:} 
+}
+
+\iffalse{\frame{\frametitle{Permutation with repetition}
+
+{\bf Solution:} \iffalse{There are three experiments in this procedure. 
+
+First we fill in the black cats. We select $3$ boxes and we record their 
+labels. But we don't have to order the labels. Therefore there are $C_{10}^3$ possible choices. 
+
+Second, from the remaining $7$ boxes, we select 2 of them and record their labels. Then put the white cats into the two boxes. Again, we don't have to order the labels. Then similarly, there are $C_7^2$ possible outcomes. 
+
+Lastly, we put all the yellow cats in the remaining boxes. Therefore only one outcome for the last experiment
+
+By the fundamental counting principle, the total number of possible fillings is $C_{10}^3\times C_7^2=\frac{10!}{3!2!5!}$}\fi
+}}\fi
+
+\frame{\frametitle{Permutation with repetition: Formula}
+
+More generally, if there are $n_i$ copies of $a_i$ for $1\leq i\leq k$ with $n=n_1+n_2+\cdots+n_k$, then the total number of configurations of them being in a line (i.e. in $n$ ordered boxes) is 
+\begin{align*}P_n^{(n_1,n_2,\cdots,n_k)}&=C_n^{n_1}\cdot C_{n-n_1}^{n_2}\cdot\cdots\cdot C_{n_{k-1}+n_k}^{n_{k-1}}\cdot C_{n_k}^{n_k}\\
+&={n\choose n_1,n_2,\cdots,n_k}=\frac{n!}{n_1!n_2!\cdots n_k!}\end{align*}
+
+In particular, the combination is a special permutation with repetition: $C_n^k=P_n^{(k,n-k)}=\frac{n!}{k!(n-k)!}.$
+}
+
+
+
+
+
+
+
+
+\frame{
+\begin{itemize}
+\item Part 1: Counting
+ \begin{itemize}
+\item Discrete uniform distribution
+\item Counting: fundamental counting principle, permutation, combination, permutation with repetition
+\end{itemize}
+\item Part 2: General principles of computation of probabilities 
+\begin{itemize}
+\item Probability space
+\end{itemize}
+\end{itemize}
+}
+\frame{
+\frametitle{Purpose of probability theory}
+The ultimate purpose of studying probability is to compute 
+$$ \mathbb{P}(X\in A): \text{The probability that $X$ takes values in $A$}$$
+Here $X$ is the random variable under consideration and $A$ is the set  of interest. 
+
+We usually write $\mathbb{P}(A)$ if we know which random variable we are talking about
+
+
+
+Example: Toss a coin $5$ times.  I'm interested in the probability that the number of faces is larger or equal to $3$. That is, I'm interested in 
+$$\mathbb{P}(X\in A)=\mathbb{P}(X\in\{3,4,5\})$$
+Here $X$ is the number of faces resulting from the tosses and $A=\{3,4,5\}$
+}
+
+\frame{
+\frametitle{Terminology}
+
+
+$X:$ {\bf random variable}. %Its distribution can be characterised by any of pmf, cdf or pdf
+
+
+$\Omega:$ {\bf sample space.} It is the set of all possible values that $X$ can take. We can simply take $\Omega=\R$, but sometimes we want to choose $\Omega$ as small as possible
+
+
+
+$A:$ A subset of $\Omega$. We want to find the probability of any subset of $\Omega$. But not all of them have a probability, especially for continuous random variable. If a subset has a probability, then it is an {\bf event}
+
+$\FF:$ {\bf event space.} It is the set of all events in $\Omega$
+
+
+$\mathbb{P}:$ {\bf probability function.} It assigns the probability value to an event
+
+
+$(\Omega, \FF, \mathbb{P}):$ {\bf probability space}
+
+}
+
+
+
+\frame{
+\frametitle{Example}
+
+ Consider $X$  with pmf $$f_X(x)=
+\begin{cases}
+\frac{1}{6} & \text{if }x=1,2,3,4,5,6,\\
+0 & \text{otherwise.}
+\end{cases}$$
+Then
+
+$\Omega=\{1,2,3,4,5,6\}$ 
+
+$\FF=2^{\Omega},$ the set of all subsets\footnote{This is true for discrete random variables. If $\Omega$ contains an interval, then not all subsets are events. This will be justified in a future module. In MATH163 we never worry about what $\FF$ is} of $\Omega$
+
+$\mathbb{P}(A)=\frac{|A|}{6}$, where $|A|$ is the cardinality of $A$
+}
+
+\frame{
+\frametitle{What characterises the distribution of a random variable?}
+
+If something allows us to compute the probability of any event of a random variable, then {\bf it characterises the distribution.}
+
+
+Example: pmf, pdf, cdf. We will see why later. 
+
+}
+
+\frame{\begin{itemize}
+\item Part 1: Counting
+ \begin{itemize}
+\item Discrete uniform distribution
+\item Counting: fundamental counting principle, permutation, combination, permutation with repetition
+\end{itemize}
+\item Part 2: General principles of computation of probabilities 
+\begin{itemize}
+\item Probability space
+\item Basic laws of sets and axioms of probability
+\end{itemize}
+\end{itemize}
+}
+
+\begin{frame}{Motivation}
+To compute $\mathbb{P}(X\in A)$, we are working with sets and probabilities. It is useful to state out their basic properties
+
+We have been using these properties already
+\end{frame}
+
+\begin{frame}{Basic laws of sets}
+Denote $A^c=\Omega\backslash\ A,$ the complement of $A$ in $\Omega$. 
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Theorem]
+%\begin{enumerate}
+%\item[] 
+Commutative Laws:
+$$A\cup B= B\cup A,\quad A\cap B= B\cap A;$$
+%\item[] 
+Associative Laws: 
+$$(A\cup B)\cup C=A\cup (B\cup C), \quad (A\cap B)\cap C=A\cap (B\cap C);$$
+%\item[] 
+Distributive Laws: 
+$$(A\cup B)\cap C=(A\cap C)\cup (B\cap C),\quad (A\cap B)\cup C=(A\cup C)\cap (B\cup C);$$ 
+%\item[] 
+De Morgen's law: $$(A\cup B)^c=A^c\cap B^c, \quad (A\cap B)^c=A^c\cup B^c.$$
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Exercise}
+
+Use Venn Diagrams to prove the laws 
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[scale=0.4]{venn.png}
+\caption{Venn diagram}
+\end{center}
+\end{figure}
+\end{frame}
+
+\frame{
+\frametitle{Three axioms of probability}
+%Axioms are fundamental assumptions for a mathematical theory. Euclidean geometry has five axioms. Probability theory has three axioms. 
+
+\begin{enumerate}
+\item[]Axiom 1: $\mathbb{P}(A)\geq 0, \text{ for all } A\in \FF$.
+\item[]Axiom 2: $\mathbb{P}(\Omega)=1$.
+\item[]Axiom 3: For any countable sequence of disjoint sets 
+$A_{1},A_{2},\ldots $, we have 
+$$\mathbb{P}\left(\bigcup_{i=1}^\infty A_i\right)=\mathbb{P}\left(A_1\cup A_2\cup A_3\cup \cdots \right)=\sum_{i=1}^\infty\mathbb{P}(A_i).$$
+\end{enumerate}
+
+
+Axiom 3 implies the relationship with finitely many sets (exercise)
+$$\mathbb{P}\left(\bigcup_{i=1}^n A_i\right)=\mathbb{P}\left(A_1\cup A_2\cup\cdots\cup  A_n\right)=\sum_{i=1}^n\mathbb{P}(A_i)$$
+
+}
+
+
+\frame{
+\frametitle{Consequences of the axioms of probability}
+
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Theorem]
+For any sets $A,B$, and the empty set $\emptyset$, we have \\
+%\begin{enumerate}
+%\item[]
+Property 1: $$\mathbb{P}(A^c)=1-\mathbb{P}(A);$$
+%\item []
+Property 2: 
+$$\mathbb{P}(\emptyset)=0;$$
+%\item []
+Property 3: if $A\subset B$, then $$\mathbb{P}(A)\leq\mathbb{P}(B);$$
+%\item []
+Property 4 (Additive Law): $$\mathbb{P}(A\cup B)=\mathbb{P}(A)+\mathbb{P}(B)-\mathbb{P}(A\cap B).$$
+%\end{enumerate}
+
+\end{tcolorbox}
+
+
+
+
+}
+
+\frame{
+\begin{itemize}
+\item Part 1: Counting
+ \begin{itemize}
+\item Discrete uniform distribution
+\item Counting: fundamental counting principle, permutation, combination, permutation with repetition
+\end{itemize}
+\item Part 2: General principles of computation of probabilities 
+\begin{itemize}
+\item Probability space
+\item Basic laws of sets and axioms of probability
+\end{itemize}
+\item Part 3: Advanced principles of computation of probability 
+\begin{itemize}
+\item Conditional probability 
+\end{itemize}
+\end{itemize}
+}
+\frame{
+\frametitle{Dependence between events}
+
+
+
+Consider two events 
+
+$A=\{\text{tomorrow it will rain}\}\), and 
+
+$B=\{\text{tomorrow I'm going shopping}\}\)
+
+If $A$ occurs, $B$ is very unlikely to occur 
+
+To describe this dependence explicitly, we introduce the conditional probability
+
+
+}
+
+\frame{
+\frametitle{Definition}
+
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition (Conditional Probability)]
+Let $A,B$ be two events in the sample space $\Omega$, with $\mathbb{P}(B)\neq 0$. The probability given by 
+$$\mathbb{P}(A|B)=\frac{\mathbb{P}(A\cap B)}{\mathbb{P}(B)}$$
+is called  the conditional probability of $A$ given $B$, or the probability of $A$ conditionally on $B$. 
+\end{tcolorbox}
+
+
+
+\begin{itemize}
+\item If we let $A=B$ then 
+\[\mathbb{P}(B|B)=\frac{\mathbb{P}(B\cap B)}{\mathbb{P}(B)}=\frac{\mathbb{P}(B)}{\mathbb{P}(B)}=1\] 
+\item If we set $B=\Omega$ then  
+\[\mathbb{P}(A|\Omega)=\frac{\mathbb{P}(A\cap \Omega)}{\mathbb{P}(\Omega)}=\frac{\mathbb{P}(A)}{1}=\mathbb{P}(A)\] 
+\end{itemize}
+}
+\iffalse{
+\frame{\frametitle{Why this definition?}
+
+\begin{figure}[h!]
+\centering
+\begin{subfigure}{\textwidth}
+  \centering
+  \includegraphics[width=.4\linewidth]{vennAB}
+%  \caption{Before}
+  \label{fig:sub1}
+\end{subfigure}%
+\begin{subfigure}{\textwidth}
+  \centering
+  \includegraphics[width=.35\linewidth]{vennA-B}
+%  \caption{After the occurrence of $B$}
+\end{subfigure}
+\label{fig:test}
+\end{figure}
+\begin{itemize}
+\item On the left, events $A$ and $B$ live in the {\bf old world} $\Omega$ (sample space)
+\item On the right, since $B$ has occurred, they live in the {\bf new world} $B$
+\end{itemize}
+
+}}\fi
+
+
+\frame{\frametitle{Why this definition?}
+\begin{tabularx}{0.8\textwidth} { 
+  | >{\raggedright\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\raggedleft\arraybackslash}X | }
+ \hline
+Old world & $\Omega$ & $A$ \\
+ \hline
+New world  & $B$  & $A\cap B$  \\
+\hline
+\end{tabularx}
+
+\begin{itemize}
+\item Let $\mathbb{P}'(A), \mathbb{P}'(B)$ be the probabilities in the new world 
+%\item  In the old world, the probability of $B$ is $\mathbb{P}(B)$
+%\item In the new world, since $B$ is the whole world (the new sample space), by Axiom 2 of probability, we must have  $\mathbb{P}'(B)=1$
+\end{itemize}
+Since $B$ is the new sample space, by Axiom 2, 
+$$\mathbb{P}(B)\stackrel{\text{scaled up}}{\longrightarrow}\mathbb{P}'(B)=1$$
+The same scaling should apply to $A$ (which is $A\cap B$ in the new world): 
+$$\frac{\mathbb{P}'(B)}{\mathbb{P}(B)}=\frac{\mathbb{P}'(A)}{\mathbb{P}(A\cap B)}\quad\Rightarrow\quad \mathbb{P}'(A)=\frac{\mathbb{P}(A\cap B)}{\mathbb{P}(B)}=\mathbb{P}(A|B)$$
+}
+
+\frame{\frametitle{Example}
+Let \(X\) be the result of rolling a fair die. Let \(E\) be the event that \(X\) is even, and \(S\) the event that \(X=6\). Find $\mathbb{P}(S|E)$ and $\mathbb{P}(E|S)$
+
+
+{\bf Solution:}
+\iffalse{
+\[
+\mathbb{P}(S|E)=\frac{\mathbb{P}(S\cap E)}{\mathbb{P}(E)}=\frac{1/6}{1/2}=\frac{1}{3},
+\]
+whereas
+\[
+\mathbb{P}(E|S)=\frac{\mathbb{P}(E\cap S)}{\mathbb{P}(S)}=\frac{1/6}{1/6}=1.
+\]}\fi
+}
+\frame{
+\begin{itemize}
+\item Part 1: Counting
+ \begin{itemize}
+\item Discrete uniform distribution
+\item Counting: fundamental counting principle, permutation, combination, permutation with repetition
+\end{itemize}
+\item Part 2: General principles of computation of probabilities 
+\begin{itemize}
+\item Probability space
+\item casic laws of sets and axioms of probability
+\end{itemize}
+\item Part 3: Advanced principles of computation of probability 
+\begin{itemize}
+\item Conditional probability 
+\item The multiplication principle 
+\end{itemize}
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{Multiplication principle}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Corollary (Multiplication principle)]
+Rearranging the formula of the conditional probability yields the multiplication principle:
+\begin{equation*}%\label{mp}
+\mathbb{P}(A\cap B)=\mathbb{P}(A|B)\cdot\mathbb{P}(B)=\mathbb{P}(B|A)\cdot\mathbb{P}(A),
+\end{equation*}
+if $\mathbb{P}(A)\neq 0, \mathbb{P}(B)\neq 0.$
+\end{tcolorbox}
+\begin{itemize}
+\item This is not a definition 
+\item Chain rule: For events $A,B,C$, we deduce that
+$$
+\mathbb{P}(A\cap B\cap C)=\mathbb{P}(A| B\cap C)\times\mathbb{P}(B\cap C)=\mathbb{P}(A| B\cap C)\times\mathbb{P}(B|C)\times\mathbb{P}(C).
+$$
+The chain rule applies to more than three events.
+\end{itemize}
+}
+
+\frame{\frametitle{Example}
+I have a very unreliable car. For any given (intended) day, 
+\begin{itemize}
+\item the car will start with probability \(3/4\);
+\item if the car does start, the probability that I will stay home is \(2/3\).
+\end{itemize} What is the probability that my car can start but I stay home for a given day?
+
+
+
+{\bf Solution:} \iffalse{Let $A=\{\text{ the car starts }\}$ and $B=\{\text{ I will stay home }\}$. Then we know that 
+$$\mathbb{P}(A)=3/4, \quad \mathbb{P}(B|A)=2/3$$
+What we need to compute is $\mathbb{P}(A\cap B)$. Using multiplication principle, 
+\[\mathbb{P}(A\cap B)=\frac{2}{3}\times\frac{3}{4}=\frac{1}{2}\]}\fi}
+
+
+\frame{
+\begin{itemize}
+\item Part 1: Counting
+ \begin{itemize}
+\item Discrete uniform distribution
+\item Counting: fundamental counting principle, permutation, combination, permutation with repetition
+\end{itemize}
+\item Part 2: General principles of computation of probabilities 
+\begin{itemize}
+\item Probability space
+\item Basic laws of sets and axioms of probability
+\end{itemize}
+\item Part 3: Advanced principles of computation of probability 
+\begin{itemize}
+\item Conditional probability 
+\item The multiplication principle 
+\item The law of total probability 
+\end{itemize}
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{Motivation}
+
+For example, suppose that 
+\begin{itemize}
+\item the weather forecast tells us that $\mathbb{P}(\text{rain})=0.1$ and $\mathbb{P}(\text{no rain})=0.9$, 
+\item and I decide myself that $\mathbb{P}(\text{shopping $|$ rain})=0.4$, $\mathbb{P}(\text{shopping $|$ no rain})=0.8$
+\end{itemize}
+
+What is the probability that I will go shopping?
+}
+
+\frame{
+\frametitle{Motivation (cont.)}
+Note that 
+\begin{align*}
+&\mathbb{P}(\text{shopping})&\\
+&=\mathbb{P}(\text{shopping, rain})+\mathbb{P}(\text{shopping, no rain}) &\nonumber\\
+&=\mathbb{P}(\text{rain})\times\mathbb{P}(\text{shopping $|$ rain})+\mathbb{P}(\text{no rain})\times\mathbb{P}(\text{shopping $|$ no rain})&
+\end{align*}
+For the first equality, we used the Axiom 3 of probability (the two events are disjoint). For the second equality, we applied the multiplication principle. Then 
+$$\mathbb{P}(\text{shopping})=0.1\times 0.4+0.9\times 0.8=0.76$$
+
+We just applied the law of total probability!
+
+
+}
+
+\frame{
+\frametitle{A partition}
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=A partition]
+A partition of the sample space $\Omega$ is a finite collection of events $C_1,C_2,\ldots,C_n$ such that 
+\begin{enumerate}
+\item $C_i\cap C_j=\emptyset$ for any $i\neq j$ and $i,j=1,2,\ldots,n.$
+\item $C_1\cup C_2\cup\cdots \cup C_n=\Omega.$
+\end{enumerate}
+That is, the events are mutually exclusive (i.e.\ disjoint) but together include all possible outcomes.
+\end{tcolorbox}
+
+\begin{figure}
+  \includegraphics[width=.38\linewidth]{partition}
+\end{figure}
+
+}
+
+\frame{
+\frametitle{Law of total probability}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Theorem (law of total probability)]
+Let $\{C_1,C_2,\ldots,C_n\}$ be a partition of $\Omega$, with $\mathbb{P}(C_i)\neq 0$ for all $i=1,2,\ldots,n$. Then for any event $A\subset \Omega$,
+\begin{align*}
+\mathbb{P}(A)&=P(C_1)\cdot\mathbb{P}(A|C_1)\,+\cdots+\,P(C_n)\cdot\mathbb{P}(A|C_n)\\
+&=\sum_{i=1}^n\mathbb{P}(C_i)\cdot\mathbb{P}(A|C_i).
+\end{align*}
+\end{tcolorbox}
+
+\begin{figure}
+  \includegraphics[width=.38\linewidth]{partition+a}
+\end{figure}
+
+}
+
+
+\frame{
+\frametitle{Law of total probability}
+If $n=2$, a partition of $\Omega$ is, say, $\{B,B^c\}$. Then the formula becomes 
+$$\mathbb{P}(A)=\mathbb{P}(B)\cdot\mathbb{P}(A|B)\,+\,\mathbb{P}(B^c)\cdot\mathbb{P}(A|B^c),$$
+which is what we have applied in the motivating example
+
+}
+
+\frame{
+\frametitle{Exercise}
+In a drawer there are \(5\) grey socks and \(9\) black socks. If two socks are drawn at random, what is the probability that they are of the same colour?
+
+
+
+{\bf Solution:}
+
+Let \(B\) be the event that the first sock drawn is black. Let \(S\) be the event that the two socks are of the same colour
+
+We want to calculate \(\mathbb{P}(S)\) 
+\begin{align*}
+\mathbb{P}(S)&=\mathbb{P}(B)\times\mathbb{P}(S|B)\,+\,\mathbb{P}(B^c)\times \mathbb{P}(S|B^c)\\
+&=\frac{9}{14}\times \frac{8}{13}+\frac{5}{14}\times\frac{4}{13} = \frac{92}{14\times 13}=\frac{46}{91}
+\end{align*}
+
+
+}
+
+\frame{\begin{itemize}
+\item Part 1: Counting
+ \begin{itemize}
+\item Discrete uniform distribution
+\item Counting: fundamental counting principle, permutation, combination, permutation with repetition
+\end{itemize}
+\item Part 2: General principles of computation of probabilities 
+\begin{itemize}
+\item Probability space
+\item Basic laws of sets and axioms of probability
+\end{itemize}
+\item Part 3: Advanced principles of computation of probability 
+\begin{itemize}
+\item Conditional probability 
+\item The multiplication principle 
+\item The law of total probability 
+\item Bayes' formula
+\end{itemize}\end{itemize}
+}
+
+
+\frame{
+\frametitle{Motivation}
+If I in fact do go shopping, what is the probability that it is raining? 
+
+This is a conditional probability, which is, {\it a priori}, not equal to the probability for raining given by the weather forecast (because we have additional information that I do go shopping)
+
+
+
+We can apply the definition of conditional probability to obtain
+$$\mathbb{P}(\text{rain } | \text{ shopping})=\frac{\mathbb{P}(\text{rain} , \text{ shopping})}{\mathbb{P}(\text{shopping})}.$$
+For the numerator we apply the multiplication principle
+$$\mathbb{P}(\text{rain} , \text{ shopping})=\mathbb{P}(\text{rain})\cdot\mathbb{P}(\text{shopping } | \text{ rain} ), $$
+where $\mathbb{P}(\text{rain})$ is given by the weather forecast and $\mathbb{P}(\text{shopping } | \text{ rain})$  is set by me. 
+
+}
+
+\frame{
+\frametitle{Motivation (cont.)}
+For the denominator, we use the law of total probability: 
+\begin{align*}
+&\mathbb{P}(\text{shopping})&\\
+=&\mathbb{P}(\text{rain})\cdot\mathbb{P}(\text{shopping } | \text{ rain} )\, +\,\mathbb{P}(\text{no rain})\cdot\mathbb{P}(\text{shopping } | \text{ no rain} )&
+\end{align*}
+In conclusion, 
+\begin{align*}
+&\mathbb{P}(\text{rain } | \text{ shopping})&\\
+=&\frac{\mathbb{P}(\text{rain})\cdot\mathbb{P}(\text{shopping } | \text{ rain} ) }{\mathbb{P}(\text{rain})\cdot\mathbb{P}(\text{shopping } | \text{ rain} ) +\mathbb{P}(\text{no rain})\cdot\mathbb{P}(\text{shopping } | \text{ no rain} )}&
+\end{align*}
+
+
+
+This is the Bayes' formula! 
+
+The idea is to make the switch 
+$$\mathbb{P}(A|B)\Longrightarrow \mathbb{P}(B|A)$$
+}
+
+
+\frame{
+\frametitle{Bayes' formula}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Theorem (Bayes' formula)]
+Let $\{C_1,C_2,\ldots,C_n\}$ be a partition of $\Omega$ and let $A\subset \Omega$ be an event such that $\mathbb{P}(A)\neq 0$. Then 
+$$\mathbb{P}(C_i|A)=\frac{\mathbb{P}(C_i)\cdot\mathbb{P}(A|C_i)}{\sum_{j=1}^n\mathbb{P}(C_j)\cdot\mathbb{P}(A|C_j)}.$$ 
+\end{tcolorbox}
+The `big' idea in Bayes' formula is to switch the places of $C$'s and $A$ in the conditional probability. \underline{Doing so will lead to probabilities that we already know}
+
+}
+
+
+\frame{
+\frametitle{Exercise}
+
+A student goes to the campus by bike with probability $0.3$, by bus with probability $0.5$ and by train with probability $0.2$.  
+\begin{itemize}
+\item If the choice is bike, the probability to arrive on campus within one hour is $0.6$; 
+\item if the choice is bus, the probability is $0.8$; 
+\item if the choice is train, the probability is $0.9$.
+\end{itemize} Assume that one day, the student arrived within one hour, what is the probability that the choice was bike? 
+\\
+{\bf Solution:}
+\iffalse{Let $A$=\{bike\}, $B$=\{bus\} and $C$=\{train\}. Let $E$=\{arrived within one hour\}. We know that 
+$$\mathbb{P}(A)=0.3, \,\,\mathbb{P}(B)=0.5, \,\,\mathbb{P}(C)=0.2$$
+and 
+$$\mathbb{P}(E|A)=0.6,\,\,\mathbb{P}(E|B)=0.8,\,\,\mathbb{P}(E|C)=0.9$$
+We are asked to compute $\mathbb{P}(A|E)$}\fi
+}
+
+\iffalse{\frame{
+\frametitle{Exercise (cont.)}}\fi
+\iffalse{
+ Applying the Bayes' formula, 
+\begin{align*}\mathbb{P}(A|E)&=\frac{\mathbb{P}(\mathbb{P}(A)\mathbb{P}(E|A)}{\mathbb{P}(A)\mathbb{P}(E|A)+\mathbb{P}(B)\mathbb{P}(E|B)+\mathbb{P}(C)\mathbb{P}(E|C)}&\\
+&=\frac{0.3\cdot 0.6}{0.3\cdot 0.6+0.5\cdot 0.8+0.2\cdot 0.9}&\\
+&=\frac{0.18}{0.18+0.4+0.18}&\\
+&=\frac{9}{38}&\end{align*}\hfill\qedhere
+}\fi
+}
+
+\frame{\begin{itemize}
+\item Part 1: Counting
+ \begin{itemize}
+\item Discrete uniform distribution
+\item Counting: fundamental counting principle, permutation, combination, permutation with repetition
+\end{itemize}
+\item Part 2: General principles of computation of probabilities 
+\begin{itemize}
+\item Probability space
+\item Basic laws of sets and axioms of probability
+\end{itemize}
+\item Part 3: Advanced principles of computation of probability 
+\begin{itemize}
+\item Conditional probability 
+\item The multiplication principle 
+\item The law of total probability 
+\item Bayes' formula
+\end{itemize}
+\item Part 4: Independence of events
+\begin{itemize}
+\item Independence of two events
+\end{itemize}
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{Motivation}
+
+Conditional probability measures the impact of the occurrence of one event on another
+
+Thus, it is natural to say that independence \underline{means the conditional probability equals the original probability}. That is, the probability is \underline{unaffected by the other event happening}
+
+This intuition then leads to two ways of defining independence of $A$ and $B$:
+
+\noindent  {\bf 1}. $\mathbb{P}(A|B)=\mathbb{P}(A)$;
+
+\noindent  {\bf 2}. $\mathbb{P}(B|A)=\mathbb{P}(B)$. 
+
+These two statements are in fact equivalent! 
+}
+
+
+\frame{
+\frametitle{Motivation (cont.)}
+
+Proof for {\bf 1} to {\bf 2}: 
+
+$$\mathbb{P}(B|A)=\frac{\mathbb{P}(A\cap B)}{\mathbb{P}(A)}=\frac{\mathbb{P}(B)\cdot\mathbb{P}(A|B)}{\mathbb{P}(A|B)}=\mathbb{P}(B)$$
+The other direction works similarly (exercise)
+
+In fact, there is a third equivalent way of writing the definition, where it is clear that \(A\) and \(B\) play the same role: 
+
+\noindent  {\bf 3}. $\mathbb{P}(A\cap B)=\mathbb{P}(A)\cdot\mathbb{P}(B)$
+
+The advantage of {\bf 3} is that it does not require $\mathbb{P}(A)>0, \mathbb{P}(B)>0$ 
+
+
+
+Exercise:  show that {\bf 3} is equivalent to {\bf 1} and {\bf 2}
+}
+
+
+
+\frame{
+\frametitle{Independence of two events}
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition (Independence of two events)]
+Two events $A,B$ are said to be independent if any of the three equivalent statements holds:
+\begin{enumerate}
+\item $\mathbb{P}(A|B)=\mathbb{P}(A);$
+\item $\mathbb{P}(B|A)=\mathbb{P}(B);$
+\item $\mathbb{P}(A\cap B)=\mathbb{P}(A)\cdot \mathbb{P}(B).$
+\end{enumerate}
+\end{tcolorbox}
+
+Exercise: using the third form of the definition of independence, show that if either $\mathbb{P}(A)=0$ or $\mathbb{P}(A)=1$ then $A$ is independent of any event in $\Omega$.
+}
+
+
+\frame{
+\frametitle{Exercise}
+Suppose we toss a fair die and obtain a number uniformly from $\{1,2,3,4,5,6\}$. Let $E=\{1,3,4\}$ and $F=\{3,4,5,6\}$. Show that $E,F$ are independent. \\
+
+
+{\bf Solution:} \iffalse{
+Since the number is uniform, we have 
+$$\mathbb{P}(E)=\frac{|E|}{6}=\frac{3}{6}=\frac{1}{2},\quad \mathbb{P}(F)=\frac{|F|}{6}=\frac{4}{6}=\frac{2}{3}$$
+Here $|E|, |F|$ are the cardinalities of the sets $E,F$. 
+Note that $E\cap F=\{3,4\}$. Then 
+$$\mathbb{P}(E\cap F)=\frac{|(E\cap F)|}{6}=\frac{2}{6}=\frac{1}{3}$$
+Therefore 
+$$\mathbb{P}(E\cap F)=\mathbb{P}(E)\cdot \mathbb{P}(F)$$
+We conclude that $E,F$ are independent. }\fi
+
+}
+
+\frame{
+\frametitle{An important property}
+The following result confirms something that seems intuitively clear: \\
+If \(B\) \underline{happening} does not affect the probability of \(A\), \\
+then \(B\) \underline{not happening} doesn't affect the probability of \(A\) happening either
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Proposition]
+If $A,B$ are independent, then 
+\begin{enumerate}
+\item $A^c, B$ are independent;
+\item $A, B^c$ are independent;
+\item $A^c, B^c$ are independent.  
+\end{enumerate}
+\end{tcolorbox}
+}
+
+\frame{\frametitle{An important property}
+
+{\bf Proof:}
+
+\iffalse{We prove the first case directly from the definition of independence. If $A$ and $B$ are independent, then
+\begin{align*}
+\mathbb{P}(A^c\cap B)&=\mathbb{P}(B)-\mathbb{P}(A\cap B)\quad\quad (\{A^c\cap B, A\cap B\}\text{ is a partition of } B)&\\
+&=\mathbb{P}(B)-\mathbb{P}(A)\cdot\mathbb{P}(B)\quad\quad \text{(by the independence of $A,B$)}&\\
+&=\big(1-\mathbb{P}(A)\big)\cdot\mathbb{P}(B)\\
+&=\mathbb{P}(A^c)\cdot\mathbb{P}(B).
+\end{align*}
+The second case follows by symmetry
+
+For the last case, we first notice that \(A^c\) and \(B\) are independent by the first case, which then allows us to replace \(B\) by \(B^c\) using the second case}\fi
+}
+
+
+\frame{
+\begin{itemize}
+\item Part 1: Counting
+ \begin{itemize}
+\item Discrete uniform distribution
+\item Counting: fundamental counting principle, permutation, combination, permutation with repetition
+\end{itemize}
+\item Part 2: General principles of computation of probabilities 
+\begin{itemize}
+\item Probability space
+\item Basic laws of sets and axioms of probability
+\end{itemize}
+\item Part 3: Advanced principles of computation of probability 
+\begin{itemize}
+\item Conditional probability 
+\item The multiplication principle 
+\item The law of total probability 
+\item Bayes' formula
+\end{itemize}
+\item Part 4: Independence of events
+\begin{itemize}
+\item Independence of two events
+\item Independence of more than two events
+\end{itemize}
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{Independence of more than two events}
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition (Independence of more than two events)]
+A finite collection of events $A_1,\ldots, A_n$ is called independent if 
+$$\mathbb{P}(A_{i_1}\cap A_{i_2}\cap\cdots \cap A_{i_k})=\mathbb{P}(A_{i_1})\cdot\mathbb{P}(A_{i_2})\cdot\cdots\cdot\mathbb{P}(A_{i_k})$$
+for any subset $I=\{i_1,i_2,\ldots,i_k\}\subset \{1,2,\ldots,n\}.$\end{tcolorbox}
+
+The idea is the same: the probability of any event remains the same regardless of whether any of the others occur or not
+
+Writing this mathematically requires more complex notation than we have used so far, because it is necessary to check every possible combination of two or more events
+}
+
+\section{Week 4: Computations with random variables}
+
+\frame{\frametitle{Week 4: Computations with random variables}
+\begin{itemize}
+\item Part 1: A general formula for $\P(X\in A)$
+\item Part 2: Independence of random variables
+ \begin{itemize}
+\item Independence of two random variables
+\item Independence of more than two random variables
+
+\end{itemize}
+
+\item Part 3: Expectation, variance and standard deviation
+ \begin{itemize}
+\item Expectation
+\item Variance and standard deviation
+\item Covariance \footnote{Optional}
+\end{itemize}
+\end{itemize}
+
+}
+
+
+
+\frame{
+\begin{itemize}
+\item Part 1: A general formula for $\P(X\in A)$
+\end{itemize}
+}
+
+\frame{
+\frametitle{A general formula}
+\vspace{1 mm}
+ pmf, cdf or pdf {\bf characterises the distribution} of a random variable, because it can give the probability of any event!
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Theorem]
+If $X$ is a discrete random variable, then 
+$$\P(A)=\sum_{x\in A}f_X(x), \quad \text{ for any } A\in \FF.$$
+
+If $X$ is a continuous random variable, then 
+$$\P(A)=\int_{A}f_X(x)dx, \quad \text{ for any } A\in \FF.$$
+
+\end{tcolorbox}
+Analogy for probability vs pmf/pdf: 
+
+mass vs density; displacement vs velocity; area vs curve
+}
+\frame{
+\frametitle{Exercise}
+
+
+Let $X$ be discrete with pmf 
+$$f_X(x)=
+\begin{cases}
+\frac{1}{12} & \text{if }x=1,3,\\
+\frac{1}{3} & \text{if }x=2,\\
+\frac{1}{6} & \text{if }x=4,5,6,\\
+0 & \text{otherwise.}
+\end{cases}$$
+What is $\P(X\in\{1,2,4,5\})$? 
+
+
+{\bf Solution:}\iffalse{
+\begin{align*}
+\P(X\in\{1,2,4,5\})&=f_X(1)+f_X(2)+f_X(4)+f_X(5)&\\
+&=\frac{1}{12}+\frac{1}{3}+\frac{1}{6}\times 2&\\
+&=\frac{3}{4}&
+\end{align*}}\fi
+}
+
+\frame{
+\frametitle{Continuous random variable}
+If $X$ is continuous, then 
+\begin{itemize}
+\item $F_X(x)=\P(X\in (-\infty, x])=\int_{-\infty}^xf_X(t)dt$. \\
+Here $A=(-\infty,x]$
+\vspace{3mm}
+\item  $\P(a\leq X\leq b)=\P(X\in[a,b])=\int_{a}^bf_X(t)dt=F_X(b)-F_X(a).$ \\
+Here $A=[a,b]$
+
+\vspace{3mm}
+\item  $\P(X=a)=\P(X\in\{a\})=\int_{a}^af_X(t)dt=0$. \\
+Here $A=\{a\}$. This confirms that no point occurs with positive probability
+\end{itemize}
+
+
+
+Exercise:  show that the cdf of a continuous random variable is continuous.
+}
+
+\frame{
+\frametitle{Exercise}
+
+
+
+If $U$ has pdf 
+\[ 
+f_U(u)=\left\{  
+             \begin{array}{lr}  
+  e^{-u},  & \mbox{if $u\geq 0$}\\
+            0, &  \mbox{if $u<0$}
+              \end{array}  
+\right.\] 
+what is $\P(1\leq U\leq 2)$? 
+
+
+
+{\bf Solution:} 
+\iffalse{
+$$\P(1\leq U\leq 2)=\int_1^2e^{-u}du=[-e^{-u}]_1^2=e^{-1}-e^{-2}$$
+
+Alternatively,  we can compute that the cdf of $U$ is \[ 
+F_U(u)=\left\{  
+             \begin{array}{lr}  
+  1-e^{-u},  & \mbox{if $u\geq 0$}\\
+            0, &  \mbox{if $u<0$}
+              \end{array}  
+\right.\] 
+Then 
+$$\P(1\leq U\leq 2)=F_U(2)-F_U(1)=e^{-1}-e^{-2}$$}\fi
+
+}
+
+
+\frame{\begin{itemize}
+\item Part 1: A general formula for $\P(X\in A)$
+\item Part 2: Independence of random variables
+ \begin{itemize}
+\item Independence of two random variables
+\end{itemize}
+\end{itemize}
+
+}
+
+\frame{\frametitle{Motivation}
+
+I roll a die and get a random number in $\{1,2,\ldots, 6\}$. I do it again and get a second random number. We would probably say that these two random numbers are independent. What does that mean? 
+
+
+
+It means that whatever the value of the first number is, the distribution of the second one remains the same. In other words, knowing the value of one random variable has no impact on the other random variable. 
+}
+
+
+
+
+
+\frame{
+\frametitle{Definition}
+\vspace{1 mm}
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition (Independence of two random variables)]
+
+Two random variables $X,Y$ are called independent if 
+\begin{equation}\label{indxy}
+\P(X\in A, Y\in B)=\P(X\in A)\cdot\P(Y\in B)
+\end{equation}
+for any events $A,B$. 
+
+In other words, the independence of $X$ and $Y$ is defined as the independence of events $\{X\in A\}$ and $\{Y\in B\}$ for any  $A,B$
+
+\end{tcolorbox}
+}
+
+
+\frame{
+\frametitle{Definition (cont.)}
+The definition is equivalent to 
+$$\P(X\in A|Y\in B)=\P(X\in A)$$
+(and  also to $\P(Y\in B|X\in A)=\P(Y\in B)$)
+
+This means that no matter whether $\{Y\in B\}$ occurs or not, the probability of $\{X\in A\}$ is unchanged. 
+
+
+
+Since $A,B$ are any events, it is equivalently saying that no matter what the value of $Y$ is, the distribution of $X$ is unchanged, and {\it vice versa}.
+
+Note: if $X,Y$ are discrete, the independence of them is simply: $$\P(X=x, Y=y)=\P(X=x)\cdot\P(Y=y)$$ for any possible values $x,y.$
+}
+
+\frame{
+\frametitle{Exercise}
+Let $X,Y$ be two independent uniform random variables on $(0,1)$. What is the probability that one of them is smaller than $\frac{1}{3}$ and the other one bigger than $\frac{1}{2}$?
+
+
+
+{\bf Solution:} 
+\iffalse{
+Let $$E=\{\text{one of them is smaller than $\frac{1}{3}$ and the other one bigger than $\frac{1}{2}$}\}.$$
+Then }\fi
+
+}
+
+
+%\frame{
+%\frametitle{Exercise}
+\iffalse{
+\begin{align*}&\P(E)&\\
+=&\P\left(\{X<\frac{1}{3}, Y>\frac{1}{2}\}\cup \{Y<\frac{1}{3}, X>\frac{1}{2}\}\right)&\\
+=&\P\left(X<\frac{1}{3}, Y>\frac{1}{2}\right) + \P\left(Y<\frac{1}{3}, X>\frac{1}{2}\right)\quad \text{(axiom 3)}&\\
+=&\P\left(X<\frac{1}{3}\right)\cdot\P\left(Y>\frac{1}{2}\right)+\P\left(Y<\frac{1}{3}\right)\cdot \P\left(X>\frac{1}{2}\right)\,\,\text{(independence)}&\\
+=&2\P\left(X<\frac{1}{3}\right)\cdot\P\left(X>\frac{1}{2}\right)  \quad \text{($X\stackrel{d}{=}Y$)}&\\
+=&2\cdot\frac{1}{3}\cdot(1-\frac{1}{2}) \quad \text{(use the cdf of the uniform distribution on $(0,1)$)}&\\
+=&\frac{1}{3}.&\hfill \qedhere
+\end{align*}\fi
+%}
+
+
+\frame{
+\frametitle{An important property}
+
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Corollary]
+If $X,Y$ are independent, then for any functions $f,g$, we have that $f(X)$ and $g(Y)$ are independent
+\end{tcolorbox}
+
+{\bf Proof:} We need to show that 
+$$\P(f(X)\in A, g(Y)\in B)=\P(f(X)\in A)\cdot \P(g(Y)\in B)$$
+for any events $A,B$. 
+
+Let 
+$$A_f=\{x: f(x)\in A\},\quad B_g=\{x: g(x)\in B\}$$
+Then \begin{align*}
+&\P(f(X)\in A, g(Y)\in B)&\\
+=&\P(X\in A_f, Y\in B_g)\quad \text{ (use independence)}&\\
+=&\P(X\in A_f)\cdot\P(Y\in B_g)=\P(f(X)\in A)\cdot \P(g(Y)\in B)&
+\end{align*}
+}
+
+\frame{
+\begin{itemize}
+\item Part 1: A general formula for $\P(X\in A)$
+\item Part 2: Independence of random variables
+ \begin{itemize}
+\item Independence of two random variables
+\item Independence of more than two random variables
+
+\end{itemize}
+\end{itemize}
+
+}
+
+\frame{
+\frametitle{Definition}
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition (Independence of more than two random variables)]
+Random variables $X_1,X_2,\ldots,X_n$ are called independent if 
+\begin{align*}%\label{indx1n}
+&\P(X_{1}\in A_1, X_{2}\in A_2,\ldots, X_{n}\in A_n)&\\
+=&\P(X_1\in A_1)\cdot\P(X_2\in A_2)\cdots\P(X_n\in A_n)&
+\end{align*}
+for  any events $A_1, A_2,\ldots, A_n$
+\end{tcolorbox}}
+
+\frame{
+\frametitle{Definition (cont.)}
+By analogy to the independence of more than two events, we may want to say that the correct (and stronger) definition should be 
+\begin{align*}%\label{indx1n}
+&\P(X_{i_1}\in A_{i_1}, X_{i_2}\in A_{i_2},\ldots, X_{i_k}\in A_{i_k})&\\
+=&\P(X_{i_1}\in A_{i_1})\cdot\P(X_{i_2}\in A_{i_2})\cdots\P(X_{i_k}\in A_{i_k})&
+\end{align*}
+for any $I=\{i_{1},i_{2},\ldots,i_{k}\}\subset \{1,\ldots, n\}$ and any events $A_{i_j}$ for $1\leq j\leq k$
+
+In fact, the two definitions are the same! 
+
+We know that \(\P(X_i\in\Omega_i)=1\). Choosing \(A_i=\Omega_i\) for all the \(X_i\) that were not part of the subset allows us to `fill in the gaps'
+}
+
+
+\frame{
+\frametitle{An important property}
+
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Corollary]
+If $X_1,X_2,\ldots,X_n$ are independent, then for any functions $f_1,f_2,\dots,f_n$, we have that $f_1(X_1), f_2(X_2), \ldots,f_n(X_n)$ are independent 
+\end{tcolorbox}
+
+This generalises the two-variable case
+}
+
+
+\frame{
+\begin{itemize}
+\item Part 1: A general formula for $\P(X\in A)$
+\item Part 2: Independence of random variables
+ \begin{itemize}
+\item Independence of two random variables
+\item Independence of more than two random variables
+
+\end{itemize}
+
+\item Part 3: Expectation, variance and standard deviation
+ \begin{itemize}
+\item Expectation
+\end{itemize}
+\end{itemize}
+
+}
+
+\frame{
+\frametitle{Motivation}
+Random variables are random. Is it possible to say \underline{one is bigger than another}? 
+
+To this purpose we introduce the {\bf mean of a random variable}. But how to define it? 
+
+Consider a population of $n$ students with heights $x_1,x_2,\ldots,x_n$. If we denote the  mean height of this population by $\bar x$, then we have the familiar formula 
+$$\bar x=\frac{\sum_{i=1}^nx_i}{n}$$
+}
+
+
+
+\frame{
+\frametitle{Motivation (cont.)}
+
+Now we conduct an experiment: we select a student at random (i.e. uniformly) and denote the height of the student by $X$. 
+Then $X$ is random and takes values in $\{x_1,\ldots,x_n\}$. The pmf of $X$ is: 
+$$f_X(x_i)=\frac{1}{n}, \quad i=1,\ldots, n.$$
+
+We are tempted to ask the question: if we introduce the mean value of $X$, what it should be? An intuitive idea is that the mean should be the following weighted sum, with weights being the probabilities $\frac{1}{n}$
+\[\sum_{i=1}^n x_if_X(x_i)=\sum_{i=1}^n x_i\cdot\frac{1}{n},\]
+ which is equal to $\bar x$
+ 
+ 
+From this example, we can see that, by intuition, computing the mean of the uniform random variable is the same as the computing the mean of the population
+}
+
+
+\frame{
+\frametitle{Definition}
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition (mean of a random variable)]
+
+If $X$ is a discrete random variable taking values in $\R$, then the {\bf mean} of $X$ is 
+$$\E[X]=\sum_{x}x\cdot f_X(x).$$
+If $X$ is a continuous random variable taking values in $\R$, then the mean $X$ is 
+$$\E[X]=\int_{-\infty}^{\infty}x \cdot f_X(x)\,dx.$$
+\end{tcolorbox}
+
+$\E$ is called the {\bf expectation operator} and the mean is also called the {\bf expectation} or {\bf expected value} of \(X\). \\We usually write $\mu_X$ in place of $\E[X]$. The index $X$ is often omitted when the context is clear
+}
+
+
+
+\frame{
+\frametitle{Exercise}
+The geometric distribution with parameter $p\in(0,1)$ has pmf as follows
+$$f(k)=p(1-p)^{k-1}, \quad k=1,2,3,\ldots.$$
+If $X$ follows the above distribution, find the mean $\E[X]$
+
+
+
+{\bf Solution:} 
+\iffalse{
+By definition, 
+\begin{align*}
+\E[X]&=\sum_{k=1}^{\infty}kf(k)=\sum_{k=1}^{\infty}kp(1-p)^{k-1}&\\
+&=p\frac{\ddr}{\ddr p}\left(\sum_{k=1}^{\infty}-(1-p)^{k}\right)=p\frac{\ddr}{\ddr p}\left(-\frac{1-p}{p}\right)=\frac{1}{p}&\end{align*}
+Here we apply the formula for the sum of a geometric sequence that $\sum_{k=1}^{\infty}(1-p)^{k}=\frac{1-p}{p}$}\fi
+}
+
+\frame{
+\frametitle{Mean of a new random random}
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Lemma (mean of a new random random)]
+
+Let $X$ be a real-valued random variable. Let $g:\R\mapsto\R$ be function. Let $Y=g(X)$. If $X$ is discrete, then 
+$$\E[Y]=\sum_{x}g(x)\cdot f_X(x)$$
+If $X$ is continuous,  then   
+$$\E[Y]=\int_{-\infty}^{\infty}g(x)\cdot f_X(x)\, dx$$
+\end{tcolorbox}
+
+\begin{itemize}
+\item $Y$ is a new random variable, which is a function of another random variable
+\item The other way of computing $\E[Y]$, which is more complicated, is to find the pmf or pdf of $Y$ and then apply the definition of expectation (see week2 slides). 
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{Exercise}
+Let $X$ have the pdf $f(x)=3x^2$ if $x\in(0,1)$ and $f(x)=0$ otherwise. 
+Find the mean of $Y=7X^4$. 
+
+
+
+{\bf Solution:} 
+
+\iffalse{Using the lemma, 
+\begin{align*}
+\E[Y]&=\E[7X^4]=\int_0^17x^4*3x^2dx=21\int_0^1x^6dx=3.&
+\end{align*}}\fi
+}
+
+
+
+\frame{
+\frametitle{More properties}
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=More properties]
+Let $X$ be a real-valued random variable. Let $g_1, g_2, g_3:\R\mapsto \R$ be functions.
+
+\begin{itemize}
+\item \underline{Monotonicity}:  If $g_1(x)\,\geq\, g_3(x)\, \geq\, g_2(x)$, then 
+$$\E[g_1(X)]\,\geq\, \E[g_3(X)]\, \geq\, \E[g_2(X)]$$
+
+\item  \underline{Linearity}: Let $a,b,c\in\R$.  Then 
+$$\E[c+a\cdot g_1(X)+b\cdot g_2(X)]\,\,=\,\,c+a\cdot\E[g_1(X)]+b\cdot\E[g_2(X)]$$
+In particular,
+\[
+\E[c+X]=c+\E[X]
+\]
+and
+\[
+\E[a\cdot X] = a\cdot \E[X]
+\]
+\end{itemize} 
+\end{tcolorbox}
+}
+
+\frame{
+\frametitle{Exercise}
+Let $X$ have the pdf $f(x)=3x^2$ if $x\in(0,1)$ and $f(x)=0$ other wise. 
+Find the mean of $Y=7X^4+1$. 
+
+
+
+{\bf Solution:} 
+
+\iffalse{Using linearity and the previous exercise, 
+\begin{align*}
+\E[Y]&=\E[7X^4+1]=\E[7X^4]+\E[1]=3+1=4.&
+\end{align*}}\fi
+}
+
+
+
+\frame{
+\frametitle{Expectation involving different random variables}
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Proposition (expectation involving different random variables)]
+\underline{Linearity}:
+Let $X_1,X_2, \ldots, X_n$ be $n$ random variables with finite expected values, and let $c,a_1,a_2,\ldots,a_n$ be real numbers. Then 
+$$\E\left[c+\sum_{i=1}^n a_i \cdot X_i\right]=c+\sum_{i=1}^n a_i\cdot\E[X_i].$$
+More generally, if $g_1,\ldots, g_n$ are functions, then 
+$$\E\left[c+\sum_{i=1}^n a_i\cdot g_i(X_i)\right]=c+\sum_{i=1}^n a_i\cdot\E[g_i(X_i)].$$
+\end{tcolorbox}
+To prove it requires something beyond this module. But it is good to know it in advance
+}
+
+
+\frame{
+\begin{itemize}
+\item Part 1: A general formula for $\P(X\in A)$
+\item Part 2: Independence of random variables
+ \begin{itemize}
+\item Independence of two random variables
+\item Independence of more than two random variables
+
+\end{itemize}
+
+\item Part 3: Expectation, variance and standard deviation
+ \begin{itemize}
+\item Expectation
+\item Variance and standard deviation
+\end{itemize}
+\end{itemize}
+
+}
+
+\frame{
+\frametitle{Definition}
+We introduced sample variance to measure the spread of data
+
+There is something similar to measure the spread of distribution, that we call the variance of the random variable 
+
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition (variance and standard deviation)]
+Let $X$ be a real-valued random variable. Then the {\bf variance} of $X$ is defined as 
+$$\Var(X)=\E\left[(X-\E[X])^2\right].$$
+
+We use $\sigma^2_X$ to denote $\var(X)$
+
+
+The {\bf standard deviation} is  $\sigma_X=\sqrt{\var(X)}$
+
+We usually omit the index $X$ when the context is clear. 
+\end{tcolorbox}
+
+}
+
+\frame{
+\frametitle{Sample variance vs variance\footnote{Sometimes we call it {\it population} variance, similarly for the standard deviation}}
+Consider a sample of $n$ students with heights $x_1,x_2,\ldots,x_n$. We have 
+$$\text{Sample mean: }  \bar x =\frac{\sum_{i=1}^nx_i}{n}; \quad \text{ Sample variance: } s^2=\frac{\sum_{i=1}^n(x_i-\overline x)^2}{n-1}$$
+
+
+
+
+Consider the sample as a population. We select a student at random (i.e. uniformly) and denote the height of the student by $X$. Then for comparison: 
+$$\text{Mean: }  \E[X] =\sum_{i=1}^nx_if_X(x_i)=\sum_{i=1}^nx_i\frac{1}{n}=\overline x$$
+and 
+$$\text{ Variance: } \sigma^2=\E[(X-\E[X])^2]=\frac{\sum_{i=1}^n(x_i-\overline x)^2}{n}<s^2$$
+
+}
+
+
+\frame{
+\frametitle{A simpler expression of variance}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Proposition]
+The variance can be written as 
+$$\var(X)=\E\left[X^2\right]-(\E[X])^2.$$
+
+Since variance is non-negative, we obtain $\E\left[X^2\right]\geq (\E[X])^2$, which can be called Cauchy-Schwarz inequality
+\end{tcolorbox}
+
+
+
+{\bf Proof:}\iffalse{
+\begin{align*}
+\var(X)&=\E\left[(X-\E[X])^2\right]\\
+&=\E\left[\,X^2-2\E[X]\cdot X+(\E[X])^2\,\right]\\
+&=\E\left[X^2\right]-2\E[X]\cdot \E[X]+(\E[X])^2\quad \text{ (use linearity)}\\
+&=\E\left[X^2\right]-(\E[X])^2 \hfill\qedhere
+\end{align*}}\fi
+}
+
+
+\frame{
+\frametitle{Exercise}
+Let $X$ be a uniform random variable on $(0,1)$. Let $Y=(1-X)^2$. 
+Find $\var(Y)$
+
+
+{\bf Proof:}
+\iffalse{
+$X$ has pdf equal to $1$ on $(0,1)$ and $0$ elsewhere.  We first calculate $\E[Y]$: 
+$$\E[Y]=\E[(1-X)^2]=\int_0^1(1-x)^2\cdot 1 \,dx=\left[-\frac{(1-x)^3}{3}\right]_0^1=\frac{1}{3}.$$
+Now we compute $\E[Y^2]$:
+$$\E[Y^2]=\E[(1-X)^4]=\int_0^1(1-x)^4\cdot 1 \,dx=\left[-\frac{(1-x)^5}{5}\right]_0^1=\frac{1}{5}.$$
+Then 
+$$\var(Y)=\E[Y^2]-(\E[Y])^2=\frac{1}{5}-\left(\frac{1}{3}\right)^2=\frac{1}{30}.\hfill\qedhere$$
+}\fi
+}
+
+
+\frame{
+\frametitle{Important properties}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Corollary]
+Let \(a,c\in \mathbb{R}\), and let \(X\) be a real-valued random variable. Then
+\[
+\var(c+a\cdot X)\, = \, a^2\cdot \var(X)
+\]
+Accordingly,
+\[\sigma_{c+a\cdot X}=|a|\cdot\sigma_X\]
+\end{tcolorbox}
+
+
+
+{\bf Proof:}\iffalse{
+Using the linearity of expectation,
+\begin{align*}
+\var(c+a\cdot X) &= \E\left[\left(c+a\cdot X-\E[c+a\cdot X]\right)^2\right]\\
+&= \E\left[\left(c+a\cdot X-\left(c+a\cdot\E[X]\right)\right)^2\right]\\
+&= \E\left[\big(a\cdot\left( X-\E[X]\right)\big)^2\right]\\
+&= a^2\cdot \E\left[\left( X-\E[X]\right))^2\right]\\
+&=a^2\cdot\var(X)\qedhere
+\end{align*}}\fi
+}
+
+\frame{
+\frametitle{Exercise}
+Let $X$ be a uniform random variable on $(0,1)$. Let $Y=(1-X)^2$. 
+Find $\var(2Y+7)$
+
+
+{\bf Proof:}
+
+From the previous exercise, we know that 
+$$\var(Y)=\frac{4}{45}.$$
+\iffalse{Now applying the corollary, we get 
+$$\var(2Y+7)=2^2*\var(Y)=4*\var(Y)=4*\frac{1}{30}=\frac{4}{45}.$$}\fi
+
+}
+\frame{
+\frametitle{Independence is amazing!}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Proposition]
+If $X_1,\ldots,X_n$ are $n$ independent random variables, then for any functions $g_1,\ldots, g_n$, we have 
+\begin{align*}&\E[g_1(X_1)\cdot g_2(X_2)\cdots g_n(X_n)]&\\
+=&\E[g_1(X_1)]\cdot\E[g_2(X_2)]\cdots \E[g_n(X_n)]&\end{align*}
+\end{tcolorbox}
+Proving it requires something beyond this module. But it is the key for the important result in the next corollary
+
+}
+
+\frame{
+\frametitle{Exercise}
+Let $X, Y$ be two independent uniform random variables on $(0,1)$. Let $Z=(1-X)^2Y$. Find $\E[Z]$. 
+
+
+
+{\bf Proof:} \iffalse{The proposition tells us that 
+$$\E[Z]=\E[(1-X)^2]*\E[Y].$$
+From the previous exercises, we know that  $\E[(1-X)^2]=\frac{1}{5}$. By a simple computation, we have $\E[Y]=1/2.$ Then 
+$$\E[Z]=\E[(1-X)^2]*\E[Y]=\frac{1}{5}*\frac{1}{2}=\frac{1}{10}.$$}\fi
+}
+
+
+
+\frame{
+\frametitle{Independence is amazing! (cont.)}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Corollary]
+If $X_1,X_2, \ldots, X_n$ are independent with finite variances and $c,a_1,a_2,\ldots,a_n$ are real numbers, then 
+$$\var\left(c+\sum_{i=1}^na_i\cdot X_i\right)=\sum_{i=1}^na_i^2\cdot\var(X_i).$$\end{tcolorbox}
+
+It generalises the case $n=1$. This result will be very important for statistical applications 
+
+
+{\bf Exercise}:  prove it using the previous proposition 
+}
+
+\frame{
+\frametitle{Exercise}
+Let $X, Y$ be two independent uniform random variables on $(0,1)$. Let $Z=3+2(1-X)^2+4Y$. Find $\var(Z)$. 
+
+
+
+{\bf Proof:} 
+\iffalse{Note that $(1-X)^2$ and $Y$ are independent. Then applying the corollary, we get 
+$$\var(Z)=2^2*\var((1-X)^2)+4^2*\var(Y).$$
+From the previous exercises, we know that  $\var((1-X)^2)=\frac{1}{30}$. By a simple computation, we have $\var(Y)=\frac{1}{12}.$ Then 
+$$\var(Z)=4*\frac{1}{30}+16*\frac{1}{12}=\frac{22}{15}.$$
+}\fi
+}
+
+
+\frame{
+\begin{itemize}
+\item Part 1: A general formula for $\P(X\in A)$
+\item Part 2: Independence of random variables
+ \begin{itemize}
+\item Independence of two random variables
+\item Independence of more than two random variables
+
+\end{itemize}
+
+\item Part 3: Expectation, variance and standard deviation
+ \begin{itemize}
+\item Expectation
+\item Variance and standard deviation
+\item Covariance \footnote{Optional}
+\end{itemize}
+\end{itemize}
+
+}
+
+\frame{
+\frametitle{Definition}
+The opposite of independence is dependence. Covariance is one way to measure the dependence between two random variables
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition (covariance)]
+The covariance between $X,Y$ is defined as
+$$\mbox{cov}(X,Y):=\E\Big[(X-\E[X])(Y-\E[Y])\Big]=\E[XY]-\E[X]\E[Y]$$
+\end{tcolorbox}
+
+If the covariance is positive, then the variables tend to show similar behaviors
+
+If the covariance is negative, then the variables tend to show opposite behaviors
+
+If the covariance is weak ($\mbox{cov(X,Y)}\approx 0$), then it is unclear how the values of $X,Y$ are related
+}
+
+
+\frame{
+\frametitle{Correlation patterns}
+\begin{figure}[h!]
+\includegraphics[scale=0.4]{covariance.png}
+\caption{Simulated points of the random couple $(X,Y)$}
+\end{figure}
+}
+
+\section{Week 5: Discrete random variables}
+
+\frame{\frametitle{Week 5: Discrete random variables}
+
+\begin{itemize}
+\item Discrete random variables
+ \begin{itemize}
+\item Bernoulli 
+\item Binomial
+\item Geometric 
+\item Poisson
+\end{itemize}
+\end{itemize}
+}
+
+\frame{
+\begin{itemize}
+\item Discrete random variables
+ \begin{itemize}
+\item Bernoulli 
+\end{itemize}
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{Definition}
+The \underline{most fundamental} distribution in Statistics is the Bernoulli distribution that is born from the coin tossing experiment 
+
+Tossing a (not necessarily fair) coin gives one of two outcomes: heads or tails.  If heads occurs with probability $p\in[0,1]$, then tails occurs with probability $1-p$
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition (Bernoulli)]
+Let $p\in[0,1].$ Let $X\in\{0,1\}$ be a random variable such that 
+$$\P(X=1)=p, \quad \P(X=0)=1-p.$$
+Then $X$ is called a Bernoulli random variable with parameter $p$, denoted by $X\sim Ber(p).$  \end{tcolorbox}
+
+}
+\frame{
+\frametitle{Applications}
+Any random phenomenon that has exactly two outcomes can be modelled by a Bernoulli distribution
+\begin{itemize}
+\item  rain/no rain for tomorrow
+\item success/failure for an exam
+\item  satisfactory/unsatisfactory for a new product
+\end{itemize}
+}
+
+\frame{
+\frametitle{Mean and variance}
+
+If $X\sim Ber(p)$ then 
+$$\E[X]=p, \quad \var(X)=p\cdot(1-p)$$
+
+
+Exercise: prove the above statement
+
+}
+
+\frame{
+\begin{itemize}
+\item Discrete random variables
+ \begin{itemize}
+\item Bernoulli 
+\item Binomial
+\end{itemize}
+\end{itemize}
+}
+
+
+
+\frame{
+\frametitle{Exercise}
+Let $X_1,X_2,\cdots, X_n$ be $n$ independent Bernoulli random variables with the same parameter $p$. Let $X=X_1+X_2+\cdots+X_n.$ What is $\P(X=k)$ for $0\leq k\leq n$?
+ 
+{\bf Solution:} 
+
+\iffalse{
+
+\underline{Step $1/2: k=0, n$ } 
+
+If $k=0,$ then 
+\begin{align*}
+\P(X=0)&=\P(Y_1=0,Y_2=0,\ldots,Y_n=0)=\prod_{i=1}^n\P(Y_i=0)&\\
+&=p^n=\textcolor{red}{\binom{n}{n}\cdot p^n\cdot (1-p)^0}.&
+\end{align*}
+The third equality above uses independence of the $Y_i$'s. For $k=n,$ $$\P(X=n)=(1-p)^n=\textcolor{red}{\binom{n}{0}\cdot p^0\cdot (1-p)^n}$$ 
+}\fi
+}
+
+%\frame{
+%\frametitle{Exercise}
+
+\iffalse{
+\underline{Step $2/2: 0<k<n$ } 
+
+We need to work out how many ways there are of getting \(k\) heads and \(n-k\) tails. That is, we need the cardinality
+$$\Big|\big\{(i_1,i_2,\ldots, i_k):1\leq i_1<i_2<\cdots<i_k\leq n\big\}\Big|=\binom{n}{k},$$ 
+meaning that from $n$ items we choose $k$ of them (this is a combination). Using this,
+\begin{align*}
+&\P(X=k)&\\
+=&\sum_{1\leq i_1<i_2<\cdots<i_k\leq n}\P\Big(Y_j=1,j\in\{i_1,i_2,\ldots,i_k\}; \, Y_j=0, j\notin\{i_1,i_2,\ldots,i_k\}\Big)&\\
+=&\sum_{1\leq i_1<i_2<\cdots<i_k\leq n}p^k\cdot(1-p)^{n-k}=\textcolor{red}{\binom{n}{k}\cdot p^k\cdot (1-p)^{n-k}}.&
+\end{align*}
+}\fi
+
+%}
+
+\frame{
+\frametitle{Definition}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition (Binomial)]
+Let $p\in[0,1], n\in\{1,2,\ldots\}$.  Let $X\in\{0,1,2,\ldots,n\}$ be a random variable such that 
+$$\P(X=k)=\binom{n}{k}\cdot p^k\cdot (1-p)^{n-k}, \quad k=0,1,\ldots,n$$
+Then $X$ is called a binomial random variable with parameters $n, p$, denoted by $X\sim B(n,p)$  
+\end{tcolorbox}
+
+The sum of $n$ independent Bernoulli random variables with the same parameter $p$ follows $B(n,p)$ distribution
+}
+
+\frame{
+\frametitle{Plot of pmf}
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[scale=0.4]{binpmf.pdf}
+\caption{pmf of $B(30,0.4)$.}
+\end{center}
+\end{figure}
+}
+
+\frame{
+\frametitle{Applications}
+
+Binomial distributions are widely used, for instance: 
+\begin{itemize}
+\item the number of successful answer scripts of $n$ students
+\item the number of products that pass quality control checks when in total $n$ products are examined
+\end{itemize}
+But we always need to bear in mind that the $n$ Bernoulli random variables \underline{must be independent and identically distributed (i.e.\ the same $p$ for all)}
+
+}
+
+\frame{
+\frametitle{Mean and variance}
+If $X\sim B(n,p)$ then 
+$$\E[X]=n\cdot p, \quad \var(X)=n\cdot p\cdot (1-p).$$
+
+
+{\bf Proof:} \iffalse{We write $X=X_1+X_2+\cdots+X_n$ where $X_i$'s are independent Bernoulli random variables with parameter $p$. Using linearity, we have 
+\begin{align*}
+\E[X]&=\E[X_1+X_2+\cdots+X_n]&\\
+&=\E[X_1]+\E[X_2]+\cdots+\E[X_n]=np&
+\end{align*}
+Using variance formula for the sum of independent random variables, 
+\begin{align*}
+\var(X)&=\var(X_1+X_2+\cdots+X_n)&\\
+&=\var(X_1)+\var(X_2)+\cdots+\var(X_n)=np(1-p)&\end{align*}}\fi
+}
+
+
+\frame{
+
+\begin{itemize}
+\item Discrete random variables
+ \begin{itemize}
+\item Bernoulli 
+\item Binomial
+\item Geometric 
+\end{itemize}
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{Exercise}
+Let $X_1,X_2,\cdots$ be infinitely many independent Bernoulli random variables with the same parameter $p$. Let $X$ be the first time the value $1$ appears.  What is $\P(X=k), k\geq 1$?
+
+
+
+{\bf Solution:} 
+\iffalse{
+If $X=k$, then $X_1=X_2=\cdots=X_{k-1}=0$ and $X_k=1$. Therefore 
+\begin{align*}\P(X=k)&=\P(X_1=X_2=\cdots=X_{k-1}=0, X_k=1)&\\
+&=\P(X_1=0)\cdot\P(X_2=0)\cdots\P(X_{k-1}=0)\cdot\P(X_k=1)&\\
+&=p(1-p)^{k-1}&\end{align*}}\fi
+}
+
+\frame{
+\frametitle{Definition}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition (Geometric)]
+Let $p\in[0,1]$. Let $X\in\{1,2,\ldots\}$ be a random variable such that 
+$$\P(X=k)=p\cdot(1-p)^{k-1}, \quad k=1,2,\ldots.$$
+Then $X$ is called a geometric random variable with parameter $p$, denoted by $X\sim G(p).$
+\end{tcolorbox}
+
+It is the {\bf waiting time} for the first $1$ in a sequence of independent Bernoulli random variables with the same parameter $p$
+
+}
+
+
+\frame{
+\frametitle{Difference with the definition in R}
+
+If $X\sim G(p)$ in our definition, then $X-1$ is the geometric variable in R with parameter $p$
+
+For instance,  if $X\sim G(0.2)$, to compute $\P(X=3)$, we have to use the command 
+
+$$dgeom(2,0.2)$$
+
+
+}
+
+
+
+
+\frame{
+\frametitle{Plot of pmf}
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[scale=0.35]{geopmf.pdf}
+\caption{pmf of $G(1/6)$.}
+\end{center}
+\end{figure}
+Unlike binomial (bounded between $0$ and $n$), a geometric random variable can take values as large as we wish
+}
+
+
+\frame{
+\frametitle{cdf}
+The cdf of $X\sim G(p)$ is
+$$F_X(x)=\begin{cases}1-(1-p)^k, & \text{ for all } x\in [k,k+1) \text{ for } k=1,2,\ldots,\\
+  0, & \text{ for all } x< 1.\end{cases}$$ 
+  
+  {\bf Proof:} \iffalse{
+  If $x\in[k,k+1),$
+\begin{align*}F_X(x)=F_X(k)&=\sum_{i=1}^kf_X(i)=\sum_{i=1}^kp(1-p)^{i-1}=p\sum_{i=1}^k(1-p)^{i-1}&\\
+&=p\frac{1-(1-p)^k}{p}=1-(1-p)^k&\end{align*}
+In the second line,  we used the summation of a \underline{geometric sequence}}\fi
+}
+
+\frame{
+\frametitle{Mean and Variance}
+If $X\sim G(p)$ then 
+$$\E[X]=\frac{1}{p},\quad  \var(X)=\frac{1-p}{p^2}$$
+
+Exercise: prove the above statement
+}
+
+
+
+
+\frame{
+\frametitle{Applications}
+The geometric distribution is used to model the {\bf waiting times} in a discrete model, like the waiting time for the first heads in the coin tossing game. 
+Other examples include: 
+\begin{itemize}
+\item the arrival time of the first successful answer sheet when recording the grades
+\item the arrival time of the first product to pass a quality check
+\end{itemize}
+
+}
+
+\frame{
+
+\begin{itemize}
+\item Discrete random variables
+ \begin{itemize}
+\item Bernoulli 
+\item Binomial
+\item Geometric 
+\item Poisson
+\end{itemize}
+\end{itemize}
+}
+
+
+
+
+\frame{\frametitle{Exercise}
+Consider a sequence of random variables $X_n\sim B(n,\frac{\lambda}{n})$ with $\lambda>0$.  What is the limit of $\P(X_n=k)$ for fixed $k=0,1,2,\ldots$ as $n\to\infty$?
+
+
+
+{\bf Solution:}\iffalse{
+\begin{align*}
+\P(X_n=k)&=\binom{n}{k}\left(\frac{\lambda}{n}\right)^{k}\left(1-\frac{\lambda}{n}\right)^{n-k}&\\
+&=\frac{\lambda^k}{k!}\frac{n!}{(n-k)!\cdot n^k}\left(1-\frac{\lambda}{n}\right)^{n-k}.&
+\end{align*}
+Note that 
+$$\lim_{n\to\infty}\frac{n!}{(n-k)!\cdot n^k}=\lim_{n\to\infty}\frac{n}{n}\cdot\frac{n-1}{n}\cdots\frac{n-k+1}{n}=1.$$
+}\fi
+}
+
+%\frame{\frametitle{Exercise (cont.)}
+\iffalse{
+Moreover 
+\begin{align*}
+\lim_{n\to\infty}\left(1-\frac{\lambda}{n}\right)^{n-k}&=\lim_{n\to\infty}\left(\left(1-\frac{\lambda}{n}\right)^{\frac{n}{\lambda}}\right)^{\frac{\lambda(n-k)}{n}}&\\
+&=\left(\lim_{n\to\infty}\left(1-\frac{\lambda}{n}\right)^{\frac{n}{\lambda}}\right)^{\lim_{n\to\infty}\frac{\lambda(n-k)}{n}}=e^{-\lambda}&
+\end{align*}
+Therefore we obtain 
+$$\P(X_n=k)\longrightarrow \textcolor{red}{\frac{\lambda^k \cdot e^{-\lambda}}{k!}},\quad \text{ as } n\to \infty$$}\fi
+
+
+%}
+
+
+\frame{\frametitle{Definition}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition (Poisson)]
+Let $X\in\{0,1,2,\ldots\}$ be a random variable such that 
+$$\P(X=k)=\frac{\lambda^k \cdot e^{-\lambda}}{k!}, \quad  k=0,1,2,\ldots$$
+Then $X$ is called a Poisson random variable with parameter $\lambda$, denoted by $X\sim Poi(\lambda).$  
+\end{tcolorbox}
+}
+
+
+\frame{
+\frametitle{Plot of pmf}
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[scale=0.35]{poipmf.pdf}
+\caption{pmf of $Poi(3)$.}
+\end{center}
+\end{figure}
+Like geometric, a Poisson random variable can take values as large as we wish
+}
+
+
+\frame{
+\frametitle{Mean and Variance}
+If $X\sim Poi(\lambda)$ then 
+$$\E[X]=\lambda, \quad \var(X)=\lambda$$
+
+It is a remarkable property that \underline{the mean and the variance are equal}! 
+
+
+Exercise: prove the above statement
+}
+
+
+
+
+\frame{
+\frametitle{Applications}
+Let's pin down more precisely what assumptions need to hold for us to use the Poisson distribution in applications.
+We require the following
+\begin{enumerate}
+\item We are dealing with a \underline{continuum medium}, which consists of infinitely many `particles', and each particle shows a desired outcome with probability \(0\)
+\item The total number of desired outcomes within the medium is \underline{finite (and random)}
+\item Moreover the medium is \underline{uniform}, in the sense that the ability to produce the desired outcome is proportional to the medium size
+\item Finally, different sections of the medium are \underline{independent} in terms of producing this outcome
+\end{enumerate}
+
+}
+
+
+\frame{
+\frametitle{Applications (cont.)}
+
+For example, 
+suppose someone sits at a bus stop, and counts taxis passing by within one hour. The above four conditions are all satisfied. 
+\begin{enumerate}
+\item Time is a continuum medium that consists of infinitely many instants. At each instant, a taxi appears with probability \(0\)
+\item The total number of taxis that we observe is finite and random
+\item The number of taxis in any time period of the same length should follow the same distribution (assuming we ignore other considerations such as day of the week)
+\item The numbers of taxis in different periods that do not overlap are independent of one another
+\end{enumerate}
+Thus we can assume that  the total number of taxis passing follows the Poisson distribution
+}
+
+\section{Week 6: Continuous random variables}
+
+\frame{\frametitle{Week 6: Continuous random variables}
+
+\begin{itemize}
+\item Continuous random variables
+ \begin{itemize}
+\item Uniform
+\item Exponential
+\item Normal 
+\item Chi-squared
+\end{itemize}
+\end{itemize}
+}
+
+\frame{
+
+\begin{itemize}
+\item Continuous random variables
+ \begin{itemize}
+\item Uniform
+\end{itemize}
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{Definition}
+
+
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition (Uniform)]
+Let $a<b$ be real numbers.  Let $X\in(a,b)$ be a random variable such that 
+$$f_X(x)=\frac{1}{b-a}, \quad \text{ for all } x\in (a,b).$$
+Then $X$ is called a uniform random variable on $(a,b)$, denoted by $X\sim U(a,b).$  
+ \end{tcolorbox}
+
+}
+
+\frame{
+\frametitle{Plot of pdf}
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[scale=0.2]{unifpdf.png}
+\caption{pdf of $U(1,2)$.}
+\end{center}
+\end{figure}
+}
+
+
+\frame{
+\frametitle{Applications}
+If we do not have any information about the distribution of a finite continuous random variable, we usually assume it to be uniform on some interval. 
+This is a fundamental practice in Bayesian statistics
+}
+
+\frame{
+\frametitle{cdf}
+
+If $X\sim U(a,b)$ with $a<b$,  then 
+$$F_X(x)=\begin{cases}1, \quad x\geq b\\
+\frac{x-a}{b-a}, \quad x\in(a,b)\\
+0,\quad x\leq a\end{cases}$$
+
+Exercise: prove the above statement
+
+}
+
+\frame{
+\frametitle{Mean and Variance}
+
+If $X\sim U(a,b)$ with $a<b$,  then 
+$$\E[X]=\frac{a+b}{2}, \quad \var(X)=\frac{(b-a)^2}{12}$$
+
+Exercise: prove the above statement
+
+}
+
+
+\frame{
+
+\begin{itemize}
+\item Continuous random variables
+ \begin{itemize}
+\item Uniform
+\item Exponential
+\end{itemize}
+\end{itemize}
+}
+
+
+
+\frame{
+\frametitle{Exercise}
+Let $X\sim U(0,1)$ and $\lambda>0.$ Let $Y=-\frac{\ln X}{\lambda}$. What is the distribution of $Y?$
+
+
+
+{\bf Solution:} \iffalse{
+Note that $Y\in(0,\infty)$. We will find the cdf of $Y$. Let $y>0$. Then 
+$$F_Y(y)=\P(-\frac{\ln X}{\lambda}\leq y)=\P(X\geq e^{-y})=1-F_X(e^{-\lambda y})=\textcolor{red}{1-e^{-\lambda y}}$$
+Accordingly, the pdf is 
+$$f_Y(y)=\frac{\ddr F_Y(y)}{\ddr y}=\textcolor{red}{\lambda e^{-\lambda y}}$$}\fi
+}
+
+\frame{
+\frametitle{Definition}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition (Exponential)]
+Let $\lambda>0$. Let $X\geq 0$ be a random variable such that 
+$$f_X(x)=\lambda \cdot e^{-\lambda x}, \quad \text{ for all } x\geq 0$$
+Then $X$ is called an exponential random variable with parameter $\lambda$, denoted by $X\sim Exp(\lambda).$ 
+\end{tcolorbox}
+
+}
+
+\frame{
+\frametitle{Plot of pdf}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.4]{pdfexp.pdf}
+\caption{pdf of exponential distributions.}
+\label{pdfe}
+\end{center}
+\end{figure}
+}
+
+
+
+\frame{
+\frametitle{Applications}
+The exponential distribution is usually used to model the continuous waiting times, such as waiting time to see the first bus, waiting time to your next phone call, etc
+
+In the week5 exercise sheet, we have seen how it is connected to the Poisson distribution. This connection justifies why it is suitable to model waiting times in some simple contexts
+
+{\bf Waiting time }
+\begin{itemize}
+\item discrete: geometric
+\item continuous: exponential
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{cdf}The cdf of $X\sim Exp(\lambda)$ is 
+$$F_X(x)=1-e^{-\lambda x}, \text{ for all } x\geq 0; \quad F_X(x)=0, \text{ for all } x<0$$
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.35]{cdfexp}
+\caption{cdf of exponential distributions.}
+\end{center}
+\end{figure}
+ }
+
+
+
+\frame{
+\frametitle{Mean and variance}
+If $X\sim Exp(\lambda)$ then 
+$$\E[X]=\frac{1}{\lambda}, \quad \var(X)=\frac{1}{\lambda^2}.$$
+
+
+{\bf Proof:} 
+\iffalse{
+We give the proof for the mean. Using the integration by parts formula, 
+$$\E[X]=\int_0^\infty x\cdot \lambda e^{-\lambda x}\ddr x=\int_0^\infty x\ddr(-e^{-\lambda x})=[-xe^{-\lambda x}]_0^\infty+\int_0^\infty e^{-\lambda x}\ddr x$$
+Note that if $x=0$, then $-xe^{-\lambda x}=0.$ Moreover, $\lim_{x\to\infty}-xe^{-\lambda x}=0.$ Then 
+$$\E[X]=\int_0^\infty e^{-\lambda x}\ddr x=\frac{1}{\lambda}\int_0^\infty \ddr (-e^{-\lambda x})=\frac{[-e^{-\lambda x}]_0^\infty}{\lambda}=\frac{1}{\lambda}$$}\fi
+ }
+\frame{
+
+\begin{itemize}
+\item Continuous random variables
+ \begin{itemize}
+\item Uniform
+\item Exponential
+\item Normal 
+\end{itemize}
+\end{itemize}
+}
+
+
+
+
+\frame{\frametitle{Definition}
+The normal distribution is one we see frequently in real-life applications, and many people will be familiar with the bell-shaped curve.
+The normal distribution is in a sense the \underline{most important} distribution in statistics
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition (Normal)]
+Let $\mu\in\R, \sigma>0.$ Let $X\in \R$ be a random variable such that 
+\begin{equation}\label{normpdf}
+f_X(x)=\frac{1}{\sigma\sqrt{2\pi}}\cdot e^{-\frac{(x-\mu)^2}{2\sigma^2}}, \quad \text{ for all } x\in\R.
+\end{equation}
+Then $X$ is called a normal random variable with parameters $(\mu,\sigma^2)$, denoted by $X\sim N(\mu, \sigma^2)$; $\mu$ is the mean and $\sigma^2$ is the variance (exercise). 
+
+
+If $\mu=0,\sigma=1,$ it is called a standard normal random variable
+\end{tcolorbox}
+}
+
+
+\frame{
+\frametitle{Plot of pdf}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.4]{pdfnormal.pdf}
+\label{pdfe}
+\end{center}
+\end{figure}
+The pdf of $X\sim N(\mu, \sigma^2)$ is symmetric about the mean value $\mu.$
+}
+
+
+\frame{
+\frametitle{Plot of cdf}
+The cdf of a normal random variable  does not have an explicit formula. But we can plot it using simulation 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.4]{cdfnormal.pdf}
+\label{pdfe}
+\end{center}
+\end{figure}
+}
+
+\frame{
+\frametitle{Approximate cdf numerically}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.2]{ztable.png}
+\label{pdfe}
+\end{center}
+\end{figure}
+}
+
+
+\frame{
+\frametitle{How to read the $z$-table}
+
+\begin{enumerate}
+\item  Round your value to two decimal places.
+
+\item  Go to the row that represents the ones digit and the first digit after the decimal point (the tenths digit) of your value.
+
+\item  Go to the column that represents the second digit after the decimal point (the hundredths digit) of your value.
+
+\item  Take the value in the row and column you just found.
+\end{enumerate}
+
+Example: The cdf value for $2.35$ is $0.9906$; for $1.223$ is $0.8888$; for $0.849$ is $0.8023.$
+}
+
+
+
+\frame{
+\frametitle{Invariance under linear transformation}
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Proposition]
+Let \(X\sim N\left(\mu_X,\sigma^2_X\right),Y\sim N\left(\mu_Y,\sigma^2_Y\right)\) be normally distributed, independent random variables, and \(c\) a constant. Then
+\begin{itemize}
+\item[(a)] \(c+X\sim N\left(c+\mu_X,\,\sigma^2_X\right)\);
+\item[(b)] \(c\cdot X\sim N\left(c\cdot \mu_X,\,c^2\cdot \sigma^2_X\right)\);
+\item[(c)] \(X+Y\sim N\left(\mu_X+\mu_Y,\, \sigma^2_X+\sigma^2_Y\right)\).
+\end{itemize}
+\end{tcolorbox}
+
+Exercise: prove (a) and (b) (computing cdf). 
+
+We are not able to prove (c) in this module, but it is very important in statistics
+}
+
+\frame{
+\frametitle{Invariance under linear transformation (cont.)}
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Corollary]
+Let \(X\sim N\left(\mu,\sigma^2\right)\). Then
+\[\frac{X-\mu}{\sqrt{\sigma^2}}=\frac{X-\mu}{\sigma}\sim N\left(0,1\right)\]
+\end{tcolorbox}
+\begin{itemize}
+\item If $X\sim N(\mu,\sigma^2)$ and $Z\sim N(0,1)$, then $$\sigma Z+\mu\stackrel{d}{=}X,\quad \frac{X-\mu}{\sigma}\stackrel{d}{=} Z$$
+\item $F_Z(c)=F_X(\mu+c\cdot \sigma); \quad F_X(c)=F_Z\left(\frac{c-\mu}{\sigma}\right)
+$
+\item Thus the $z$-table can be used to approximate the cdf of any normal 
+\end{itemize}
+}
+
+\frame{
+\frametitle{Fast decay: $68-95-99$ rule}
+Using the $z$-table, we can find that 
+if $X\sim N(\mu,\sigma^2)$,
+\begin{align*}
+\P(-\sigma<X-\mu<\sigma)&=0.6826,\\
+\P(-2\sigma<X-\mu<2\sigma)&=0.9544,\\
+\P(-3\sigma<X-\mu<3\sigma)&=0.9974.
+\end{align*}
+
+If you believe $X\sim N(\mu,\sigma^2)$, and a data-point you got is beyond $(-3\sigma, 3\sigma)$, then we should ask if our belief is correct. This is widely used in quality control 
+
+}
+
+
+\frame{
+\frametitle{Fast decay: $68-95-99$ rule}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.3]{3sigma}
+\caption{68-95-99 rule.}
+\label{3sigma}
+\end{center}
+\end{figure}
+}
+
+\frame{
+
+\begin{itemize}
+\item Continuous random variables
+ \begin{itemize}
+\item Uniform
+\item Exponential
+\item Normal 
+\item Chi-squared
+\end{itemize}
+\end{itemize}
+}
+
+\frame{
+\frametitle{Definition}
+%The chi-squared distribution with degree of freedom $\nu\in\{1,2,\ldots\}$, denoted by $\chi^2_\nu$, is simply the distribution of the sum of $\nu$ 
+%independent squared standard normal random variables
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition (Geometric)]
+Let $X_1,X_2,\ldots,X_\nu$ be $\nu$ independent standard normal random variables. Then 
+$$\sum_{i=1}^\nu X_i^2$$
+follows the  chi-squared distribution $\chi^2_\nu$ with $\nu$ degrees of freedom.  \end{tcolorbox}
+
+The chi-squared distribution will be very useful for hypothesis testing
+
+}
+
+\frame{
+\frametitle{pdf}The pdf of $\chi^2_\nu$ is the following:
+\begin{equation}\label{chipdf}
+f(x)=\frac{1}{2^{\nu/2}\cdot\Gamma(\nu/2)}x^{\nu/2-1}e^{-x/2},\quad x\geq 0.
+\end{equation}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.2]{chiremove.png}
+\caption{pdfs of chi-squared distribution with degrees of freedom $2,5,10.$ }
+\end{center}
+\end{figure}
+
+}
+
+
+
+\section{Week 7: Limit laws (WLLN and CLT)}
+
+\frame{\frametitle{Week 7: Limit laws (WLLN and CLT)}
+
+\begin{itemize}
+\item From probability to statistics
+ \begin{itemize}
+\item Random sample vs sample data 
+\item Weak law of large numbers (WLLN)
+\begin{itemize}
+\item How to understand probability?
+\item The Theorem of WLLN - convergence of $\overline X$ to $\mu$
+\end{itemize}
+\item Applications of WLLN
+\begin{itemize}
+\item Use sample data to approximate the pmf 
+\item Use sample data to approximate the cdf
+\item Use sample data to approximate the pdf
+\end{itemize}
+\item Central Limit Theorem (CLT) - rate of convergence of $\overline X$ to $\mu$
+\end{itemize}
+\end{itemize}
+}
+
+\frame{
+
+\begin{itemize}
+\item From probability to statistics
+ \begin{itemize}
+\item Random sample vs sample data 
+\end{itemize}
+\end{itemize}
+}
+
+\frame{
+\frametitle{Example}
+
+From a big population (such as the UK population), we draw distinct individuals at random (i.e.\  uniformly) from the population \underline{one after another} to form a sample of size $n$. 
+\begin{itemize}
+\item The sample consists of $n$ random variables (i.e.\  random individuals). These $n$ random variables are\underline{ not independent} because the population is changed after every selection of one random individual. 
+\item But if $n$ is extremely small compared to the population,  the difference is small enough that we can \underline{proceed as if the population is unchanged} throughout the whole process of $n$ selections. Then the $n$ random variables are {\bf independent and identically distributed, i.e.\  i.i.d.}
+\end{itemize}
+
+Theory of statistics is largely based on the i.i.d.\ assumption of random variables in a (random) sample. 
+
+
+}
+
+\frame{
+\frametitle{Random sample vs sample data}
+
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition]
+
+If $X_1,X_2,\cdots,X_n$ are i.i.d.\ following the same distribution, then we say $\{X_1,X_2,\cdots,X_n\}$ is a {\bf random sample} of the distribution.
+
+If after observation, we know $X_1=x_1, X_2=x_2,\cdots, X_n=x_n,$ then we call $\{x_1,x_2,\cdots,x_n\}$ the {\bf sample data}. 
+
+
+
+
+\end{tcolorbox}
+
+In practice, we may use the single term ``sample" to refer to $\{X_1,\cdots ,X_n\}$ or $\{x_1,\cdots,x_n\}$ when the context is clear 
+}
+
+\frame{
+
+\begin{itemize}
+\item From probability to statistics
+ \begin{itemize}
+\item Random sample vs sample data 
+\item Weak law of large numbers (WLLN)
+\begin{itemize}
+\item How to understand probability?
+\end{itemize}
+\end{itemize}
+\end{itemize}
+}
+
+
+
+\frame{
+\frametitle{Exercise}
+If $\P(1\leq X\leq 2)=0.9999,$ and $x$ is an observation of  $X$ (more formally, we should say $x$ is sampled or simulated from the distribution of $X$), what can we say about $x$? 
+
+
+
+{\bf Answer}: \pause 
+we cannot say anything about $x$. This is because $x$ can be anything, and we cannot deduce any information about $x$ from what we know about $X$. This is what randomness is! 
+
+
+
+
+But we do believe that very likely $x$ should be within $[1,2]$. What does that really mean? 
+}
+
+\frame{
+\frametitle{The right way to understand probability}
+If $\P(1\leq X\leq 2)=0.9999,$ and $x$ is an observation of $X$ (more formally, we should say $x$ is sampled or simulated from the distribution of $X$), what can we say about $x$? 
+
+
+
+{\bf Answer}: \underline{A single observation $x$ of $X$ does not mean anything}, although we tend to believe that it should be very likely within $[1,2].$ Probability should be understood with a large sample, not a single observation: 
+
+\textbf{Understand probability as a frequency: } if we have a large sample of data sampled from the distribution of $X$, then around 0.9999 of them should be within $[1,2]$. \underline{Larger the sample size,  closer the proportion to $0.9999$}. \\
+This can be mathematically proved using the {\bf weak law of large numbers! }
+
+
+
+{\bf Example}: the more times I toss a fair coin, the closer the proportion of heads to $\frac{1}{2}$. 
+}
+
+
+
+
+
+\frame{
+\begin{itemize}
+\item From probability to statistics
+ \begin{itemize}
+\item Random sample vs sample data 
+\item Weak law of large numbers (WLLN)
+\begin{itemize}
+\item How to understand probability?
+\item The Theorem of WLLN - convergence of $\overline X$ to $\mu$
+\end{itemize}
+\end{itemize}
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{Exercise}
+
+Let $X_1,X_2,\ldots X_n$ be $n$ i.i.d.\ random variables with common mean $\mu$ and common variance $\sigma^2$. 
+Define  $$\overline X:=\frac{\sum_{i=1}^nX_i}{n}.$$ Find $\E[\overline X]$ and $\var(\overline X)$
+
+
+
+{\bf Solution:} \iffalse{Using the linearity 
+$$\E[\overline X]=\frac{\E[\sum_{i=1}^nX_i]}{n}=\frac{\sum_{i=1}^n\E[X_i]}{n}=\frac{n\mu}{n}=\mu$$
+
+Using the variance formula for the sum of independent random variables 
+$$\var(\overline X)=\var\left(\frac{X_1}{n}+\frac{X_2}{n}+\cdots+\frac{X_n}{n}\right)=\sum_{i=1}^n\frac{\var(X_i)}{n^2}=\frac{n\sigma^2}{n^2}=\frac{\sigma^2}{n}.$$}\fi
+
+%As a consequence,  $\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}$ has mean $0$ and variance $1$
+
+}
+
+
+
+\frame{
+\frametitle{Weak Law of Large Numbers (WLLN)}
+
+\vspace{3mm}
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Theorem (Weak law of large numbers (WLLN))]
+Let $X_1,X_2,\ldots$ be i.i.d.\ random variables with common mean $\mu$ and variance $\sigma^2$.  Then 
+$$\overline X \text{ converges to } \mu, \quad \text{ as }n\to\infty$$
+
+More precisely, for any $\epsilon>0, n\geq 1$,
+$$\P(|\overline X-\mu|\geq \epsilon)\leq \frac{\sigma^2}{n\epsilon^2} \xrightarrow[n\to\infty]{}0$$
+\end{tcolorbox}
+
+
+}
+
+
+\frame{
+\frametitle{Proof of WLLN}
+We will use the following result: 
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Markov inequality]
+If $X$ is positive, then for any $\epsilon>0,$ we have 
+$\P(X\geq \epsilon)\leq \frac{\E[X^2]}{\epsilon^2}$.\end{tcolorbox}
+This is because $\E[X^2]\geq \E[X^2{\textbf 1}_{X\geq \epsilon}]\geq  \E[\epsilon^2{\textbf 1}_{X\geq \epsilon}]=\epsilon^2\P(X\geq \epsilon). $ Here ${\textbf 1}_{X\geq \epsilon}$ is the indicator function which equals $1$ is $X\geq \epsilon$, and equals $0$ otherwise; it is a Bernoulli random variable with parameter $\P({\textbf 1}_{X\geq \epsilon}=1)=\P(X\geq \epsilon). $
+
+
+\vspace{3mm}
+
+In our case $\E[(\overline X-\mu)^2]=\var(\overline X)=\frac{\sigma^2}{n}$. Then $\P(|\overline X-\mu|\geq \epsilon)\leq \frac{\E[(\overline X-\mu)^2]}{\epsilon^2}\leq \frac{\sigma^2}{n\epsilon^2}.$
+
+}
+
+
+\frame{
+\frametitle{Proof of WLLN using R}
+Consider $X\sim Exp(3)$. We create 100 samples, each has 1000 simulated values of $X$ in R. For each sample, we compute the mean value, and plot the histogram of all 100 mean values. 
+
+\begin{figure}
+\includegraphics[scale=0.7]{wllnr.png}
+\end{figure}
+
+In other words, we create 100 independent values of $\overline X=\frac{\sum_{i=1}^{1000}X_i}{1000}$ and plot the histogram of these values. We should find most of the values close to $\E[X]=1/3$, due to WLLN (if we believe 1000 is large enough to apply WLLN so that $\overline X$ is close to $\mu$ with high probability). 
+}
+
+
+\frame{
+\frametitle{Proof of WLLN using R}
+We can see that the sample means are close to the population mean $\E[X]=1/3$
+
+\begin{figure}
+\includegraphics[scale=0.3]{wlln.pdf}
+\end{figure}
+
+}
+
+
+\frame{
+\begin{itemize}
+\item From probability to statistics
+ \begin{itemize}
+\item Random sample vs sample data 
+\item Weak law of large numbers (WLLN)
+\begin{itemize}
+\item How to understand probability?
+\item The Theorem of WLLN - convergence of $\overline X$ to $\mu$
+\end{itemize}
+\item Applications of WLLN
+\begin{itemize}
+\item Use sample data to approximate the pmf 
+\end{itemize}
+\end{itemize}
+\end{itemize}
+}
+
+
+}
+
+
+
+\frame{
+\frametitle{Main result}
+
+Let $X_1,X_2,\ldots$ be i.i.d.\ with $f(k)=\P(X_1=k)>0$. 
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Corollary (Approximate pmf)]
+
+$$\frac{\sum_{i=1}^n{\textbf 1}_{X_i=k}}{n} \xrightarrow[n\to\infty]{\text{converges to}} \E[{\textbf 1}_{X_1=k}]=f(k).$$
+
+\vspace{2mm}
+
+More precisely, for any $\epsilon>0, n\geq 1,$
+$$\P\left(\Big|\frac{\sum_{i=1}^n{\textbf 1}_{X_i=k}}{n} -f(k)\Big|\geq \epsilon\right)\leq \frac{1}{4n\epsilon^2}\xrightarrow[n\to\infty]{}0.$$
+\end{tcolorbox}
+
+Proof:  $\P\left(\Big|\frac{\sum_{i=1}^n{\textbf 1}_{X_i=k}}{n} -f(k)\Big|\geq \epsilon\right)\leq \frac{\var({\textbf 1}_{X_1=k})}{n\epsilon^2}=\frac{f(k)(1-f(k))}{n\epsilon^2}\leq \frac{1}{4n\epsilon^2}$. Here we use the fact that ${\textbf 1}_{X_i = t}$ is a Bernoulli variable with parameter $f(k)$, and $\sup_{0\leq a\leq 1}a(1-a)= \frac{1}{4}.$
+}
+
+
+\frame{
+\frametitle{Proof  using R}
+Consider $X\sim B(10,0.5)$. We create a sample with 10000 simulated values of $X$ in R. Then we compare the normalised frequency of the sample with the real pmf
+\begin{figure}
+\includegraphics[scale=0.6]{approxpmfr}
+\end{figure}
+
+The code is written in a R script (instead of the console)
+
+}
+
+
+\frame{
+\frametitle{Proof  using R (cont.)}
+The \textcolor{red}{red} plot is the \textcolor{red}{real} pmf and the {\bf black} plot is the {\bf normalised frequency}
+
+\begin{figure}
+\includegraphics[scale=0.3]{approxpmf}
+\end{figure}
+
+
+
+}
+
+
+
+
+
+\frame{
+
+\begin{itemize}
+\item From probability to statistics
+ \begin{itemize}
+\item Random sample vs sample data 
+\item Weak law of large numbers (WLLN)
+\begin{itemize}
+\item How to understand probability?
+\item The Theorem of WLLN - convergence of $\overline X$ to $\mu$
+\end{itemize}
+\item Applications of WLLN
+\begin{itemize}
+\item Use sample data to approximate the pmf 
+\item Use sample data to approximate the cdf
+
+\end{itemize}
+
+\end{itemize}
+\end{itemize}
+}
+
+
+
+}
+
+
+\frame{
+\frametitle{Main result}
+
+Let $X_1,X_2,\ldots$ be i.i.d.\ with $F(t)=\P(X_1\leq t)>0$. 
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Corollary (Approximate cdf)]
+
+$$\frac{\sum_{i=1}^n{\textbf 1}_{X_i\leq t}}{n} \xrightarrow[n\to\infty]{\text{ converges to } }\E[{\textbf 1}_{X_1\leq t}]=\P(X_1\leq t)=F(t)$$
+
+More precisely, for any $\epsilon>0, n\geq 1,$
+$$\P\left(\Big|\frac{\sum_{i=1}^n{\textbf 1}_{X_i\leq t}}{n} -F(t)\Big|\geq \epsilon\right)\leq \frac{1}{4n\epsilon^2}\xrightarrow[n\to\infty]{}0.$$
+\end{tcolorbox}
+
+Proof:  $\P\left(\Big|\frac{\sum_{i=1}^n{\textbf 1}_{X_i\leq t}}{n} -F(t)\Big|\geq \epsilon\right)\leq \frac{\var({\textbf 1}_{X_1\leq t})}{n\epsilon^2}=\frac{F(t)(1-F(t))}{n\epsilon^2}\leq \frac{1}{4n\epsilon^2}$. Here we use the fact that ${\textbf 1}_{X_i\leq t}$ is a Bernoulli variable with parameter $F(t)$, and $\sup_{0\leq a\leq 1}a(1-a)= \frac{1}{4}.$
+}
+
+
+
+\frame{
+\frametitle{Proof using R}
+Consider $X\sim N(10,3)$. We create a sample with 10000 simulated values of $X$ in R. Then we compare the normalised frequency of the sample with the real pmf
+\begin{figure}
+\includegraphics[scale=0.6]{approxcdfr}
+\end{figure}
+
+The code was written in a R script
+
+}
+
+
+\frame{
+\frametitle{Proof using R (cont.)}
+The \textcolor{red}{red} curve is the \textcolor{red}{real} cdf  and the {\bf black} curve is the {\bf simulated} cdf 
+
+\begin{figure}
+\includegraphics[scale=0.3]{approxcdf}
+\end{figure}
+
+
+
+}
+
+
+
+\frame{
+
+\begin{itemize}
+\item From probability to statistics
+ \begin{itemize}
+\item Random sample vs sample data 
+\item Weak law of large numbers (WLLN)
+\begin{itemize}
+\item How to understand probability?
+\item The Theorem of WLLN - convergence of $\overline X$ to $\mu$
+\end{itemize}
+\item Applications of WLLN
+\begin{itemize}
+\item Use sample data to approximate the pmf 
+\item Use sample data to approximate the cdf
+\item Use sample data to approximate the pdf
+\end{itemize}
+\end{itemize}
+\end{itemize}
+}
+
+
+}
+
+
+\frame{
+\frametitle{Main result}
+
+Let $a<b$. Let $X$ be a continuous random variable with a continuous pdf. If $b\to a$, 
+$$\frac{F_X(b)-F_X(a)}{b-a}=\frac{\int_a^bf_X(x)\ddr x}{b-a}\approx \frac{f_X(a)(b-a)}{b-a}=f_X(a)$$
+
+Moreover
+$$\frac{F_X(b)-F_X(a)}{b-a}\approx \underbrace{\frac{\frac{\text{number of simulated values within }(a,b]}{\text{ total number of simulated values}}}{b-a}}_{\text{this is the value of a normalised histogram over the interval } (a,b)}$$
+It means that \underline{the normalised histogram will approach the pdf}
+}
+
+
+
+\frame{
+\frametitle{Proof using R}
+Consider $X\sim N(10,3)$. We create a sample with 10000 simulated values of $X$ in R. Then we compare the normalised histogram of the sample with the real pdf
+\begin{figure}
+\includegraphics[scale=0.58]{approxpdfr}
+\end{figure}
+
+The code is written in a R script (instead of the console)
+
+}
+
+
+\frame{
+\frametitle{Proof using R (cont.)}
+
+\begin{figure}
+\includegraphics[scale=0.35]{approxpdf}
+\end{figure}
+
+
+
+}
+
+
+
+\frame{
+
+\begin{itemize}
+\item From probability to statistics
+ \begin{itemize}
+\item Random sample vs sample data 
+\item Weak law of large numbers (WLLN)
+\begin{itemize}
+\item How to understand probability?
+\item The Theorem of WLLN - convergence of $\overline X$ to $\mu$
+\end{itemize}
+\item Applications of WLLN
+\begin{itemize}
+\item Use sample data to approximate the pmf 
+\item Use sample data to approximate the cdf
+\item Use sample data to approximate the pdf
+\end{itemize}
+\item Central Limit Theorem (CLT) - rate of convergence of $\overline X$ to $\mu$
+\end{itemize}
+\end{itemize}
+}
+
+
+}
+
+
+\frame{
+\frametitle{Speed of convergence in WLLN}
+
+By WLLN, we know that 
+\[\frac{\sum_{i=1}^n X_i}{n}\longrightarrow\mu, \quad n\to\infty\]
+
+But how fast is the convergence as $n$ increases? To answer this question, we introduce the Central Limit Theorem
+}
+
+
+
+
+\frame{
+\frametitle{Central Limit Theorem (CLT)}
+
+
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Theorem]
+
+Let \(X_1,X_2,\ldots,\) be i.i.d.\ random variables with common mean \(\mu\) and variance \(\sigma^2\). Then 
+$$\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}\text{converges in distribution to } Z\sim N(0,1),$$
+which means,  for any fixed \(z\in\R\), 
+\[ \P\left(\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}\leq z\right)\xrightarrow[n\to\infty]{} F_Z(z)\]
+
+Informally, we can write 
+$$\overline X \sim N(\mu, {{\sigma^2/n}}),\quad \text{ approximately }$$
+\end{tcolorbox}
+
+
+}
+
+\frame{
+\frametitle{Central Limit Theorem (CLT)}
+
+
+\begin{itemize}
+\item WLLN tells $\overline X$ converges to $\mu$, CLT gives the rate of convergence (i.e.\ $\overline X -\mu$ is of order $\sigma/\sqrt{n}$)
+\item CLT means the \underline{pointwise convergence of cdf} 
+\item It also means that the normalised histogram of $\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}$ converges to the pdf of $N(0,1)$
+\item CLT is very powerful as $X_i$ can follow any distribution, and the limit is always the same! 
+\item The standard normal is so special that we give a new notation to the cdf 
+$$\Phi(z)=F_Z(z)=\P(Z\leq z)$$
+where $Z\sim N(0,1).$ Therefore the CLT is
+$$\P\left(\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}\leq z\right)\to \Phi(z)$$
+
+\item CLT is {\bf fundamental} in statistics
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{Application}
+
+Assume $X_i\sim U(0,1)$. The figures show the comparison of the pdf of $N(0,1)$ and the normalised histogram using $10000$ simulated values of $\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}$ for $n=10$ and $n=10000$. 
+\begin{figure}
+\hspace{-10pt}\includegraphics[scale=0.22]{histclt}
+\end{figure}
+We see that the CLT already works very well for small $n=10$. Finding the R code is left as an exercise
+
+
+
+
+}
+
+\frame{
+\frametitle{Exercise}
+
+The number of phone calls received by a counselling service each evening follows a Poisson distribution with mean~4.5.
+Numbers of calls are recorded each evening over a 30~day period.
+Find the (approximate) probability that the average number of calls per evening over this period exceeds~5.
+
+
+
+{
+{\bf Solution}:\iffalse{
+In this case, we have {{$X_i \sim Poi(4.5)$} for $i=1,2,\ldots,30$}, so that $\E \left[ X_i \right] = {{4.5}}$ and $\var(X_i)= {{4.5}}$}
+
+
+Applying the formula for the sample mean,
+$$
+\E \left[ \overline X \right] = {{4.5}} \mbox{ and } \var(\overline X) = \frac{4.5}{30} = 0.15
+$$
+\end{frame}
+
+By the CLT, $\overline X \sim {N( 4.5, 0.15)$, approximately}. }\fi
+}
+
+%\frame{\frametitle{Exercise}
+\iffalse{
+Writing $Z = \frac{\overline X - 4.5}{ \sqrt{0.15}}$, we obtain
+
+
+\begin{align*}
+\P(\overline X >5)&=\P(Z>\frac{5-4.5}{\sqrt{0.15}})&\\
+&=\P(Z>1.29)&\\
+&=1-\Phi(1.29)&\\
+&=1-0.9015&\\
+&=0.0985&
+\end{align*}}\fi
+%}
+
+\frame{
+\frametitle{Normal approximation to binomial}
+If $X\sim B(n,p)$, then we can write 
+$$X=X_1+X_2+\cdots+X_n$$
+where the $X_i$'s are i.i.d.\ Bernoulli random variables with parameter $p$
+
+Therefore by CLT, 
+$$X\sim N(np, np(1-p)),\quad \text{ approximately}$$
+or 
+$$\frac{X-np}{\sqrt{np(1-p)}}\sim N(0, 1),\quad \text{ approximately}$$
+
+}
+
+\frame{
+\frametitle{Exercise}
+
+Assume $X\sim B(100,0.03)$. Find the approximate value of $\P(X\leq 2)$ 
+
+
+
+{\bf Solution:} 
+Note that we have $\mathbb E[X]=100\cdot 0.03=3, \var(X)=100\cdot 0.03\cdot 0.97=2.91$
+
+Writing $Z=\frac{X-3}{\sqrt{2.91}}$, we have\footnote{You may have been taught that we should use $\P(X\leq 2.5)$ here since we use normal to approximate an integer-valued distribution. In ideal scenarios, the sum (here is $X$) should be very large such that a difference of 0.5 does not matter much. }
+\begin{align*}
+\P(X\leq 2)&=\P(Z\leq \frac{2-3}{\sqrt{2.91}})&\\
+&=\P(Z\leq -0.34)&\\
+&\approx \Phi(-0.34)\\
+&=1-\Phi(0.34)\text{ (by symmetry)}&\\
+&=0.3669&
+\end{align*}
+}
+
+\frame{
+\frametitle{Exercise: two approximations for binomial distributions}
+Recall that binomial can also be approximated by Poisson. More precisely, 
+
+$$\P(X\leq k)\approx \P(W\leq k)$$
+where $W\sim Poi(100\cdot 0.03)=Poi(3)$
+
+
+\begin{itemize}
+\item The true probability for $\P(X\leq 2)=0.4198$
+\item Approximation by normal: 0.3669
+\item Approximation by Poisson: 0.4232
+\end{itemize}
+}
+
+\frame{
+\frametitle{R summary}
+
+
+rexp
+
+dim()
+
+hist()
+
+table()
+
+plot()
+
+lines()
+
+rnorm()
+
+seq()
+
+cut()
+
+
+
+}
+
+\section{Week 8: Parameter estimation}
+
+
+\frame{\frametitle{Week 8: Parameter estimation}
+
+\begin{itemize}
+\item Part 1: Estimator and estimate 
+\begin{itemize}
+\item Definition
+\item Sample mean and sample variance 
+\end{itemize}
+\item Part 2: Confidence interval for $\mu$
+\begin{itemize}
+\item A general definition
+\item $\sigma^2$ is known and the distribution is normal
+\item $\sigma^2$ is unknown and the distribution is normal
+\item The distribution is not normal but the sample size is large 
+\item When can we construct a confidence interval?
+\end{itemize}
+\end{itemize}
+}
+
+\frame{
+\begin{itemize}
+\item Part 1: Estimator and estimate 
+\begin{itemize}
+\item Definition
+\end{itemize}
+
+\end{itemize}
+}
+\frame{
+\frametitle{Example}
+
+We want to know the mean\footnote{In statistics, we usually call it distribution mean or population mean or true mean} $\mu$ of a distribution 
+
+If $X_1,X_2,\ldots,X_n$ are i.i.d. following this distribution, then the WLLN tells that the sample mean (random) $\overline X$ approaches $\mu$ in a probabilistic sense 
+
+If we collect a sample in a way that satisfies the i.i.d. assumption, although the sample mean (deterministic) $\overline x$ can take any value, we are ``confident" that  it should be close to the unknown mean $\mu$
+
+We say 
+\begin{itemize}
+\item $\overline X$ is an estimator of $\mu$
+\item $\overline x$ is an estimate of $\mu$
+\end{itemize}
+
+}
+
+\frame{
+\frametitle{Estimator and  estimate}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition: Statistics]
+A {\bf statistic} (or sample statistic) is any function of a random sample $X_1,X_2,\ldots,X_n$. 
+\end{tcolorbox}
+
+
+
+{Example: The sample mean \(\overline{X}=(X_1+\cdots+X_n)/n\). }
+
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition (Estimator and estimate)]
+Let $X_1,X_2,\ldots,X_n$ be a random sample of i.i.d.\ random variables. Let $\theta$ be a parameter of their common distribution. Then an {\bf estimator} of $\theta$ is a statistic, usually denoted by $\displaystyle \hat \theta=\hat \theta(X_1,\ldots,X_n)$, that is used to estimate $\theta$. 
+
+\vspace{3mm}
+
+Given any observed data values \(x_1,\ldots,x_n\),  the value $\hat \theta(x_1,\ldots,x_n)$ is called an {\bf estimate} of $\theta.$
+
+
+
+
+\end{tcolorbox}
+
+
+
+}
+
+
+
+\frame{
+\frametitle{Two criteria to judge how good an estimator is}
+\vspace{1 mm}
+
+If $\hat \theta$ is an estimator of $\theta$, 
+\begin{itemize}
+\item {\bf Unbiasedness}: $\E[\hat \theta]=\theta$.
+\item {\bf Consistency}: for any $\epsilon>0$, $\P\big(\big|\hat \theta-\theta\big|\geq \epsilon\big)\longrightarrow 0$ as $n \to \infty$. 
+\end{itemize}
+
+
+
+
+\vspace{3 mm}
+The sample mean $\overline X$ satisfies these two properties }
+
+
+
+\frame{
+\frametitle{Exercise}
+\vspace{1 mm}
+
+Define $\hat\theta=\frac{X_1+X_2+\cdots+X_n}{n+1}$ to estimate $\mu$.  Is it unbiased?  Is it consistent? 
+
+
+
+Answer: it is \textbf{biased}, because 
+$$\E[\hat\theta]=\frac{\E[X_1]+\E[X_2]+\cdots+\E[X_n]}{n+1}=\frac{n\mu}{n+1}\neq \mu.$$
+
+\vspace{10mm}
+
+It is \textbf{consistent}, because 
+\begin{align*}
+\mathbb P\left(\left|\hat\theta-\mu\right|\geq \epsilon\right)&\leq \frac{\mathbb E[(\hat\theta-\mu)^2]}{\epsilon^2}=\frac{\operatorname{var}(\hat\theta)+(\mathbb E[\hat\theta-\mu])^2}{\epsilon^2}\\
+&=\frac{1}{\epsilon^2}\left(\frac{n\sigma^2}{(n+1)^2}+\frac{\mu^2}{(n+1)^2}\right)\xrightarrow[n\to\infty]{}0.\end{align*}
+We use Markov inequality to obtain the first inequality. We use Exercise 12 of week 4 for the first equality. 
+
+}
+
+
+
+
+\frame{
+
+\begin{itemize}
+\item Part 1: Estimator and estimate 
+\begin{itemize}
+\item Definition
+\item Sample mean and sample variance 
+\end{itemize}
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{Sample mean and sample variance}
+
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition]
+Let $X_1,X_2,\ldots,X_n$ be i.i.d.\ random variables. The sample mean is defined as 
+$$\overline X=\frac{X_1+X_2+\cdots+X_n}{n}.$$
+The sample variance is defined as 
+$$S^2=\frac{\sum_{i=1}^n(X_i-\overline X)^2}{n-1}=\frac{\sum_{i=1}^nX_i^2-n\overline X^2}{n-1}.$$ 
+We call $S$ the sample standard deviation. 
+$\overline $
+\end{tcolorbox}
+
+Exercise:  prove that $\sum_{i=1}^n(X_i-\overline X)^2=\sum_{i=1}^nX_i^2-n\overline X^2$}
+
+\frame{
+\frametitle{Some properties}
+
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Proposition]
+Let $X_1,X_2,\ldots,X_n$ be i.i.d.\ random variables with common mean $\mu$ and variance $\sigma^2$.  Then 
+$$\E[\overline X]=\mu,\quad \var(\overline X)=\frac{\sigma^2}{n}, \quad \E[S^2]=\sigma^2.$$
+We conclude that $\overline X$ is an unbiased and consistent estimator of $\mu$, and $S^2$ is an unbiased estimator of $\sigma^2$
+\end{tcolorbox}
+
+Exercise: prove the above results.
+}
+
+
+\frame{
+
+\begin{itemize}
+\item Part 1: Estimator and estimate 
+\begin{itemize}
+\item Definition
+\item Sample mean and sample variance 
+\end{itemize}
+\item Part 2: Confidence interval for $\mu$
+\begin{itemize}
+\item A general definition
+\end{itemize}
+\end{itemize}
+}
+
+
+
+
+\frame{
+\frametitle{Confidence interval: definition}
+\vspace{1 mm}
+
+\vspace{3mm}
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Confidence interval]
+Let $a=a(X_1,\ldots,X_n),b=b(X_1,\ldots,X_n)$ be two statistics. Let $\theta$ be a parameter of the common distribution.
+Assume that
+$$\P(a< \theta< b)=1-\alpha, \quad \alpha\in(0,1).$$
+Then the interval $(a,b)$ is called a {\bf $100(1-\alpha)\%$  confidence interval} of $\theta$,  
+
+and the quantity $100(1-\alpha)\%$ is called the {\bf confidence level}
+\end{tcolorbox}
+}
+
+\frame{
+\frametitle{Confidence interval: interpretation}
+
+We can consider the confidence interval as an \underline{interval-valued estimator} 
+
+Given sample data $x_1,\ldots,x_n$, {\bf the interpretation} of the confidence interval (deterministic) is: \\
+\vspace{3mm}
+
+``{\it We are $100(1-\alpha)\%$ confident that the interval $(a(x_1,\ldots,x_n), b(x_1,\ldots,x_n))$ contains $\theta$.} "
+
+How to understand this interpretation?
+}
+
+\frame{
+\frametitle{How to understand the interpretation}
+
+
+For confidence level $100(1-\alpha)\%$, assume that the confidence interval is 
+$$(a(X_1,\ldots,X_n), b(X_1,\ldots,X_n)).$$
+
+Probabilistically, it means that the parameter $\theta$ is contained by the above random interval with probability $1-\alpha.$
+
+
+In practice, the confidence interval  that we obtain is deterministic as the sample data is given.  A single deterministic confidence interval can be anything due to randomness. Then the question is: why we say we are confident? 
+}
+
+
+\frame{
+\frametitle{How to understand the interpretation (cont.)}
+
+{\bf Probability understood as frequency:}
+
+To understand this we have to interpret the probabilistic result statistically. It means that if we draw a lot of samples and correspondingly create a lot of confidence intervals, then around $100(1-\alpha)\%$ of the intervals will contain $\theta$
+
+\vspace{3 mm}
+
+A single deterministic confidence interval is \underline{meaningless}. But we can say that ``we are {\bf $100(1-\alpha)\%$  confident} that this deterministic interval contains $\theta$." This sentence has to be understood in the sense above
+
+
+
+
+}
+
+
+\frame{
+\begin{itemize}
+\item Part 1: Estimator and estimate 
+\begin{itemize}
+\item Definition
+\item Sample mean and sample variance 
+\end{itemize}
+\item Part 2: Confidence interval for $\mu$
+\begin{itemize}
+\item A general definition
+\item $\sigma^2$ is known and the distribution is normal
+\end{itemize}
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{Confidence interval for $\mu$}
+\vspace{1 mm}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Theorem]
+Consider a  sample of i.i.d.\ random variables $X_1, X_2,\ldots,X_n$ that are \textbf{normal} with mean $\mu$ and variance $\sigma^2$. Assume that $\mu$ is unknown and $\sigma^2$ is known. Then 
+\[\left(\,\,\overline X-z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}}\,\, , \,\,\overline X+z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}}\,\,\right)\] 
+is a confidence interval for $\mu$
+with confidence level $100(1-\alpha)\%.$  The two endpoints are the lower limit and upper limit. \end{tcolorbox}
+
+
+
+\vspace{3 mm}
+\begin{itemize}
+\item the radius of the confidence interval, $z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}}$, is called the {\bf margin of error};
+\item $z_{\frac{\alpha}{2}}$ is called the {\bf critical value} \\
+($z_\frac{\alpha}{2}$ is defined by: $\P(Z\geq z_{\frac{\alpha}{2}})=1-\Phi(z_\frac{\alpha}{2})=\frac{\alpha}{2}$);
+\item $\frac{\sigma}{\sqrt{n}}=\sigma_{\overline X}$ is called the {\bf  standard error}.
+\end{itemize}
+
+}
+
+
+\frame{
+\frametitle{Example}
+\vspace{1 mm}
+Suppose that we know that \(X\) is normally distributed with \(\sigma^2=17\), and from \(10\) observed data-points we calculate that \(\overline{x}=2.7\). 
+
+
+
+To construct a \(95\)\% confidence interval for the mean $\mu$ of $X$,  we first note that \(\alpha=0.05\), so \(\alpha/2=0.025\). From the \(z\)--table we see that \(z_{\frac{\alpha}{2}}=z_{0.025}=1.96\). Accordingly, the confidence interval is
+\[\left(2.7-1.96\times \frac{\sqrt{17}}{\sqrt{10}},2.7+1.96\times \frac{\sqrt{17}}{\sqrt{10}}\right)\approx(0.144,5.255).\]
+
+
+\vspace{3 mm}
+
+\underline{The interpretation is}: \\
+we are $95\%$ confident that the interval $(0.144, 5.255)$ contains  the mean $\mu$. 
+
+
+}
+
+\frame{
+\frametitle{R code}\begin{figure}
+\includegraphics[scale=0.7]{normalknownr.png}
+\end{figure}}
+
+\frame{
+\frametitle{Proof}
+\vspace{1 mm}
+To show that 
+\[\left(\,\,\overline X-z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}}\,\, , \,\,\overline X+z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}}\,\,\right)\] 
+is a $100(1-\alpha)\%$ confidence interval, it is equivalent to proving that 
+\[\P\left(\,\,\overline X-z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}}\leq \mu \leq \overline X+z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}}\,\,\right)=1-\alpha.\] 
+
+\vspace{ 1mm}
+
+The above display is equivalent to
+\[
+\P\left(-z_{\frac{\alpha}{2}}< \frac{\overline{X}-\mu}{\sigma/\sqrt{n}}< z_{\frac{\alpha}{2}}\right)=1-\alpha.
+\]
+
+The above is correct because $\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}$ follows the standard normal distribution (see week-8 exercise sheet)
+
+
+}
+
+\frame{
+
+\begin{itemize}
+\item Part 1: Estimator and estimate 
+\begin{itemize}
+\item Definition
+\item Sample mean and sample variance 
+\end{itemize}
+\item Part 2: Confidence interval for $\mu$
+\begin{itemize}
+\item A general definition
+\item $\sigma^2$ is known and the distribution is normal
+\item $\sigma^2$ is unknown and the distribution is normal
+\end{itemize}
+\end{itemize}
+}
+
+\frame{\frametitle{$t$-distribution}
+\vspace{1 mm}
+
+Recall that the sum of the squares of $\nu$ independent standard normal random variables follows the chi-squared distribution with degree of freedom $\nu: \chi^2_\nu.$
+
+\vspace{5 mm}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Definition]
+Fix $\nu\in\{1,2,\ldots\}.$ Let $Z\sim N(0,1)$ and $Y\sim \chi_\nu^2$, and assume that $Z$ and $Y$ are independent. Then we say $Z/\sqrt{Y}$ follows the $t$ distribution with $\nu$ degrees of freedom, denoted by $t_\nu$. 
+
+The pdf of $t_\nu$ is given as follows:
+$$f(x)=\frac{\Gamma(\frac{\nu+1}{2})}{\sqrt{\nu\pi}\,\Gamma(\frac{\nu}{2})}\left(1+\frac{x^2}{\nu}\right)^{-\frac{\nu+1}{2}}, \quad x\in\R.$$
+\end{tcolorbox}
+}
+
+\frame{\frametitle{Comparison of pdfs}
+
+\begin{figure}[h!]
+\centering
+\begin{subfigure}%{.1\textwidth}
+  \centering
+  \includegraphics[scale=0.4]{tpara}
+  \label{fig:sub1}
+\end{subfigure}%
+\begin{subfigure}%{.1\textwidth}
+  \centering
+  \includegraphics[scale=0.4]{tnorm}
+  \label{fig:sub2}
+\end{subfigure}
+\label{fig:test}
+\end{figure}
+
+
+}
+
+
+
+\frame{
+\frametitle{Sample variance}
+\vspace{1 mm}
+
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Lemma]Let $X_1,X_2,\ldots,X_n$ be i.i.d.\ normal random variables with variance $\sigma^2$. Then 
+$$\frac{nS^2}{\sigma^2}\sim \chi_{n-1}^2$$
+\end{tcolorbox}
+
+\vspace{3 mm}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Theorem]
+For a sample of i.i.d.\ random variables $X_1, X_2,\ldots,X_n$ that are normal with mean $\mu$,   
+$$
+\frac{\overline X-\mu}{S/\sqrt{n}}\sim t_{n-1}
+$$
+\end{tcolorbox}
+
+}
+
+
+
+\frame{
+\frametitle{Confidence interval for $\mu$}
+\vspace{1 mm}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Theorem]
+Consider a  sample of i.i.d.\ random variables $X_1, X_2,\ldots, X_n$ that are normal with mean $\mu$. Assume that $\mu$ is unknown. Then 
+$$\left(\,\,\overline X-t_{n-1,\frac{\alpha}{2}}\cdot\frac{S}{\sqrt{n}}\,\, , \,\,\overline X+t_{n-1,\frac{\alpha}{2}}\cdot\frac{S}{\sqrt{n}}\,\,\right)$$ 
+is a confidence interval for $\mu$
+with confidence level $100(1-\alpha)\%.$   The two endpoints are the lower limit and upper limit.
+\end{tcolorbox}
+
+
+\vspace{3 mm}
+\begin{itemize}
+\item the radius of the confidence interval, $t_{n-1,\frac{\alpha}{2}}\cdot\frac{S}{\sqrt{n}}$, is called the {\bf margin of error};
+\item $t_{n-1,\frac{\alpha}{2}}$ is called the {\bf critical value}\\
+ $\rightarrow t_{n-1,\frac{\alpha}{2}}$: $\P(t_{n-1}\geq t_{n-1,\frac{\alpha}{2}})=1-F_{t_{n-1}}(t_{n-1,\frac{\alpha}{2}})=\frac{\alpha}{2}$;
+\item $\frac{S}{\sqrt{n}}$ is called the {\bf sample standard error}. 
+\end{itemize}
+
+}
+
+\frame{\frametitle{Compare the critical values $t_{n,\frac{\alpha}{2}}$ and $z_{\frac{\alpha}{2}}$}
+By the plots of the pdfs and the definition of critical values, we can see that for any $0<\alpha<1$, 
+$$z_{\frac{\alpha}{2}}<t_{n,\frac{\alpha}{2}}<t_{n-1,\frac{\alpha}{2}}, \quad \text{ for any } n\geq 2.$$
+
+
+
+
+}
+
+
+
+\frame{\frametitle{Approximate the critical values}
+\begin{figure}
+\includegraphics[scale=0.175]{ttable}
+\caption{There is no explicit expression for the cdf. Therefore the critical values $t_{n-1,\frac{\alpha}{2}}$ have to be numerically approximated 
+}
+\end{figure}
+
+}
+
+\frame{
+\frametitle{Example}
+\vspace{1 mm}
+Suppose that we know that \(X\) is normally distributed, and from \(10\) observed data-points we calculate that \(\overline{x}=2.7\), \(s^2=17\). 
+
+
+To construct a \(95\)\% confidence interval in this case, we again have \(\alpha/2=0.025\). From the \(t\)--table we see that \(t_{n-1,\frac{\alpha}{2}}=t_{9,0.025}=2.262\). Accordingly, the confidence interval is
+\[\left(2.7-2.262\times \frac{\sqrt{17}}{\sqrt{10}},2.7+2.262\times \frac{\sqrt{17}}{\sqrt{10}}\right)\approx(-0.249,5.649).\]
+
+\vspace{1 mm}
+
+\underline{The interpretation is}: \\
+we are $95\%$ confident that the interval $(-0.249,5.649)$ contains  the mean $\mu$. 
+
+
+}
+
+
+
+\frame{
+\frametitle{R code}\begin{figure}
+\includegraphics[scale=0.7]{normalunknownr.png}
+\end{figure}}
+
+
+
+\frame{
+\frametitle{Proof}
+\vspace{1 mm} To show that 
+$$\left(\,\,\overline X-t_{n-1,\frac{\alpha}{2}}\cdot\frac{S}{\sqrt{n}}\,\, , \,\,\overline X+t_{n-1,\frac{\alpha}{2}}\cdot\frac{S}{\sqrt{n}}\,\,\right)$$
+is a $100(1-\alpha)\%$ confidence interval, it is equivalent to proving that 
+\[\P\left(\,\,\overline X-t_{n-1,\frac{\alpha}{2}}\cdot\frac{S}{\sqrt{n}}\leq \mu \leq \overline X+t_{n-1,\frac{\alpha}{2}}\cdot\frac{S}{\sqrt{n}}\,\,\right)=1-\alpha.\] 
+
+\vspace{ 1mm}
+
+The above display is equivalent to
+\[
+\P\left(-t_{n-1,\frac{\alpha}{2}}< \frac{\overline X-\mu}{S/\sqrt{n}}<t_{n-1,\frac{\alpha}{2}}\right)=1-\alpha.
+\]
+
+The above is correct because $\frac{\overline X-\mu}{S/\sqrt{n}}\sim t_{n-1}$.  
+
+
+}
+
+
+\frame{
+\begin{itemize}
+\item Part 1: Estimator and estimate 
+\begin{itemize}
+\item Definition
+\item Sample mean and sample variance 
+\end{itemize}
+\item Part 2: Confidence interval for $\mu$
+\begin{itemize}
+\item A general definition
+\item $\sigma^2$ is known and the distribution is normal
+\item $\sigma^2$ is unknown and the distribution is normal
+\item The distribution is not normal but the sample size is large 
+\end{itemize}
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{Confidence interval for $\mu$}
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Theorem]
+Consider a  sample of i.i.d.\ random variables $X_1, X_2,\ldots,X_n$ that are not normal. Assume the common mean $\mu$ is unknown. {\bf When $n$ is sufficiently large},
+\[\left(\,\,\overline X-z_{\frac{\alpha}{2}}\cdot\frac{S}{\sqrt{n}}\,\, , \,\,\overline X+z_{\frac{\alpha}{2}}\cdot\frac{S}{\sqrt{n}}\,\,\right)\] 
+is a confidence interval for $\mu$
+with confidence level $100(1-\alpha)\%$.    The two endpoints are the lower limit and upper limit.
+\end{tcolorbox}
+
+\begin{itemize}
+\item $z_{\frac{\alpha}{2}}\cdot\frac{S}{\sqrt{n}}$ is the {\bf margin of error};
+\item $z_{\frac{\alpha}{2}}$ is the {\bf critical value};
+\item $\frac{S}{\sqrt{n}}$ is the {\bf  sample standard error}.
+\end{itemize}
+
+\underline{If $\sigma$ is known, we can replace $S$ by $\sigma$} 
+}
+
+
+\frame{
+\frametitle{Example}
+\vspace{1 mm}
+Suppose that a drug trial includes \(2,500\) participants. The weight lost by the participants over the course of the study is measured, giving \(\overline{x}=0.38\)kg with \(s^2=2.25\)kg\(^2\).
+
+To calculate a \(97.5\)\% confidence interval for the mean weight loss \(\mu\), we use \(\alpha=0.025\). Then \(z_{\frac{\alpha}{2}}=2.24\), and the confidence interval is
+\[
+\left(0.38-2.24\times\frac{\sqrt{2.25}}{\sqrt{2500}},0.38+2.24\times\frac{\sqrt{2.25}}{\sqrt{2500}}\right)\approx(0.3128,0.4472).
+\]
+
+
+\vspace{3 mm}
+
+The interpretation is: \\
+we are $97.5\%$ confident that the interval $(0.3128,0.4472)$ contains  the mean $\mu$. 
+
+
+}
+
+\frame{
+\frametitle{R code}\begin{figure}
+\includegraphics[scale=0.7]{abnormalunknownr.png}
+\end{figure}}
+
+\frame{
+\frametitle{Proof}
+\vspace{1 mm}
+To show that 
+\[\left(\,\,\overline X-z_{\frac{\alpha}{2}}\cdot\frac{S}{\sqrt{n}}\,\, , \,\,\overline X+z_{\frac{\alpha}{2}}\cdot\frac{S}{\sqrt{n}}\,\,\right)\] 
+is a $100(1-\alpha)\%$ confidence interval, it is equivalent to proving that 
+\[\P\left(\,\,\overline X-z_{\frac{\alpha}{2}}\cdot\frac{S}{\sqrt{n}}\leq \mu \leq \overline X+z_{\frac{\alpha}{2}}\cdot\frac{S}{\sqrt{n}}\,\,\right)=1-\alpha.\] 
+
+\vspace{ 1mm}
+
+The above display is equivalent to
+\[
+\P\left(-z_{\frac{\alpha}{2}}< \frac{\overline{X}-\mu}{S/\sqrt{n}}< z_{\frac{\alpha}{2}}\right)=1-\alpha.
+\]
+
+The above is correct asymptotically because $\frac{\overline{X}-\mu}{S/\sqrt{n}}$ converges to $N(0,1)$, thanks to the following result 
+
+
+}
+
+\frame{
+\frametitle{Another Central Limit Theorem}
+
+
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Theorem]
+
+Let \(X_1,X_2,\ldots,\) be i.i.d.\ random variables with common mean \(\mu\) . Let $S^2$ be the sample variance of $\{X_1,X_2,\ldots,X_n\}$. Then 
+$$\frac{\overline{X}-\mu}{S/\sqrt{n}}\text{ converges in distribution to } Z$$
+where \(Z\sim N(0,1)\)
+\end{tcolorbox}
+
+\begin{itemize}
+\item The difference with the usual CLT is that we replace $\sigma$ by $S$
+\item If $\sigma$ is known, we can replace $S$ by $\sigma$ in the above theorem. Then it becomes the usual CLT. 
+\end{itemize}
+
+}
+
+\frame{
+\begin{itemize}
+\item Part 1: Estimator and estimate 
+\begin{itemize}
+\item Definition
+\item Sample mean and sample variance 
+\end{itemize}
+\item Part 2: Confidence interval for $\mu$
+\begin{itemize}
+\item A general definition
+\item $\sigma^2$ is known and the distribution is normal
+\item $\sigma^2$ is unknown and the distribution is normal
+\item The distribution is not normal but the sample size is large 
+\item When can we construct a confidence interval?
+\end{itemize}
+\end{itemize}
+}
+
+
+
+\frame{
+\frametitle{When can we construct a confidence interval? }
+\vspace{1 mm}
+
+0. The i.i.d.\ assumption.    If the  sample data are not collected in an i.i.d.\ way, the whole theory of confidence intervals is invalid.
+
+\vspace{ 4 mm}
+
+1. The data are Bernoulli: to ensure that the sample size is large enough so that the CLT works, we usually require that 
+$$n\cdot\hat p\geq 10; \quad n\cdot(1-\hat p)\geq 10$$
+
+Here $\hat p=\overline X$ is the estimate of the parameter $p$
+\vspace{ 4 mm}
+
+2.   $n\geq 30$ and not Bernoulli:  in this case, we usually assume that the Central Limit Theorem works and the confidence interval can be used
+ }
+
+
+
+\frame{
+\frametitle{When can we construct a confidence interval? }
+\vspace{1 mm}
+
+
+3. $8\leq n\leq 29$ and not Bernoulli: in this case, the sample size is not large enough to rely on the Central Limit Theorem. But we can plot a histrogram to decide whether the distribution is close to normal. If it is, we can use the confidence interval, otherwise we have to give up
+
+\vspace{ 4 mm}
+
+
+4. $n\leq 7$ and not Bernoulli: the idea that drawing a histogram of the sample data will show us the distribution is based on the WLLN. When the sample size is so small, we cannot even rely on this. Therefore, we can only use confidence intervals if we already have other evidence that the distribution is normal
+ }
+
+
+
+
+\section{Week 9: Hypothesis testing for the population mean}
+
+
+\frame{\frametitle{Week 9: Hypothesis testing for the population mean}
+
+\begin{itemize}
+\item Hypothesis testing for $\mu$
+\begin{itemize}
+\item A general introduction
+\item Distribution is normal
+\begin{itemize}
+\item Two-sided test with $\sigma^2$ known
+\item Two-sided test with $\sigma^2$ unknown
+\item One-sided test with $\sigma^2$ known
+\item One-sided test with $\sigma^2$ unknown
+\end{itemize}
+\item Distribution is not normal but the sample size is large
+\item Strength of evidence
+\end{itemize}\end{itemize}
+}
+
+\frame{\begin{itemize}
+\item Hypothesis testing for $\mu$
+\begin{itemize}
+\item A general introduction
+\end{itemize}
+\end{itemize}
+}
+
+\frame{
+\frametitle{Estimation vs Testing}
+\vspace{1 mm}
+
+%When we have a sample of data, we can use it to estimate the distribution parameters, because the data contains information of the distribution. 
+
+%\vspace{1 mm}
+
+\underline{One way of using the sample data: estimation} \\
+we use sample mean $\overline X$ to estimate distribution/population/true mean $\mu$ and to use confidence interval to ``catch" $\mu$.  
+
+\vspace{4 mm}
+
+\underline{The other way of using the sample data: testing}\\
+if we have a guess of the distribution parameters, we can compare our belief with the data to see if there is any inconsistency.  If there is, then we have to reject our guess.  
+
+\vspace{1 mm}
+The guess is called the {\bf Null Hypothesis}, denoted by $H_0$. This procedure is called {\bf Hypothesis Testing. }
+
+}
+
+\frame{
+\frametitle{Example}
+\vspace{1 mm}
+We guess that $\mu=\mu_0.$  That is:
+$$H_0: \mu=\mu_0.$$
+
+
+\vspace{1 mm}
+
+If $X_1, X_2,\ldots $ are i.i.d.\ and form a random sample of the distribution,  then by the WLLN, 
+$$\overline X=\frac{X_1+X_2+\cdots+X_n}{n}$$
+converges to $\mu_0$ as $n\to\infty$
+
+\vspace{1 mm}
+
+
+\underline{So for $n\to\infty$, if $\overline X$ is not close to $\mu_0$, then we can reject $H_0$ }
+
+
+\vspace{3 mm}
+However in reality $n$ is finite. We have to know how long their distance should be for fixed $n$ under $H_0.$ If the distance appears to be atypical (i.e. too long), we have to reject $H_0.$
+
+}
+
+\frame{
+\frametitle{Alternative Hypothesis}
+\vspace{1 mm}
+If the distance between $\overline X$ and $\mu_0$ is too long, we have to think of an alternative hypothesis under which the atypicality disapears. This hypothesis is called {\bf Alternative Hypothesis}, denoted by $H_1.$
+
+\vspace{3 mm}
+
+A typical example is 
+$$H_0: \mu=\mu_0, \quad H_1: \mu\neq \mu_0.$$
+}
+
+
+\frame{
+\frametitle{Rejection region (or critical region)}
+\vspace{1 mm}
+However,  we still do not know what a typical distance between $\overline X$ and $\mu_0$ should look like,  under $H_0.$ In other words, what values of $\overline X$ would tell us that the distance is atypical? These values form the rejection region. 
+
+
+
+\vspace{3 mm}
+
+We take the previous example with two hypotheses as follows: 
+$$H_0: \mu=\mu_0, \quad H_1: \mu\neq \mu_0.$$
+
+By the CLT, under $H_0,$ we know that 
+$$\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}$$
+will asymptotically follow $N(0,1)$. In other words, the above random variable will appear to be standard normal as $n\to\infty.$ 
+
+  
+}
+
+
+
+\frame{
+\frametitle{Rejection region (or critical region) (cont.)}
+\vspace{1 mm}
+
+By the 68-95-99 rule,  with probability $0.997$, $\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}$ falls within $(-3,3)$, for  $n$ large enough (because we can consider $\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}$ as standard normal by the Central Limit Theorem).   
+
+\vspace{3 mm}
+
+
+So  the distance between $\overline X$ and $\mu_0$ is large, if $\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}$ is far above 0 or far below 0. 
+
+
+
+  
+}
+
+
+
+\frame{
+\frametitle{Critical value and significance level}
+\vspace{1 mm}
+
+
+For the previous example: 
+$$H_0: \mu=\mu_0, \quad H_1: \mu\neq \mu_0.$$
+
+We reject $H_0$ if $\left |\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}\right |\geq z$. Here $z$ is  some number called the {\bf critical value.} 
+
+\vspace{1  mm}
+
+The probability $\P\left(\left |\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}\right |\geq z\right)$ is called the {\bf significance level}, usually denoted by $\alpha$. 
+
+\vspace{1 mm}
+
+Given $\alpha$, then $z=z_{\frac{\alpha}{2}}$, because 
+\begin{itemize}
+\item  $\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}$ can be considered as standard normal, under $H_0$, for $n$ large enough. 
+\item $\P(|Z|\geq z_{\frac{\alpha}{2}})=2\P(Z\geq z_{\frac{\alpha}{2}})=2\cdot \frac{\alpha}{2}=\alpha$ for $Z\sim N(0,1)$. 
+Note that $z_{\frac{\alpha}{2}}$ is also the \underline{critical value for confidence intervals}
+
+\end{itemize}
+  
+}
+
+
+\frame{
+\frametitle{Rejection region (or critical region) again}
+\vspace{1 mm}
+
+
+Given a concrete sample of data, we write $\overline x$ for $\overline X$. Then the set 
+$$\left(-\infty,\quad  \mu_0-z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}}\right]\cup \left[\mu_0+z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}},\quad \infty\right)$$
+is the {\bf rejection region}. If $\overline x$ falls in the rejection region, then we reject $H_0,$ as it means that 
+$$\left |\frac{\overline x-\mu_0}{\sigma/\sqrt{n}}\right |\geq z_{\frac{\alpha}{2}}.$$
+
+\vspace{4 mm}
+
+There are two conclusions we can make in hypothesis testing: 
+
+\begin{itemize}
+\item We \underline{reject $H_0$ at the $\alpha$ significance level}, if $\overline x$ falls in the rejection region.
+\item We \underline{fail to reject $H_0$ at the $\alpha$ significance level}, if $\overline x$ does not fall in the rejection region.
+
+\end{itemize}
+  
+}
+
+
+\frame{
+\frametitle{Type I error and Type II error}
+\vspace{1 mm}
+When $\overline x$ falls in the rejection region, we reject $H_0.$ However $H_0$ could be true in reality and $\overline x$ falling in the rejection region is just a matter of randomness.  We call it {\bf Type I error} if $H_0$ holds true but we reject it at the $\alpha$ significance level. This error occurs with probability $\alpha$ 
+
+
+\vspace{3 mm}
+
+Another error is that $H_0$ does not hold in reality, but we fail to reject it at the $\alpha$ significance level. This is called the {\bf Type II error}  %The probability of committing this error depends on the value of the true mean $\mu.$ 
+
+\vspace{3 mm}
+
+We will never know whether we have committed any error in hypothesis testing (that's why we cannot say we "accept" a hypothesis)
+
+
+}
+
+\frame{
+
+\begin{itemize}
+\item Hypothesis testing for $\mu$
+\begin{itemize}
+\item A general introduction
+\item Distribution is normal
+\begin{itemize}
+\item Two-sided test with $\sigma^2$ known
+\end{itemize}
+\end{itemize}\end{itemize}
+}
+
+
+\frame{
+\frametitle{Two-sided test with $\sigma^2$ known}
+\vspace{1 mm}
+The hypotheses are
+$$H_0: \mu=\mu_0,  \text{ against } H_1: \mu\neq\mu_0$$
+
+we reject \(H_0\) if 
+\[\left|\frac{\overline x-\mu_0}{\sigma/\sqrt{n}}\right|\geq z_{\frac{\alpha}{2}},\]
+or equivalently if
+\[
+\text{either} \quad \overline x \geq \mu_0+z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}}\quad \text{ or } \quad\overline x \leq \mu_0-z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}}
+\]
+
+\vspace{3 mm}
+
+Why: \[\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}\sim N(0,1)\] for any $n$
+}
+
+
+\frame{
+\frametitle{Two-sided test with $\sigma^2$ known}
+\vspace{1 mm}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.6]{twotailreject.png}
+\caption{The rejection region is $\left(-\infty, z_{\frac{\alpha}{2}}\right]\cup \left[z_{\frac{\alpha}{2}},\infty\right)$ for $\frac{\overline x-\mu_0}{\sigma/\sqrt{n}}$.}
+\label{fig:normrej}
+\end{center}
+\end{figure}
+}
+
+
+\frame{
+\frametitle{$p$-value:  another way to make decisions}
+
+The \(p\)--value is a conditional probability, assuming that the null hypothesis is correct:
+\begin{align*}p\text{--value}=\P\left(\left|\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}\right|\geq\left|\frac{\overline x-\mu_0}{\sigma/\sqrt{n}}\right|\Big|\mu=\mu_0\right)&=\P\left(|Z|\geq\left|\frac{\overline x-\mu_0}{\sigma/\sqrt{n}}\right|\right)&\\
+&=2-2\Phi\left(\left|\frac{\overline x-\mu_0}{\sigma/\sqrt{n}}\right|\right),&\end{align*}
+where $Z\sim N(0,1).$
+
+
+\vspace{1 mm}
+We think of \(p\)--value as the smallest significance level \(\alpha\) at which the null hypothesis would be rejected, with the given data. 
+\begin{itemize}
+\item Reject $H_0$,  if \(p\)--value $\leq \alpha$; 
+\item Fail to reject $H_0$, if \(p\)--value $>\alpha$.
+\end{itemize}
+Reporting this value is concise, and allows the reader to decide for themselves what significance value ($\alpha$) they are happy to use.
+}
+
+
+\frame{
+\frametitle{$p$-value}
+\vspace{1 mm}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.5]{twotailpvalue.png}
+\caption{$y=\left|\frac{\overline x-\mu_0}{\sigma/\sqrt{n}}\right|$}
+\label{fig:normp}
+\end{center}
+\end{figure}
+NB: $p$--value $\leq \alpha$ if and only if $y\geq z_{\frac{\alpha}{2}}$. 
+}
+
+
+\frame{
+\frametitle{Example}
+A conservationist working in a remote rainforest has discovered a population of frogs. While they appear to be red-eyed tree frogs, the conservationist suspects they might be a slightly different species not yet known to science, and so attempts to demonstrate this. 
+
+Female red-eyed tree frogs typically have an average length of \(62\)mm. We want to test it. Assume it is known that the distribution is normal with $\sigma^2=23.1.$ The conservationist measures \(60\) female frogs, finding that \(\overline{x}=63.1\).
+
+Here we use a two-sided hypothesis test with
+\[
+H_0: \mu=62, \quad H_1: \mu\neq 62.
+\]}
+
+\frame{
+\frametitle{Example}
+For significance level \(\alpha=0.05\) we have \(z_{\frac{\alpha}{2}}=1.96\). We therefore want to check whether either
+\[\overline{x}\,\geq\, 62+1.96\times \frac{\sqrt{21.3}}{\sqrt{60}}\approx 63.17,\]
+or
+\[\overline{x}\,\leq\, 62-1.96\times \frac{\sqrt{21.3}}{\sqrt{60}}\approx 60.83,\]
+or neither of them. 
+As \(\overline{x}=63.1\in(60.83,63.17)\), we fail to reject the null hypothesis at the \(0.05\) significance level. 
+
+}
+
+\frame{
+\frametitle{R code}
+\begin{figure}
+\includegraphics[scale=0.4]{htnormalknownr}
+\end{figure}
+
+}
+
+
+\frame{
+\begin{itemize}
+\item Hypothesis testing for $\mu$
+\begin{itemize}
+\item A general introduction
+\item Distribution is normal
+\begin{itemize}
+\item Two-sided test with $\sigma^2$ known
+\item Two-sided test with $\sigma^2$ unknown
+\end{itemize}
+\end{itemize}\end{itemize}
+}
+
+
+
+\frame{
+\frametitle{Two-sided test with $\sigma^2$ unknown.}
+\vspace{1 mm}
+The hypotheses are
+$$H_0: \mu=\mu_0,  \text{ against } H_1: \mu\neq\mu_0.$$
+
+We reject \(H_0\) if 
+\[\left|\frac{\overline x-\mu_0}{s/\sqrt{n}}\right|\geq t_{n-1, \frac{\alpha}{2}},\]
+or equivalently if
+\[
+\text{either} \quad \overline x \geq \mu_0+t_{n-1, \frac{\alpha}{2}}\cdot\frac{s}{\sqrt{n}}\quad \text{ or } \quad\overline x \leq \mu_0-t_{n-1, \frac{\alpha}{2}}\cdot\frac{s}{\sqrt{n}}
+\]
+\vspace{3 mm}
+
+Why: \[\frac{\overline X-\mu_0}{S/\sqrt{n}}\sim t_{n-1}\] for any $n\geq 2$
+}
+
+
+
+\frame{
+\frametitle{Two-sided test with $\sigma^2$ unknown: $p$-value}
+\vspace{1 mm}
+The $p$--value is defined as 
+$$p\text{--value}=\P\left(\left|\frac{\overline X-\mu_0}{{S/\sqrt{n}}}\right|\geq\left|\frac{\overline x-\mu_0}{{s/\sqrt{n}}}\right|\Big|\mu=\mu_0\right)=\P\left(|T|\geq\left|\frac{\overline x-\mu_0}{{s/\sqrt{n}}}\right|\right),$$
+where $T\sim t_{n-1}$
+}
+
+\frame{
+\frametitle{Example}
+A conservationist working in a remote rainforest has discovered a population of frogs. While they appear to be red-eyed tree frogs, the conservationist suspects they might be a slightly different species not yet known to science, and so attempts to demonstrate this. 
+
+Female red-eyed tree frogs typically have an average length of \(62\)mm. We want to test it. Assume it is known that the distribution is normal.   The conservationist measures \(25\) female frogs, finding that \(\overline{x}=63.1\) and $s^2=23.1$.
+
+Here we use a two-tailed hypothesis test with
+\[
+H_0: \mu=62, \quad H_1: \mu\neq 62.
+\]}
+
+\frame{
+\frametitle{Example}
+For significance level \(\alpha=0.05\) we have \(t_{n-1,\alpha/2}=t_{24,0.025}=2.064\). We therefore want to check whether either
+\[\overline{x}\,\geq\, 62+2.064\times \frac{\sqrt{21.3}}{\sqrt{25}}\approx 63.91,\]
+or
+\[\overline{x}\,\leq\, 62-2.064\times \frac{\sqrt{21.3}}{\sqrt{25}}\approx 60.09,\]
+or neither of them. 
+As \(\overline{x}=63.1\in(60.09,63.91)\), we fail to reject the null hypothesis at the \(0.05\) significance level. 
+
+}
+
+\frame{
+\frametitle{R code}
+\begin{figure}
+\includegraphics[scale=0.4]{htnormalunknownr}
+\end{figure}
+
+}
+
+\frame{
+\begin{itemize}
+\item Hypothesis testing for $\mu$
+\begin{itemize}
+\item A general introduction
+\item Distribution is normal
+\begin{itemize}
+\item Two-sided test with $\sigma^2$ known
+\item Two-sided test with $\sigma^2$ unknown
+\item One-sided test with $\sigma^2$ known
+\end{itemize}
+\end{itemize}\end{itemize}
+}
+
+
+
+\frame{
+\frametitle{One-sided test with $\sigma^2$ known.}
+\vspace{1 mm}
+The hypotheses are
+$$H_0: \mu=\mu_0,  \text{ against } H_1: \mu>\mu_0 \quad \text{(or  $\mu<\mu_0$)}.$$
+
+We reject \(H_0\) if 
+\[\frac{\overline x-\mu_0}{\sigma/\sqrt{n}}\geq z_{\alpha}, \quad \text{( or  $\frac{\overline x-\mu_0}{\sigma/\sqrt{n}}\leq -z_{\alpha}$)},\]
+or equivalently if
+\[
+ \overline x \geq \mu_0+z_{\alpha}\cdot\frac{\sigma}{\sqrt{n}}, \quad  \text{( or  $\overline x \leq \mu_0-z_{\alpha}\cdot\frac{\sigma}{\sqrt{n}}$)}
+\]
+\vspace{3 mm}
+
+Why: \[\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}\sim N(0,1)\] for any $n$%.  So 
+%$$\P\left(\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}\geq z_\alpha \right)=\alpha.$$
+}
+
+
+\frame{
+\frametitle{One-sided test with $\sigma^2$ known.}
+\vspace{1 mm}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.7]{reject.png}
+\caption{The rejection region is $(z_\alpha,\infty)$ for $\frac{\overline x-\mu_0}{\sigma/\sqrt{n}}$}
+\label{fig:normrej2}
+\end{center}
+\end{figure}
+
+}
+
+
+\frame{
+\frametitle{One-sided test with $\sigma^2$ known: $p$-value}
+\vspace{1 mm}
+
+The $p$--value for $H_1: \mu>\mu_0$ is defined as 
+\begin{align*}
+p\text{--value}&=\P\left(\overline X\geq \overline x\,\Big|\mu=\mu_0\right)\\
+&=\P\left(\frac{\overline X-\mu_0}{{\sigma/\sqrt{n}}}\geq\frac{\overline x-\mu_0}{{\sigma/\sqrt{n}}}\,\Big|\mu=\mu_0\right)=\P\left(Z\geq\frac{\overline x-\mu_0}{{\sigma/\sqrt{n}}}\right),
+\end{align*}
+where $Z\sim N(0,1).$
+
+Similarly, the $p$--value for $H_1: \mu<\mu_0$ is 
+\begin{align*}
+p\text{--value}&=\P\left(\overline X\leq \overline x\,\Big|\mu=\mu_0\right)\\
+&=\P\left(\frac{\overline X-\mu_0}{{\sigma/\sqrt{n}}}\leq\frac{\overline x-\mu_0}{{\sigma/\sqrt{n}}}\,\Big|\mu=\mu_0\right)=\P\left(Z\leq\frac{\overline x-\mu_0}{{\sigma/\sqrt{n}}}\right),
+\end{align*}
+}
+
+
+\frame{
+\frametitle{One-sided test with $\sigma^2$ known: $p$-value}
+\vspace{1 mm}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.6]{pvalue.png}
+\caption{$y=\frac{\overline x-\mu_0}{s/\sqrt{n}}, \quad H_1: \mu>\mu_0$}
+\label{fig:normp2}
+\end{center}
+\end{figure}
+}
+
+
+\frame{
+\frametitle{Example}
+A year-group of \(60\) pupils at a school have all taken a national mathematics test. Assume the national mark distribution is normal with $\sigma^2=21.3$.  The national average mark was \(62\%\). The school would like to show that their pupils \underline{are performing above} the national average. The school results give \(\overline{x}=63.1\)
+
+Here we use a one-tailed hypothesis test with
+\[
+H_0: \mu=62, \quad H_1: \mu>62.
+\]
+
+}
+
+\frame{
+\frametitle{Example}
+For significance level \(\alpha=0.05\) we have \(z_{\alpha}=1.645\). We therefore want to check whether
+\[\overline{x}\,\geq\, 62+1.645\times \frac{\sqrt{21.3}}{\sqrt{60}}\approx 62.98.\]
+Since \(\overline{x}=63.1>62.98\), we can reject the null hypothesis at the \(0.05\) significance level. 
+}
+
+\frame{
+\frametitle{R code for $H_1: \mu>\mu_0$}
+\begin{figure}
+\includegraphics[scale=0.4]{htnormalknownoner}
+\end{figure}
+
+Exercise:  write the code for $H_1: \mu<\mu_0$
+}
+
+
+\frame{
+\begin{itemize}
+\item Hypothesis testing for $\mu$
+\begin{itemize}
+\item A general introduction
+\item Distribution is normal
+\begin{itemize}
+\item Two-sided test with $\sigma^2$ known
+\item Two-sided test with $\sigma^2$ unknown
+\item One-sided test with $\sigma^2$ known
+\item One-sided test with $\sigma^2$ unknown
+\end{itemize}
+\end{itemize}\end{itemize}
+}
+
+
+
+\frame{
+\frametitle{One-sided test with $\sigma^2$ unknown.}
+\vspace{1 mm}
+The hypotheses are
+$$H_0: \mu=\mu_0,  \text{ against } H_1: \mu>\mu_0 \quad \text{(or  $\mu<\mu_0$)}.$$
+
+We reject \(H_0\) if 
+\[\frac{\overline x-\mu_0}{s/\sqrt{n}}\geq t_{n-1, \alpha}, \quad \text{(or  $\frac{\overline x-\mu_0}{s/\sqrt{n}}\leq -t_{n-1, \alpha}$)}, \]
+or equivalently if
+\[
+ \overline x \geq \mu_0+t_{n-1, \alpha}\cdot\frac{s}{\sqrt{n}} \quad \text{(or  $\overline x \leq \mu_0-t_{n-1, \alpha}\cdot\frac{s}{\sqrt{n}}$)}
+\]
+\vspace{3 mm}
+
+Why: \[\frac{\overline X-\mu_0}{S/\sqrt{n}}\sim t_{n-1}\] for any $n\geq 2$
+%So 
+%$$\P\left(\frac{\overline X-\mu_0}{S/\sqrt{n}}\geq t_{n-1, \alpha} \right)=\alpha.$$
+}
+
+
+
+\frame{
+\frametitle{One-sided test with $\sigma^2$ unknown: $p$-value}
+\vspace{1 mm}
+The $p$--value for $H_1: \mu>\mu_0$ is defined as 
+\begin{align*}
+p\text{--value}&=\P\left(\overline X\geq \overline x\,\Big|\mu=\mu_0\right)\\
+&=\P\left(\frac{\overline X-\mu_0}{{S/\sqrt{n}}}\geq\frac{\overline x-\mu_0}{{s/\sqrt{n}}}\,\Big|\mu=\mu_0\right)=\P\left(T\geq\frac{\overline x-\mu_0}{{s/\sqrt{n}}}\right),\end{align*}
+where $T\sim t_{n-1}.$
+
+Similarly, the $p$--value for $H_1: \mu<\mu_0$ is
+\begin{align*}
+p\text{--value}&=\P\left(\overline X\leq \overline x\,\Big|\mu=\mu_0\right)\\
+&=\P\left(\frac{\overline X-\mu_0}{{S/\sqrt{n}}}\leq\frac{\overline x-\mu_0}{{s/\sqrt{n}}}\,\Big|\mu=\mu_0\right)=\P\left(T\leq\frac{\overline x-\mu_0}{{s/\sqrt{n}}}\right).\end{align*}
+}
+
+
+
+\frame{
+\frametitle{Example}
+A year-group of \(25\) pupils at a school have all taken a national mathematics test. Assume the national mark distribution is normal.  The national average mark was \(62\%\). The school would like to show that their pupils are performing below the national average. The school results give \(\overline{x}=61.1\) and $s^2=21.3$
+
+Here we use a one-tailed hypothesis test with
+\[
+H_0: \mu=62, \quad H_1: \mu<62.
+\]
+
+}
+
+\frame{
+\frametitle{Example (cont.)}
+For significance level \(\alpha=0.05\) we have \(t_{n-1,\alpha}=t_{24,0.05}=1.711\). We therefore want to check whether
+\[\overline{x}\,\leq\, 62-1.711\times \frac{\sqrt{21.3}}{\sqrt{25}}\approx 60.42.\]
+Since \(\overline{x}=61.1> 60.42\), we fail to reject the null hypothesis at the \(0.05\) significance level. 
+}
+
+\frame{
+\frametitle{R code for $H_1: \mu>\mu_0$}
+\begin{figure}
+\includegraphics[scale=0.4]{htnormalunknownoner}
+\end{figure}
+
+Exercise: write the code for $H_1: \mu<\mu_0$
+}
+
+
+\frame{
+
+\begin{itemize}
+\item Hypothesis testing for $\mu$
+\begin{itemize}
+\item A general introduction
+\item Distribution is normal
+\begin{itemize}
+\item Two-sided test with $\sigma^2$ known
+\item Two-sided test with $\sigma^2$ unknown
+\item One-sided test with $\sigma^2$ known
+\item One-sided test with $\sigma^2$ unknown
+\end{itemize}
+\item Distribution is not normal but the sample size is large
+\end{itemize}\end{itemize}
+}
+
+
+\frame{
+\frametitle{Very simple!}
+If $\sigma^2$ is known, we follow exactly the same approach in the case normal with known variance
+
+If $\sigma^2$ is unknown but $s^2$ is known, we also follow the same approach in the case normal with known variance where the variance is replaced by $s^2$
+
+{\bf How large is a large sample size?} : we refer to the criterion given for confidence intervals. 
+
+}
+\frame{
+\begin{itemize}
+\item Hypothesis testing for $\mu$
+\begin{itemize}
+\item A general introduction
+\item Distribution is normal
+\begin{itemize}
+\item Two-sided test with $\sigma^2$ known
+\item Two-sided test with $\sigma^2$ unknown
+\item One-sided test with $\sigma^2$ known
+\item One-sided test with $\sigma^2$ unknown
+\end{itemize}
+\item Distribution is not normal but the sample size is large
+\item Strength of evidence
+\end{itemize}\end{itemize}
+}
+
+
+
+\frame{
+\frametitle{Strength of evidence}
+
+The smaller the \(p\)--value, the stronger evidence there is against the null hypothesis. While different contexts will require different levels of rigour, one pattern for describing the strength of the evidence is as follows. Assume that the conclusion is to reject $H_0.$
+
+\begin{itemize}
+\item If $\text{\(p\)--value} > 0.10$, there is very little evidence against $H_0$ or we can say there is \underline{no evidence} against $H_0$.
+\item If $0.05 < \text{\(p\)--value}  \leq 0.10$, there is \underline{weak evidence} against $H_0$.
+\item If $0.01 < \text{\(p\)--value}  \leq 0.05$, there is \underline{evidence} against $H_0$.
+\item If $0.001 < \text{\(p\)--value}  \leq 0.01$, there is \underline{strong evidence} against $H_0$.
+\item If $\text{\(p\)--value}  \leq 0.001$, there is \underline{very strong evidence} against $H_0$.
+\end{itemize}
+
+}
+
+\section{Week 10: Chi-squared tests (goodness-of-fit and independence)}
+
+
+
+\frame{\frametitle{Week 10: Chi-squared tests (goodness-of-fit and independence)}
+
+\begin{itemize}
+\item Goodness-of-fit test
+\begin{itemize}
+\item Introduction
+\item Testing with a fixed distribution
+\item Testing with a distribution with combined outcomes
+\item Testing with a distribution with parameters unknown
+\end{itemize}
+\item Independence test
+\end{itemize}
+}
+
+
+
+
+\frame{
+
+\begin{itemize}
+\item Goodness-of-fit tests
+\begin{itemize}
+\item Introduction
+\end{itemize}
+\end{itemize}
+}
+
+\frame{
+\frametitle{Hypothesis tests previously}
+\vspace{1 mm}
+
+Previously, we are focused on the mean of a distribution. If the sample size is large enough, there is a same hypothesis testing approach regardless what the distribution is (i.e.\ normal or not normal)%.  The hypothesis testing for the mean follows the same process as long as the sample size is large enough. 
+
+\vspace{3 mm}
+
+This useful universality is based on the universality of the Central Limit Theorem (CLT)
+
+
+
+}
+
+
+\frame{
+\frametitle{Hypothesis tests now}
+\vspace{1 mm}
+
+We are focused now on the \underline{distribution as a whole}, rather than on its parameter(s). 
+
+\vspace{4 mm}
+
+We ask whether the sample is drawn from a particular distribution, and we are not interested anymore in the mean (or any parameter) of the distribution. 
+
+
+\vspace{4 mm}
+
+
+
+\vspace{2 mm}
+The null hypothesis is that the data {\it were} drawn from the particular distribution, \\
+
+ the alternative hypothesis is that the data {\it were not} drawn from the particular distribution. 
+
+\vspace{2 mm}
+
+This is the Goodness-of-fit test. 
+}
+
+\frame{
+\begin{itemize}
+\item Goodness-of-fit tests
+\begin{itemize}
+\item Introduction
+\item Testing with a fixed distribution 
+\end{itemize}
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{Reasoning}
+\vspace{1 mm}
+We will only look at the case where the distribution we are comparing the data to only takes a finite number of different values. %While it is possible to do goodness-of-fit tests in more general circumstances, we will see that this requirement is not as restrictive as it sounds. T
+This type of hypothesis test is called a {\bf Pearson's chi-squared test}, as chi-squared distributions will be used. 
+
+
+\vspace{3 mm}
+
+Let \(Y\) follow a distribution with a finite number of possible outcomes. For notational purposes, number the outcomes as \(1,2,\ldots,k\). For \(1\leq i\leq k\), write
+\[p_i=\P(Y=i).\]
+We then know that
+\[
+\sum_{i=1}^{k} p_i=1.
+\]
+
+
+
+}
+
+
+\frame{
+\frametitle{Reasoning (cont.)}
+\vspace{1 mm}
+Suppose we have i.i.d.\ random variables \(Y_1,\ldots,Y_n\) sampled from the distribution of \(Y\)
+
+For \(1\leq i\leq k\), let \(c_i\) be the number of these values that are equal to \(i\). By the WLLN, we would expect that
+\[\frac{c_i}{n} \approx p_i, \quad\text{or equivalently} \quad c_i\approx p_i \cdot n.\]
+We expect the differences \(c_i-p_i\cdot n\) to be small. 
+
+
+
+We define the test statistic
+\[
+\X^2=\sum_{i=1}^k\frac{ \left(c_i-p_i \cdot n\right)^2}{p_i \cdot n}=n\cdot\sum_{i=1}^k\frac{ \left(\frac{c_i}{n}-p_i\right)^2}{p_i}
+\]
+
+
+}
+
+
+
+
+\frame{
+\frametitle{Main result}
+\vspace{1 mm}
+
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Theorem]
+For a fixed choice of distribution, with \(k\), \(p_i\), \(Y_1,\ldots,Y_n\), and \(c_i\),  as introduced before,
+\[
+\X^2 \text{ converges in distribution to }\chi^2_{k-1} \quad \text{ as }n\to\infty.
+\]
+\end{tcolorbox}
+
+
+
+\vspace{1 mm}
+
+$\X^2$ is a function of a random sample. For a given deterministic sample, we write $\chi^2$ in place of $\X^2$. 
+
+
+\vspace{3 mm}
+
+We define the {\bf critical value} $\chi^2_{\nu,\alpha}$ such that if $X_{\nu}\sim \chi_\nu^2$ then 
+$$
+\P\left(X_{\nu}\geq\chi^2_{\nu,\alpha}\right)=\alpha %, \text{ for }\alpha\in(0,1)
+.$$
+These critical values are given in the chi-squared table
+}
+
+\frame{\frametitle{Chi-squared table}
+\begin{figure}
+\includegraphics[scale=0.22]{chitable}
+\end{figure}
+
+}
+
+
+
+
+\frame{
+\frametitle{Testing strategy}
+\vspace{1 mm}
+
+Let \(y_1,\ldots,y_n\) be a sample of data-points, potentially drawn from the distribution of \(Y\), which has possible outcomes \(1,\ldots,k\). Compute the test statistic \(\chi^2\).
+The two hypotheses are:
+\begin{align*}
+H_0&: \text{the data are sampled from the distribution of \(Y\)};\\
+H_1&:  \text{the data are not sampled from the distribution of \(Y\)}.
+\end{align*}
+
+\vspace{3 mm}
+
+For significance level $\alpha,$ we reject \(H_0\) if
+\[
+\chi^2\geq\chi^2_{k-1,\alpha}.
+\]
+The rejection region is $\left[\chi^2_{k-1,\alpha}\, ,\, \infty\right)$, and the \(p\)--value is given by
+$$p\text{--value}=\P(X_{k-1}\geq\chi^2)$$
+where $X_{k-1}\sim \chi^2_{k-1}.$
+}
+
+
+
+\frame{
+\frametitle{Test strategy (cont.)}
+\vspace{1 mm}
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[scale=1.2]{chipvalue.png}
+\caption{For this pdf, $k=11$ (so $k-1=10$) and $y=\chi^2_{10,\alpha}$}
+\label{Figchipvalue}
+\end{center}
+\end{figure}
+}
+
+\frame{
+\frametitle{When can we use this test? }
+\vspace{1 mm}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Sample Size Assumption]
+$$p_i\cdot n\geq 5  \quad \text{for any } 1\leq i\leq k.$$
+\end{tcolorbox}
+
+\vspace{10 mm}
+
+If the assumption is not satisfied, what should we do? 
+
+\begin{itemize}
+\item either increase the sample size by adding more data
+\item or we combine the outcomes
+\end{itemize}
+}
+\frame{
+\begin{itemize}
+\item Goodness-of-fit test
+\begin{itemize}
+\item Introduction
+\item Testing with a fixed distribution
+\item Testing with a distribution with combined outcomes
+\end{itemize}
+\end{itemize}
+}
+
+
+
+\frame{
+\frametitle{Combine outcomes}
+\vspace{1 mm}
+
+If we want to study a distribution that has infinitely many values, or the sample size assumption is not met, we can group some of the outcomes together to make a new distribution that we can apply our hypothesis test to.
+
+
+}
+
+
+\frame{
+\frametitle{Example}
+\vspace{1 mm}
+A restaurant thinks the average number of customers it gets each week is \(200\), following a Poisson distribution. Its records for the last six months give the following weekly totals:
+\begin{align*}
+&152,149,170,191,173,
+167,154,173,203,244,205,
+211,252,\\
+&265,284,296,
+240,251,223,238,189,
+184,160,171,162,129. 
+\end{align*}
+\vspace{3 mm}
+To meet the sample size assumption, we group the data into four ranges: \([0,190)\), \([190,200)\), \([200,210)\), \([210,\infty)\). The proportion of the data values in each of these categories is:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\([0,190)\) & \([190,200)\) & \([200,210)\) & \([210,\infty)\) \\
+\hline
+\(13/26=0.5\) & \(1/26\approx 0.038\) & \(2/26\approx 0.077\) & \(10/26\approx 0.385\) \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+
+\frame{
+\frametitle{Example (cont.)}
+\vspace{1 mm}
+Using R to calculate the values of the cdf of \(Poi(200)\), we find that the expected proportion in each category is as follows. 
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\([0,190)\) & \([190,200)\) & \([200,210)\) & \([210,\infty)\) \\
+\hline
+\(0.23\) & \(0.26\) & \(0.26\) & \(0.25\) \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{3 mm}
+Therefore, the test statistic is
+\begin{align*}
+&\chi^2=26\times&\\
+\Big(\frac{(0.5-0.23)^2}{0.23}+&\frac{(0.038-0.26)^2}{0.26}+\frac{(0.077-0.26)^2}{0.26}+\frac{(0.385-0.25)^2}{0.25}\Big)&\\
+&=18.414.&
+\end{align*}
+In this case we find that
+\[
+\chi^2>\chi^2_{3,0.005}=12.838.
+\]
+Thus reject the null hypothesis even at the \(0.5\%\) significance level. 
+}
+
+
+\frame{
+\frametitle{R code}
+\vspace{1 mm}
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[scale=.7]{gfr}
+\end{center}
+\end{figure}
+}
+
+\frame{
+
+\begin{itemize}
+\item Goodness-of-fit test
+\begin{itemize}
+\item Introduction
+\item Testing with a fixed distribution
+\item Testing with a distribution with combined outcomes
+\item Testing with a distribution with parameters unknown
+\end{itemize}
+\end{itemize}
+}
+
+
+
+\frame{
+\frametitle{Know the family but not the exact distribution}
+\vspace{1 mm}
+We often do not know in advance exactly which distribution we think fits the data, but instead only have an idea of which family of distributions is applicable. Before doing the goodness-of-fit, we need to use the data to estimate one or more parameters of the distribution. 
+
+\vspace{4 mm}
+
+When we do so, we use the information from the sample repeatedly, and we need to adjust the number of degrees of freedom used in the hypothesis test accordingly.
+
+}
+
+
+\frame{
+\frametitle{Example}
+\vspace{1 mm}
+A school of \(370\) children work on a project growing sunflowers.
+Each child plants \(4\) seeds, and reports how many of the seeds have grown after \(3\) weeks. The results are as follows:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+0 & 1 & 2 & 3 & 4 \\
+\hline
+12 & 54 & 107 & 130 & 67 \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{3 mm}
+
+It is expected that these results are drawn from the binomial distribution \(B(4,p)\) for some unknown value \(p\). This is estimated using the proportion of all the seeds that grew:
+\[\hat{p}=\frac{0\times 12+1\times 54+2\times 107+3\times 130+4\times 67}{4\times 370}\approx 0.626.\]
+}
+
+
+
+\frame{
+\frametitle{Example (cont.)}
+\vspace{1 mm}
+Using this estimate, the expected counts are:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+0 & 1 & 2 & 3 & 4 \\
+\hline
+7.24 & 48.47 & 121.69 & 135.79 & 56.82 \\
+\hline
+\end{tabular}
+\end{center}
+\noindent Accordingly the test statistic is
+\[\chi^2=\cdots\approx 7.605.\]
+In this case we need to use \(5-1-1=3\) degrees\footnote{The first $-1$ comes from the goodness-of-fit test, the second $-1$ comes from the fact that we need to estimate one parameter} of freedom. We find that
+\[\chi^2_{3,0.1}=6.251\,<\,\chi^2\,<\,\chi^2_{3,0.05}=7.815. \]
+We are therefore able to reject the null hypothesis at the \(10\%\) significance level but not at the \(5\%\) significance level.
+\vspace{3mm} 
+}
+
+\frame{
+\frametitle{When can we use this test? }
+\vspace{1 mm}
+
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Sample Size Assumption]
+$$\hat p_i\cdot n\geq 5  \quad \text{for any } 1\leq i\leq k.$$
+\end{tcolorbox}
+
+
+}
+
+\frame{
+
+\begin{itemize}
+\item Goodness-of-fit test
+\begin{itemize}
+\item Introduction
+\item Testing with a fixed distribution
+\item Testing with a distribution with combined outcomes
+\item Testing with a distribution with parameters unknown
+\end{itemize}
+\item Independence test
+\end{itemize}
+}
+
+
+
+
+\frame{
+\frametitle{An individual with two properties}
+\vspace{1 mm}
+
+Consider a population for which we are interested in two different properties. Let \(X\) be the random variable that records the first property, and \(Y\) the random variable that records the second property. Taking a sample will give us pairs of values \((x_1,y_1),(x_2,y_2),\ldots,(x_n,y_n)\).
+
+\vspace{3 mm}
+
+We can ask whether the two properties are independent. For discrete random variables, this means that
+\[
+\P(X=x, Y=y)=\P(X=x)\cdot\P(Y=y)
+\]
+for any possible values $x,y.$
+
+
+}
+
+
+\frame{
+\frametitle{Notation}
+\vspace{1 mm}
+Assume that both \(X\) and \(Y\) have a finite number of possible outcomes. Number the outcomes for \(X\) as \(1,\ldots,k\) and the outcomes for \(Y\) as \(1,\ldots,\ell\). Each data-point will then be one of the \(k\cdot\ell\) pairs 
+\[
+(1,1),(1,2),\ldots,(1,\ell),(2,1),(2,2),\ldots(2,\ell),(3,1),\ldots(k,\ell).
+\]
+
+\vspace{4 mm}
+
+
+For \(1\leq i\leq k\) set
+\[
+p_i=\P(X=i),
+\]
+and for \(1\leq j\leq \ell\) set
+\[
+q_j=\P(Y=j).
+\]
+Then \(X\) and \(Y\) are independent means
+\[
+\P(X=i,Y=j)=p_i\cdot q_j
+\]
+
+
+}
+
+\frame{
+\frametitle{Notation (cont.)}
+\vspace{1 mm}
+Given readings \((X_1,Y_1),\ldots,(X_n,Y_n)\), let \(b_i\) be the number of \(X\) values that are equal to \(i\) and let \(c_j\) be the number of \(Y\) values that are equal to \(j\). We then set
+\[
+\hat{p}_i=\frac{b_i}{n}, \quad \hat{q}_j=\frac{c_j}{n}.
+\]
+
+
+Let \(d_{i,j}\) be the number of \((X,Y)\) readings equal to \((i,j)\). We then define the test statistic to be
+\begin{align*}
+\X^2&=\sum_{i=1}^k \sum_{j=1}^{\ell} \frac{(d_{i,j}-n\cdot \hat{p}_i \cdot \hat{q}_j)^2}{n\cdot \hat{p}_i \cdot \hat{q}_j}\\
+&=\sum_{i=1}^k \sum_{j=1}^{\ell} \frac{(d_{i,j}-b_i\cdot c_j/n)^2}{b_i\cdot c_j/n}
+=\sum_{i=1}^k \sum_{j=1}^{\ell} \frac{(n\cdot d_{i,j}-b_i\cdot c_j)^2}{n\cdot b_i\cdot c_j}\\
+&=n\cdot\sum_{i=1}^k \sum_{j=1}^{\ell} \frac{\left(\frac{d_{i,j}}{n}-\frac{b_i}{n}\cdot \frac{c_j}{n}\right)^2}{\frac{b_i}{n}\cdot \frac{c_j}{n}}
+\end{align*}
+
+}
+
+
+
+\frame{
+\frametitle{Main result}
+\vspace{1 mm}
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Theorem]
+If \(X\) and \(Y\) are independent then
+\[
+\X^2 \text{ converges in distribution to }\chi^2_{(k-1)\cdot(\ell-1)} \quad \text{ as }n\to\infty.
+\]
+\end{tcolorbox}
+
+
+\vspace{4 mm}
+
+
+$\X^2$ is a function of a random sample. Given a deterministic sample of data, we write $\chi^2$ instead of $\X^2.$ 
+
+
+}
+
+
+\frame{
+\frametitle{Testing strategy}
+\vspace{1 mm}
+
+The two hypotheses are:
+\begin{align*}
+H_0&: \text{the variables \(X\) and \(Y\) are independent};\\
+H_1&:  \text{the variables \(X\) and \(Y\) are not independent}.
+\end{align*}
+
+\vspace{2 mm}
+
+For significance level $\alpha,$ we reject \(H_0\) if
+\[
+\chi^2\geq \chi^2_{(k-1)\cdot(\ell-1),\alpha}.
+\]
+The rejection region is $\left[\chi^2_{(k-1)\cdot(\ell-1),\alpha}\, ,\, \infty\right)$, and the \(p\)--value is given by
+$$p\text{--value}=\P(X_{(k-1)\cdot(l-1)}\geq\chi^2)$$
+where $X_{(k-1)\cdot(l-1)}\sim \chi_{(k-1)\cdot(l-1)}.$
+
+
+
+}
+
+
+
+\frame{
+\frametitle{When can we apply the independence tests?}
+\vspace{1 mm}
+\begin{tcolorbox}[colback=pink!5,colframe=pink!75!black,title=Sample Size Assumption]
+$$\hat{p}_i\cdot \hat{q}_j\cdot n\geq 5  \quad \text{for any } 1\leq i\leq k, 1\leq j\leq \ell.$$
+\end{tcolorbox}
+
+}
+
+
+\frame{\frametitle{Example}
+The children in an junior school are measured as part of a program designed to tackle childhood obesity. This gives the following results.
+
+\begin{center}
+\begin{tabular}{|c|cccc|c|}
+\hline
+ & year 3 & year 4 & year 5 & year 6 & total\\
+\hline
+underweight & 5 & 8 & 2 & 7 & 22 \\
+healthy weight & 32 & 26 & 41 & 36 & 135\\
+overweight & 24 & 29 & 16 & 21 & 90\\
+\hline
+total & 61 & 63 & 59 & 64 & 247\\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\frame{\frametitle{Example}
+
+From this we can calculate the expected counts: 
+
+\begin{figure}
+\includegraphics[scale=0.2]{arbitable}
+\end{figure}
+}
+
+\frame{\frametitle{Example}
+This gives a test statistic of
+\begin{align*}
+\X^2&=\frac{(5-5.43)^2}{5.43}+\frac{(8-5.61)^2}{5.61}+\frac{(2-5.26)^2}{5.26}+\frac{(7-5.70)^2}{5.70}\\
+&+\frac{(32-33.34)^2}{33.34}+\frac{(26-34.43)^2}{34.43}+\frac{(41-32.25)^2}{32.25}+\frac{(36-34.98)^2}{34.98}\\
+&+\frac{(24-22.23)^2}{22.23}+\frac{(29-22.96)^2}{22.96}+\frac{(16-21.50)^2}{21.50}+\frac{(21-23.32)^2}{23.32}\\
+&\approx 11.26.
+\end{align*}
+The degree of freedom is \((4-1)\cdot(3-1)=6\). Since
+\[
+\chi^2_{6,0.1}=10.645 \, < \, \X^2 \, < \, \chi^2_{6,0.05}=12.592,
+\]
+we can reject the null hypothesis that weight and school year are independent at the \(10\%\) significance level but not at the \(5\%\) significance level.
+
+}
+
+\frame{\frametitle{R code}
+\begin{figure}
+\includegraphics[scale=0.7]{indtest}
+\end{figure}
+}
+
+\frame{\frametitle{}
+\begin{center}
+
+{The End - Thank You!}
+
+\end{center}}
+
+\end{document} 

@@ -1,0 +1,1990 @@
+\documentclass{article}
+\usepackage{geometry}
+\geometry{a4paper, portrait, margin=1in}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{comment}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{environ}
+\usepackage{etoolbox}
+\usepackage[shortlabels]{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{MnSymbol}
+\usepackage{subcaption}
+\usepackage{amsfonts}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtoggle{showAnswers}
+\toggletrue{showAnswers}
+\NewEnviron{maybePrint}[1]{%
+  \iftoggle{#1}{\BODY}{}%
+}
+\setlength\parindent{0pt}
+\title{MATH163 problem sheet}
+\author{David Haw}
+\date{2024-2025 semester 2}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\maketitle
+
+\section*{Week 1}
+The first 6 questions resemble the multiple choice component of the final exam (10 questions each worth 6 marks - 3 for the correct answer and 3 for justification). Only 0, 3 or 6 marks will be awarded for each of these questions. In the exam only one answer will be correct. Here, it is possible that several answers are correct.
+~\\~\\
+{\bf Question 1.1}
+~\\~\\
+Which of the following are correct? Justify by describing the relationship between statistics and parameters. 
+\begin{enumerate}[(a)]
+    \item A parameter is a property of a sample
+    \item A parameter is a property of a population
+    \item A statistic is a property of a sample
+    \item A statistic is  a property of a population
+    \item All of the above: statistics and parameters describe both populations and samples
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+~\\~\\
+\color{red}{
+\textbf{(b)\&(c):} Statistics are used to estimate parameters. 
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 1.2}
+~\\~\\
+Which of the following is correct? Justify your answer by describing the purpose of statistical modeling.
+\begin{enumerate}[(a)]
+    \item Statistical modeling finds the exact values of parameters
+    \item Statistical modeling is performed on sample data
+    \item Statistical modeling measures all values of a variable in a population
+    \item Statistical modeling accounts for uncertainty about a population
+    \item Statistical modeling can apply only to hypothetical populations
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+~\\~\\
+\color{red}{
+\textbf{(b)\&(d)} Statistical modeling is used to quantify uncertainty in the absence of complete information. This uncertainty is apparent in samples since they do not contain all information about a population. 
+}
+%Samples can be easier/cheaper than a census, though census data is more complete. 
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 1.3}
+~\\~\\
+Which of the following defines positive skewed data? Justify your answer in terms of extreme values. 
+\begin{enumerate}[(a)]
+    \item Mean < median
+    \item Mean < variance
+    \item Mean > median
+    \item Mean < variance
+    \item Mean = median
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+~\\~\\
+\color{red}{
+\textbf{(c):} Extreme values affect the mean but not the median. When extreme values are large, i.e. on the "more positive end" of the data, we say the skew is positive. 
+}
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 1.4}
+~\\~\\
+Let $F_X(x)$ be the CDF of a random variable. Which of the following are always true? Explain why. 
+\begin{enumerate}[(a)]
+    \item $F_X(0)=1$
+    \item $F_X(0)=0$
+    \item $F_X(x)\rightarrow 0$ as $x\rightarrow\infty$
+    \item $F_X(x)\rightarrow 1$ as $x\rightarrow\infty$
+    \item $F_X(0)\in[0,1]$
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+~\\~\\
+\color{red}{
+\textbf{(d)\&(e)} A CDF measures $P(X\leq x)$. As $x\rightarrow\infty$, we calculate the probability of any possible outcome, i.e. $1$. Since $F_X(0)$ is a probability, it must lie in $[0,1]$. 
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 1.5}
+~\\~\\
+Which of the following applies to the variable "vaccination date"? Justify your choice. 
+\begin{enumerate}[(a)]
+    \item Quantitative (discrete interval)
+    \item Quantitative (discrete ordinal)
+    \item Quantitative (continuous interval)
+    \item Quantitative (continuous ordinal)
+    \item Qualitative (categorical)
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+~\\~\\
+\color{red}{
+\textbf{(a):} Dates are discrete and numeric, but the "reference point " 0 is arbitrary, and dates are used to calculate time intervals between events. Although "31/01/2025" is not a number, dates are typically mapped on to the integers since they measure time, and time is a numeric variable. 
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 1.6}
+~\\~\\
+Which of the following are true? Give justification of your answers. 
+\begin{enumerate}[(a)]
+    \item The PDF of a continuous variable is always a continuous function
+    \item The CDF of a continuous variable is always a continuous function
+    \item A PMF must be integrated to find probabilities
+    \item A PDF must be integrated to find probabilities
+    \item A CDF is always a function of a continuous variable
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+~\\~\\
+\color{red}{
+\textbf{(b),(d)\&(e)} Discontinuities in a PDF correspond to continuous but non-differentiable points in CDFs. PDFs show change in probability with respect to change in the outcome of a random variable, so must be integrated to calculate probabilities. CDFs of a discrete variable can be interpreted as functions of a continuous variable, with step changes at discrete intervals. %PDFs and CDFs can have discontinuities. PMFs give probabilities but 
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Week 1 material may also be assessed via short questions on the first Mobius homework, or by parts of longer exam questions.} Here are 3 examples. 
+~\\~\\
+
+{\bf Question 1.7}
+~\\~\\
+Let the random variable $X$ represent the outcome of rolling a fair dice. What is the CDF of $X$?
+\begin{maybePrint}{showAnswers}
+\color{red}{
+$$
+		p_X(k) = \left\{\begin{array}{lr}
+			\frac 16, & k=1,2,3,4,5,6\\
+			0, & \text{otherwise}
+		\end{array}\right.
+		$$
+We have $P_X(X):=P(X\leq x)$ and so:
+$$
+		P_X(x) = \left\{\begin{array}{lr}
+            0, & x<0 \\
+			\lfloor\frac 16\rfloor, & x\in[0,6]\\
+            1, & x>6 \\
+		\end{array}\right.
+		$$
+}
+\end{maybePrint}
+~\\~\\
+{\bf Question 1.8}
+~\\~\\
+Give one advantage and one disadvantage of each of census data and sample data. 
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+Census data gives complete information about a population but is expensive (in time/money/resource), and difficult to coordinate. There can also be ethical concerns (GDPR etc). Sample data is much easier to collect, and allows for informed guesses of population properties with quantifiable margins of error. We do, however, run the risk of sample bias, and sample data demands understanding of statistical methodology (including use of R!). 
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 1.9}
+~\\~\\
+The CDF of a random variable $Y$ is given by:
+$$
+F_Y(y) = \left\{\begin{array}{lr}
+            0, & x<0 \\
+			\frac 1c(3y^5-60y^4+320y^3), & y\in[0,8]\\
+            1, & x>8 \\
+		\end{array}\right.
+$$
+~\\~\\
+\textbf{(a)} What is the value of the constant $c$?
+~\\~\\
+\textbf{(b)} Calculate the PDF of $Y$
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\textbf{(a)} $c=F_Y(8)=16384$
+~\\~\\
+\textbf{(b)} $f_Y(y)=\frac d{dy}F_Y(y)$, hence:
+$$
+F_Y(y) = \left\{\begin{array}{lr}
+            \frac 1{16384}(15y^4-240y^3+960y^2), & y\in[0,8]\\
+            0, & \text{otherwise} \\
+		\end{array}\right.
+$$
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 1.10} (a bit harder)
+~\\~\\
+A {\bf continuous uniform random variable} $X$ is defined such that the PDF is constant for $x\in(a,b)$ and zero for all other values of $x$. Write down the PDF and CDF of $X$ and calculate the mean and variance of $X$ in terms of $a$ and $b$. 
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+$$
+f_X(x) = \left\{\begin{array}{lr}
+            \frac 1{b-a}, & y\in(a,b)\\
+            0, & \text{otherwise} \\
+		\end{array}\right.
+$$
+$$
+F_X(x) = \left\{\begin{array}{lr}
+            0, & x\leq 0 \\
+            \frac {x-a}{b-a}, & x\in(a,b)\\
+            1, & x\geq b \\
+		\end{array}\right.
+$$
+$E[X]=\frac 1{b-a}\int xdx=\frac 1{b-a}[\frac 12 x^2]_a^b=\frac 1{2(b-a)}(b^2-a^2)=\frac 12(a+b)$ (the mean is clearly the half way point!)
+~\\~\\
+$E[X^2]=\frac 1{b-a}\int x^2dx=\frac 1{b-a}[\frac 13 x^3]_a^b=\frac 1{3(b-a)}(b^3-a^3)=\frac 13(b^2+ab+a^2)$ 
+~\\~\\
+So $Var(X)=\frac 13(b^2+ab+a^2)-\frac 14(a+b)^2=\dots$
+}
+~\\~\\
+\end{maybePrint}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Week 2}
+{\bf Question 2.1}
+Calculate the following:
+\begin{enumerate}[(a)]
+    \item An 8-bit binary word is a sequence of 8 digits, of which each may be either a 0 or a 1. How many different 8-bit words are there?
+    \item Suppose that from ten children, five are to be chosen and lined up. How many different lines are possible? 
+    \item Suppose that a room contains $n$ people. Assume that everyone's birthday is chosen uniformly from the 365 days of a year and independently of all others.  What is the probability that at least two of them have a common birthday?
+    \item In how many ways can the set of nucleotides {A, A, G, G, G, G, C, C, C} be arranged in a sequence of nine letters?
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{enumerate}[(a)]
+    \item There are 8 places and each place can be assigned either 0 or 1 (i.e.\ 2 choices for each). In total there are $2^8=256$ possible words.  Here we applied the fundamental counting principle. 
+    \item By the definition of permutation,  it is $P_{10}^5=30240$.  We can also think this way: firstly we choose $5$ children from 10, which has $C_{10}^5$ results; secondly we order the chosen $5$ children, which has $P_5^5$ results. In total there are $C_{10}^5\times P_5^5=P_{10}^5$ results or lines.  
+    \item If $n>365$, then there are always at least two people who have a common birthday, so the probability is $1$. 
+		If $2\leq n\leq 365$, there are $355^n$ configurations to assign a birthday to each individual. All configurations occur with equal probability (because we are dealing with a discrete uniform random variable which takes values in the set of all configurations). Let $N$ be the number of configurations that no two people have the same birthday (i.e.\ everyone's birthday is unique), then the probability for having at least two people with common birthday is 
+		$$1-\frac{N}{365^n}.$$
+		Note that $N=P_{365}^n$ using permutation. Then the probability is 
+		$$1-\frac{N}{365^n}=1-\frac{P_{365}^n}{365^n}=1-\frac{365!}{(365-n)!365^n}.$$
+    \item By the definition of permutation with repetition, it is 
+		$$P_{9}^{(2,4,3)}=\frac{9!}{2!4!3!}=1260.$$
+		We can also think this way: firstly, choose $2$ places from the line (in total 9 places for 9 letters) to host $A,A$, which has $C_9^2$ results; secondly, from the remaining 7 places choose 4 places to host $G,G,G,G$, which has $C_7^4$ results. The remaining $3$ places will be all for $C,C,C,$ which has only $1=C_3^3$ result. In total, there are $C_9^2\times C_7^4\times C_3^3=P_9^{(2,4,3)}$ results or lines. 
+\end{enumerate}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 2.2}
+~\\~\\
+Let $E,F,G$ be three events.  Find expressions for the events that, of $E,F,G$:
+\begin{enumerate}[(a)]
+    \item Only $E$ occurs
+    \item None of the events occurs
+    \item All three of them occur
+    \item At most one of them occurs
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{enumerate}[(a)]
+    \item $E\cap F^c\cap G^c$  
+    \item $E^c\cap F^c\cap G^c$
+    \item $E\cap F\cap G$
+    \item Let $A$ be the event that none of them occurs. Then $A=E^c\cap F^c\cap G^c$. 
+		Let $B$ be the event that exactly one of them occurs. Then 
+		$$B=\Big(E\cap F^c\cap G^c\Big) \cup \Big(E^c\cap F\cap G^c\Big) \cup \Big(E^c\cap F^c\cap G\Big) $$
+		Let $C$ be the event that at most one of them occurs. Then 
+		$$C=A\cup B=\Big(E^c\cap F^c\cap G^c\Big) \cup\Big(E\cap F^c\cap G^c\Big) \cup \Big(E^c\cap F\cap G^c\Big) \cup \Big(E^c\cap F^c\cap G\Big)$$
+\end{enumerate}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 2.3} (assessment style)
+~\\~\\
+An insurance company adjusts premiums based on whether or not a policyholder belongs to a high-risk group. The high-risk group forms $20\%$ of customers, and $25\%$ of them submit a claim each financial year. The remaining low-risk customers have a $5\%$ yearly claim rate. 
+\begin{enumerate}[(a)]
+\item What is the probability that a randomly chosen policyholder is in the high-risk group and files a claim files a claim within a given year? Show your calculation. 
+\item What is the probability that a randomly chosen policyholder is in the low-risk group and files a claim within a given year? Show your calculation. 
+\item The company receives a claim. What is the probability that this is from a client in the high-risk group? 
+%Calculate the probability that a policyholder who has filed a claim belongs to the high-risk group. Show all steps. 
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+First note that we need to use the frequentist interpretation of probability: probabilities of events are given by their relative frequencies. Labels and known probabilities are as follows:
+\begin{itemize}
+    \item $P(H)=0.2$ - the probability that a randomly chosen policyholder belongs to the high-risk group.
+    \item $P(L)=0.8$ - the probability that a randomly chosen policyholder belongs to the low-risk group.
+    \item $P(C \mid H)=0.25$ - the probability of a claim being filed by a policyholder given they are in the high-risk group.
+    \item $P(C \mid L)=0.05$ - the probability of a claim being filed by a policyholder given they are in the low-risk group.
+    \item $P(C)$ - the overall probability of a claim being filed by a policyholder.
+\end{itemize}
+Now we are equipped to answer the questions:
+\begin{enumerate}[(a)]
+\item The probability that a randomly chosen policyholder is in the high-risk group and files a claim is given by:
+\[
+P(C \cap H) = P(C \mid H) \cdot P(H).
+\]
+Substituting the given values:
+\[
+P(C \cap H) = 0.25 \cdot 0.2 = 0.05.
+\]
+\item The probability that a randomly chosen policyholder is in the low-risk group and files a claim is given by:
+\[
+P(C \cap L) = P(C \mid L) \cdot P(L).
+\]
+Substituting the given values:
+\[
+P(C \cap L) = 0.05 \cdot 0.8 = 0.04.
+\]
+\item Using the law of total probability, the overall probability of a claim being filed is:
+\[
+P(C) = P(C \cap H) + P(C \cap L).
+\]
+From parts (a) and (b), we have:
+\[
+P(C) = 0.05 + 0.04 = 0.09.
+\]
+Using Bayes' theorem, the probability that a policyholder who has filed a claim belongs to the high-risk group is:
+\[
+P(H \mid C) = \frac{P(C \cap H)}{P(C)}.
+\]
+Substituting the values:
+\[
+P(H \mid C) = \frac{0.05}{0.09} \approx 0.5556.
+\]
+Thus, the probability that a policyholder who has filed a claim belongs to the high-risk group is approximately $0.5556$ or $55.56\%$.
+\end{enumerate}
+}
+~\\~\\
+\end{maybePrint}
+{\bf Question 2.4}
+~\\~\\
+Suppose that we toss two fair dice. Let $E_1$ denote the event that the sum of the dice is \(6\), $E_2$ denote the event that the sum of the dice equals \(7\) and $F$ denote the event that the first die equals \(4\).
+\begin{enumerate}[(a)]
+    \item Is $E_1$ independent of $F$? Justify your answer.
+    \item Is $E_2$ independent of $F$? Justify your answer.
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+Let $X$ be the number of the first die and $Y$ the second. Then
+$$E_1=\{X+Y=6\};\quad E_2=\{X+Y=7\};\quad F=\{X=4\}.$$
+The dice are fair and are tossed independently, so $ P(F)=\frac{1}{6}$ and 
+$$ P(X=i, Y=j)= P(X=i) P(Y=j)=\frac{1}{6}\cdot\frac{1}{6}=\frac{1}{36}, \quad  i,j\in\{1,2,3,4,5,6\}.$$
+(To be more rigorous, the first equality above requires the knowledge from later in the course: c.f. independence of random variables.) Therefore
+\begin{align*}
+	 P(E_1)&=\sum_{i=1}^5 P(X=i, Y=6-i)=\frac{5}{36};\\
+	\quad  P(E_2)&=\sum_{i=1}^6 P(X=i, Y=7-i)=\frac{6}{36}=\frac{1}{6}.
+\end{align*}
+Moreover
+$$ P(E_1\cap F)= P(X=4, Y=2)=\frac{1}{36}; \quad  P(E_2\cap F)= P(X=4, Y=3)=\frac{1}{36}.$$
+Then we observe that
+$$ P(E_1\cap F)\neq  P(E_1) P(F),\quad  P(E_2\cap F)= P(E_2) P(F).$$
+So:
+\begin{enumerate}[(a)]
+    \item $E_1,F$ are not independent
+    \item $E_2, F$ are independent
+\end{enumerate}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 2.5}
+~\\~\\
+Given events $A,B,C,D$, list all the conditions for that they are independent all together. 
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+We need all the following equalities to hold 
+\begin{itemize}
+	\item $ P(A\cap B)= P(A) P(B), \,\,  P(A\cap C)= P(A) P(C), \,\,  P(A\cap D)= P(A) P(D)$,\\
+	$ P(B\cap C)= P(B) P(C), \,\,  P(B\cap D)= P(B) P(D), \,\,  P(C\cap D)= P(C) P(D),$
+	\item $ P(A\cap B\cap C)= P(A) P(B) P(C)$,\\
+	$ P(A\cap B\cap D)= P(A) P(B) P(D)$,\\
+	$ P(B\cap C\cap D)= P(B) P(C) P(D)$,
+	\item $ P(A\cap B\cap C\cap D)= P(A) P(B) P(C) P(D)$
+\end{itemize}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 2.6} (assessment style)
+~\\~\\
+An online shopping platform records whether users make a purchase or not after visiting their website. $30\%$ of customers that visit the website make a purchase, and of those $60\%$ return to the site. Only $20\%$ of customers that don't make a purchase return to the site. 
+\begin{enumerate}[(a)]
+\item Are the events "making a purchase" and "not making a purchase" are mutually exclusive. Justify your answer.
+\item Calculate the overall probability that a user returns to the website within a week. Show all steps.
+\item Are the events "making a purchase" and "returning to the website within a week" independent? Justify your answer.
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+First note that we need to use the frequentist interpretation of probability: probabilities of events are given by their relative frequencies. Labels and known probabilities are as follows:
+\begin{itemize}
+    \item $P(P)=0.3$ - the probability that a user makes a purchase after visiting the website.
+    \item $P(N)=0.7$ - the probability that a user does not make a purchase.
+    \item $P(R \mid P)=0.6$ - the probability that a user returns to the website within a week, given they made a purchase.
+    \item $P(R \mid N)=0.2$ be the probability that a user returns to the website within a week, given they did not make a purchase.
+    \item $P(R)$ - the overall probability that a user returns to the website within a week.
+\end{itemize}
+Now we are equipped to answer the questions:
+\begin{enumerate}[(a)]
+\item Two events are mutually exclusive if they cannot occur simultaneously. Here, the events "making a purchase" ($P$) and "not making a purchase" ($N$) are mutually exclusive because a user cannot both make a purchase and not make a purchase during the same visit. Mathematically:
+\[
+P(P \cap N) = 0.
+\]
+Thus, the events are mutually exclusive.
+\item Using the law of total probability, the overall probability that a user returns to the website within a week is:
+\[
+P(R) = P(R \cap P) + P(R \cap N).
+\]
+Expanding each term:
+\[
+P(R \cap P) = P(R \mid P) \cdot P(P), \quad P(R \cap N) = P(R \mid N) \cdot P(N).
+\]
+Substituting the given values:
+\[
+P(R \cap P) = 0.6 \cdot 0.3 = 0.18, \quad P(R \cap N) = 0.2 \cdot 0.7 = 0.14.
+\]
+Adding these probabilities:
+\[
+P(R) = 0.18 + 0.14 = 0.32.
+\]
+Thus, the overall probability that a user returns to the website within a week is $P(R) = 0.32$ or $32\%$.
+\item Two events are independent if the occurrence of one does not affect the probability of the other. The events "making a purchase" ($P$) and "returning to the website" ($R$) are independent if:
+\[
+P(R \mid P) = P(R).
+\]
+We have $P(R \mid P) = 0.6$, but $P(R)=0.32$ (from part (b)), so these events are not independent. 
+\end{enumerate}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\begin{comment}
+\section*{Week 2: exercises covered in lectures}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Example 1: second part}
+~\\~\\
+What is the probability that a woman who has tested negative actually has (pre-)cancerous cells?
+\begin{maybePrint}{showAnswers}
+\color{red}{
+We want $P(true+|test-)$. By Bayes' rule:
+$$P(true+|test-)=\frac{P(test-|true+)P(true+)}{P(test-)}$$
+Note that $\{true+\},\{true-\}$ form a partition of the outcome space, so by the total law of probability:
+\begin{eqnarray*}
+    P(test-)&=&P(test-\cap true+)+P(test-\cap true-)\\
+    &=&P(test-|true+)P(true+)+P(test-|true-)P(true-)
+\end{eqnarray*}
+So we have:
+\begin{eqnarray*}
+    P(true+|test-)&=&\frac{P(test-|true+)P(true+)}{P(test-|true+)P(true+)+P(test-|true-)P(true-)}\\
+    &=&\frac{0.05\times 0.00015}{0.05\times 0.00015+0.8*0.99985}\\
+    &=&9.38\times 10^{-6}
+\end{eqnarray*}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Birthday question}
+~\\~\\
+There are $n$ people in a room. What is the probability that at least $2$ of them share a birthday? (You may ignore 29th Feb)
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+Assume birthdays uniformly distributed between $1$ and $365$
+~\\~\\
+Firstly, use the secret weapon: $p_0$ denote the probability that none of the $n$ people share a birthday. Then we want $1-p_0$.
+~\\~\\
+We calculate $p_0$ by calculating the number of possible birthday combinations in which no $2$ are the same, divided by the total number of possible birthday combinations.
+~\\~\\
+The number of possible birthday combinations in which no $2$ are the same is:
+$$P_{365}^n=365\times 364\times\dots\times 365-n+1=\frac{365!}{(365-n)!}$$
+and the total number of possible birthday combinations is $365!$, so the probability of at least $2$ people sharing a birthday is:
+$$1-\frac{365!}{(365-n)!\times 365^n}$$
+$$$$
+We can use R to plot this for different values of $n$. 
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Example 2}
+~\\~\\
+You are dealt a poker hand ($5$ cards from one deck). What is the probability of drawing at least one king?
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+Let $p_0$ be the probability of drawing a hand with no kings. Then we want $1-p_0$. 
+~\\~\\
+Observe that poker hands follow a discrete uniform distribution since each card is unique. We can therefore calculate $p_0$ as the total number of hands that don't contain a King, divided by the total number of hands. This gives:
+$$p_0=\frac{C_{48}^5}{C_{52}^5}$$
+- note that order does not matter here the way it did with birthdays: there are $5!$ ways for $5$ people to have $5$ distinct birthdays, but a poker hand is simply an (onordered) set of $5$ cards. We therefore have:
+$$1-p_0=1-\frac{C_{48}^5}{C_{52}^5}\approx 0.34$$
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Example 3}
+~\\~\\
+Traffic accidents are known to be influenced by weather conditions. Suppose the probability of a traffic accident occurring on a given day depends on whether the day is sunny or rainy. Assume that every day is either sunny or rainy, and that $70\%$ of days are sunny. Only $5\%$ of sunny days have traffic accidents, whereas $15\%$ of sunny days have them.
+~\\~\\
+You work for the emergency services in a room with no windows. You get a call reporting a traffic accident.
+\begin{enumerate}[(a)]
+    \item What is the probability that today is rainy?
+    \item You have not seen a weather forecast. What is the probability of an accident occurring tomorrow?
+    \item What assumptions have been made in your calculations?
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+Label events: S=sunny, R=rainy (these form a partition of the event space); A=accident, N=no accident (these form a partition of the event space).
+~\\~\\
+We know: $P(R)=0.3,\ P(S)=0.7,\ P(A|S)=0.05,\ P(A|R)=0.15$
+~\\~\\
+Immediately this gives $P(N|S)=0.95,\ P(N|R)=0.85$
+\begin{enumerate}[(a)]
+    \item We have:
+    \begin{eqnarray*}
+        P(R|A)&=&\frac{P(A|R)P(R)}{P(A)}\\
+        P(A)&=&P(A\cap R)+P(A\cap S)\\
+        &=&P(A|R)P(R)+P(A|S)P(S)\\
+        \text{so}\ P(R|A)&=&\frac{P(A|R)P(R)}{P(A|R)P(R)+P(A|S)P(S)}\\
+        &=&\frac{0.15\times 0.3}{0.15\times 0.3+0.05\times 0.7}\\
+        &=&0.5625
+    \end{eqnarray*}
+    \item This is just the denominator from above:
+    $$0.15\times 0.3+0.05\times 0.7=0.08$$
+    \item We have assumed that the weather on one day is independent of weather the day before. 
+\end{enumerate}
+}
+~\\~\\
+\end{maybePrint}
+
+\end{comment}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 3.1}
+~\\~\\
+The probability mass function of a random variable $Y$ is
+\begin{equation*}
+f_Y(y)=\left\{\begin{array}{lr}
+\frac{ky}{y^2+1}, & y\in \{2,3\};\\
+\frac{ky}{2(y^2-1)}, & y\in\{4,5\};\\
+0,& \text{else}.
+\end{array}\right.
+\end{equation*}
+\begin{enumerate}[(a)]
+    \item Find the value of $k$.
+    \item Let $Z=Y^2$. Find the distribution of $Z$.
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{enumerate}[(a)]
+    \item Since $f_Y$ is the pmf and $Y$ only takes values in $\{2,3,4,5\}$, 
+$$1=\sum_{y=2}^5f_Y(y)=\sum_{y=2}^3\frac{ky}{y^2+1}+\sum_{y=4}^5\frac{ky}{2(y^2-1)}=k\left(\frac{2}{5}+\frac{3}{10}+\frac{4}{30}+\frac{5}{48}\right)=\frac{15k}{16}.$$ 
+The first equality is due to the fact that the total probability is $1$. Therefore $k=\frac{16}{15}.$
+    \item To find the distribution of $Z$, we just need to find the pmf $f_Z$ of $Z$ since it is a discrete random variable. 
+As $Y$ can only take values in $\{2,3,4,5\}$, we obtain that 
+$Z=Y^2\in\{4,9,16,25\}$. Using the following equality 
+$$f_Z(z)= P(Z=z)= P(Y^2=z)= P(Y=\sqrt{z})=f_Y(\sqrt{z}), \quad z\in\{4,9,16,25\},$$
+we get 
+\begin{equation*}
+f_Z(z)=\left\{\begin{array}{lr}
+\frac{16}{15}\frac{\sqrt{z}}{z+1}, & z\in \{4,9\};\\
+\frac{16}{15}\frac{\sqrt{z}}{2(z-1)}, & z\in\{16,25\};\\
+0,& \text{else}.
+\end{array}\right.
+\end{equation*}
+\end{enumerate}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 3.2}
+~\\~\\
+A factory monitors the "daily workload level" \( X \) (in machine-hours) of an industrial machine. The workload level can take the following discrete values:
+\[
+P(X = 2) = 0.3, \quad P(X = 4) = 0.4, \quad P(X = 6) = 0.2, \quad P(X = 8) = 0.1.
+\]
+The **repair cost** \( Y \) (in hundreds of dollars) due to mechanical wear and tear is modeled as:
+\[
+Y = g(X) = 3(X - 3)^2.
+\]
+(this is known as a "quadratic damage model"). 
+\begin{enumerate}[(a)]
+    \item Find the PMF of \( Y \).
+    \item Compute the expected value \( E(Y) \) and variance \( \text{Var}(Y) \).
+    \item Compare \( \text{Var}(X) \) and \( \text{Var}(Y) \), and explain why they are the same or different.
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{enumerate}[(a)]
+    \item Applying \( Y = 3(X - 3)^2 \), we obtain:
+\[
+P(Y = 3) = 0.7, \quad P(Y = 27) = 0.2, \quad P(Y = 75) = 0.1.
+\]
+    \item \[
+E(Y) = (3 \times 0.7) + (27 \times 0.2) + (75 \times 0.1) = 15.
+\]
+\[
+E(Y^2) = (3^2 \times 0.7) + (27^2 \times 0.2) + (75^2 \times 0.1) = 714.6.
+\]
+\[
+\text{Var}(Y) = E(Y^2) - [E(Y)]^2 = 489.6.
+\]
+    \item Since \( Y \) is quadratic in \( X \), it amplifies the variance. When workload increases beyond a limit, repair costs rise disproportionately due to "mechanical failure acceleration".
+\end{enumerate}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 3.3}
+~\\~\\
+Assume the random variable $X\geq 0$ has cdf 
+\[\frac{x}{1+ax},\quad x\geq 0.\] 
+Determine the value of $a$ and find the pdf of $X$.
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+Since $F_X(x)=\frac{x}{1+ax}$ and we know that $$1=\lim_{x\to\infty}F_X(x)=\lim_{x\to\infty}\frac{x}{1+ax}=\frac{1}{a},$$
+we obtain that $a=1$ and thus $F_X(x)=\frac{x}{1+x}$ when $x\geq 0$ and $F_X(x)=0$ when $x<0.$ 
+ 
+By definition, we have 
+$$f_X(x)=\frac{dF_X(x)}{dx}=\frac{1}{1+x}-\frac{x}{(1+x)^2}=\frac{1}{(1+x)^2}, \quad x\geq 0,$$
+and $$f_X(x)=\frac{dF_X(x)}{dx}=\frac{d0}{dx}=0, \quad x<0.$$
+Then 
+\begin{equation*}
+f_X(x)=\left\{\begin{array}{lr}
+\frac{1}{(1+x)^2}, & x\geq 0;\\
+0, & x<0.
+\end{array}\right.
+\end{equation*}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 3.4}
+~\\~\\
+Assume that $X\geq 0$ has pdf $f(x)=e^{-x}, x\geq 0$. Find the pdf of $X^2$.
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+Note that $X^2$ takes values in $[0,\infty)$. 
+We compute the cdf first and then pdf by differentiation. For any $y\geq 0,$ we have 
+$$F_{X^2}(y)= P(X^2\leq y)= P(X\leq \sqrt{y})=F_X(\sqrt{y}).$$
+Therefore, for \(y\geq 0\), 
+\begin{align*}f_{X^2}(y)&=\frac{dF_{X^2}(y)}{dy}=\frac{dF_{X}(\sqrt{y})}{dy}\\&=f_X(\sqrt{y})\cdot\frac{d\, \sqrt{y}}{dy}=\frac{1}{2}y^{-1/2}f_X(\sqrt{y})=\frac{e^{-\sqrt{y}}}{2\sqrt{y}}.
+\end{align*}
+For $y<0$, we have $F_{X^2}(y)= P(X^2\leq y)=0.$ Then 
+$$f_{X^2}(y)=\frac{dF_{X^2}(y)}{dy}=\frac{d0}{dy}=0, \quad y<0.$$
+In conclusion, 
+\begin{equation*}
+f_{X^2}(y)=\left\{\begin{array}{lr}
+\frac{e^{-\sqrt{y}}}{2\sqrt{y}}, & y\geq 0;\\
+0, & y<0.
+\end{array}\right.
+\end{equation*}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 3.5}
+~\\~\\
+Let $X\sim U(0,1)$, the uniform distribution on $(0,1)$. Let $Y=1-X$. Show that $X\stackrel{d}{=}Y.$ Is it true that 
+$X=Y$?
+~\\~\\
+Additional information: the distribution of $X$ is given by: 
+\begin{equation*}
+f_{X}(x)=\left\{\begin{array}{lr}
+1, & 0<x<1;\\
+0, & \text{ otherwise}.
+\end{array}\right.
+\end{equation*}
+\begin{equation*}
+F_{X}(x)=\left\{\begin{array}{lr}
+x, & 0<x<1;\\
+1, &x\geq 1;\\
+0, &  x\leq 0.
+\end{array}\right.
+\end{equation*}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+Note that $Y=1-X\in(0,1)$. For any $y\in (0,1)$,  
+\begin{align*}
+F_Y(y)&= P(Y\leq y)= P(X\geq 1-y)\\
+&=1- P(X\leq 1-y)=1-F_X(1-y)=1-(1-y)=y.
+\end{align*}
+Then $Y\sim U(0,1)$. So $Y\stackrel{d}{=}X$. But $X\neq Y$ because $X+Y=1.$ For instance, when $X$ takes value $\frac{1}{3}$, $Y$ must be $\frac{2}{3}.$
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Note: problem sheets for each week will also require theory from previous weeks. In particular, there are more examples here of transformations of contunuous random variables, as covered in week 3.}
+~\\~\\
+{\bf Question 4.1}
+~\\~\\
+The lifetime of a component $\mathcal{C}$ is a random variable $X$ with the probability density function given by
+$$
+f(t)=\begin{cases}
+k(2t-t^2)&\text{ if }0\leq t<2\\
+0&\text{ otherwise}
+\end{cases}
+$$
+where $k$ is a real valued constant.
+\begin{enumerate}[(a)]
+\item Determine the value $k$.
+\item Find $E[X]$ and $Var(X)$.
+\item Determine the cumulative distribution function $F(x)$ of $X$.
+\item Determine the probability $ P(1/2\leq X\leq3/2)$.
+\item Determine the conditional probability $\displaystyle  P\left(1/2\leq X\leq3/2|X\geq 1\right)$.
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{enumerate}[(a)]
+    \item If it is a pdf, then 
+$$1=\int_0^2 k(2t-t^2)dt=k\left[t^2-\frac{t^3}{3}\right]_0^2=\frac{4k}{3}.$$
+Then $k=\frac{3}{4}.$
+\item By definition 
+$$ E[X]=\int_0^2t*\frac{3}{4}(2t-t^2)dt=\int_0^2\frac{3}{4}(2t^2-t^3)dt=\frac{3}{4}\left[\frac{2t^3}{3}-\frac{t^4}{4}\right]_0^2=1,$$
+and 
+$$ E[X^2]=\int_0^2t^2*\frac{3}{4}(2t-t^2)dt=\int_0^2\frac{3}{4}(2t^3-t^4)dt=\frac{3}{4}\left[\frac{2t^4}{4}-\frac{t^5}{5}\right]_0^2=\frac{6}{5}.$$
+Then 
+$$ Var(X)= E[X^2]-( E[X])^2=\frac{6}{5}-1^2=\frac{1}{5}.$$
+\item If $x<0$, then $F(x)=0$; if $x>2$, then $F(x)=1.$ Now let $0\leq x\leq 2$. Then we get 
+$$F(x)=\int_0^x \frac{3}{4}(2t-t^2)dt=\frac{3}{4}\left[t^2-\frac{t^3}{3}\right]_0^x=\frac{3}{4}\left(x^2-\frac{x^3}{3}\right).$$
+\item Note that  \begin{align*}& P(1/2\leq X\leq3/2)\\
+&= P(X\leq 3/2)- P(X< 1/2)&\\
+&= P(X\leq 3/2)- P(X\leq 1/2)+ P(X=1/2)\\
+&= P(X\leq 3/2)- P(X\leq  1/2)\quad\quad\text{  ($ P(X=1/2)=0$ because $X$ is continuous)}\\
+&=F(3/2)-F(1/2)\\
+&=\frac{3}{4}\left(\frac{9}{4}-\frac{9}{8}\right)-\frac{3}{4}\left(\frac{1}{4}-\frac{1}{24}\right)\\
+&=\frac{11}{16}.
+\end{align*}
+\item Using conditional probability formula,
+\begin{align*}
+ P\left(1/2\leq X\leq3/2|X\geq 1\right)&=\frac{ P\left(1/2\leq X\leq3/2, X\geq 1\right)}{ P(X\geq 1)}\\
+&=\frac{ P\left(1\leq X\leq3/2\right)}{ P(X\geq 1)}\\
+&=\frac{F(3/2)-F(1)}{1-F(1)}\\
+&=\frac{19}{24}.
+\end{align*}
+\end{enumerate}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 4.2}
+~\\~\\
+The current in a semiconductor diode is often measured by the Shockley equation
+$$I = I_0(e^{\alpha V}-1),$$
+where $V$ is the voltage across the diode, $I_0$ is the reverse current, $\alpha$ is a constant and $I$ is
+the resulting diode current. Find $ E[I]$ and $ Var(I)$ if $\alpha= 2, I_0 = 10^{-6}$ and $V\sim U(1, 3)$. 
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+Let $f_V$ be the pdf of $V$. Note that 
+$$f_V(v)=\frac{1}{2}, \quad v\in (1,3).$$
+Then 
+$$ E[I]=\int_1^3 \frac{10^{-6}}{2}(e^{2v}-1)dv=\left[\frac{10^{-6}}{2}\left(\frac{e^{2v}}{2}-v\right)\right]_1^3=\frac{10^{-6}}{2}\left(\frac{e^6-e^2}{2}-2\right).$$
+
+To compute $ Var(I)$, we compute first $E[I^2]$: 
+\begin{align*} E[I^2]=\int_1^3 \frac{10^{-6}}{2}(e^{2v}-1)^2dv&=\frac{10^{-6}}{2}\int_1^3 (e^{4v}-2e^{2v}+1)dv\\
+&=\frac{10^{-6}}{2}\left[\frac{e^{4v}}{4}-e^{2v}+v\right]_1^3\\
+&=\frac{10^{-6}}{2}\left(\frac{e^{12}-e^{4}}{4}-(e^{6}-e^3)+2\right)
+\end{align*}
+
+Then $$ Var(I)= E[I^2]-( E[I])^2=\frac{10^{-6}}{2}\left(\frac{e^{12}-e^{4}}{4}-(e^{6}-e^3)+2\right)-\frac{10^{-12}}{4}\left(\frac{e^6-e^2}{2}-2\right)^2.$$
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 4.3}
+~\\~\\
+Let $X$ be a random variable with finite variance. Let $a$ be any real number. Prove that 
+$$ E[(X-a)^2]= Var(X)+( E[X]-a)^2.$$
+\begin{maybePrint}{showAnswers}
+\color{red}{
+Note that 
+\begin{align*}
+ E[(X-a)^2]&= E\left[X^2-2aX+a^2\right]&\\
+&= E\left[X^2-2X E[X]+( E[X])^2+2X E[X]-( E[X])^2-2aX+a^2\right]&\\
+&= E\left[X^2-2X E[X]+( E[X])^2\right]+ E\Big[2X E[X]-( E[X])^2-2aX+a^2\Big]&\\
+&= E\left[X^2-2X E[X]+( E[X])^2\right]+ E\Big[2X E[X]\Big]- E\Big[( E[X])^2\Big]- E[2aX]+a^2&\\
+&= E\left[(X- E[X])^2\right]+( E[X])^2-2a E[X]+a^2&\\
+&= Var(X)+( E[X])^2-2a E[X]+a^2\\&= Var(X)+( E[X]-a)^2.&
+\end{align*}
+
+\noindent\emph{(Hint: if you can't see how to do this calculation as it's written, a good approach is to start from 
+\[ E[(X-a)^2]-\left( Var(X)+( E[X]-a)^2\right)\]
+and try to show that it is equal to \(0\).)}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 4.4}
+~\\~\\
+Let $X,Y,H$ be independent random variables. Let both $X,Y$ be uniform random variables taking values in $(0,1)$. Let $H$ equal $0$ or $1$ with equal probability $1/2$. 
+Set $Z=HX+(1-H)Y$.
+\begin{itemize}[(a)]
+\item Find the pdf of $Z$.
+\item Show that $ Var(X+Z)\neq  Var(X+Y)$. Are $X, Z$ independent? 
+\end{itemize}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{itemize}
+\item[(a)]
+ Note that $Z\in(0,1)$, and that if \(H=1\) then \(Z=X\) whereas if \(H=0\) then \(Z=Y\). For any $z\in (0,1)$, using the law of total probability and the independence of the variables, 
+\begin{align*}
+ P(Z\leq z)&= P\big(HX+(1-H)Y\leq z\big)\\
+&= P(H=1, X\leq z)+ P(H=0, Y\leq z)\\
+&= P(H=1)\cdot P(X\leq z)+ P(H=0)\cdot P(Y\leq z)\\
+&=\frac{1}{2}z+\frac{1}{2}z=z.
+\end{align*}
+So $Z$ is also uniform on $(0,1)$, i.e. $X,Y,Z$ have the same distribution:
+$$X\stackrel{d}{=}Y\stackrel{d}{=}Z.$$
+
+\item[(b)] A uniform random variable on $(0,1)$ has mean $\frac{1}{2}$, second moment $\frac{1}{3}$ and variance $\frac{1}{12}$ (prove this by yourself). We also have 
+$$ E[H]=\frac{1}{2}\cdot 1+\frac{1}{2}\cdot 0=\frac{1}{2}, \quad  E[1-H]=1- E[H]=\frac{1}{2}.$$
+Since $X,Y$ are independent, then
+$$ Var(X+Y)= Var(X)+ Var(Y)=\frac{1}{12}+\frac{1}{12}=\frac{1}{6}.$$
+Next we compute $ Var(X+Z)$ from scratch (since we do not know if $X,Z$ are independent). Note that 
+$$ Var(X+Z)= E[(X+Z)^2]-( E[X+Z])^2.$$
+By linearity, 
+$$ E[X+Z]= E[X]+ E[Z]=\frac{1}{2}+\frac{1}{2}=1.$$
+For the second moment,
+\begin{align*}
+&\quad  E[(X+Z)^2]&\\
+&= E[X^2+2XZ+Z^2]&\\
+&= E[X^2]+2 E[XZ]+ E[Z^2] \quad (\text{linearity})&\\
+&=2 E[X^2]+2 E[XZ] \quad\quad  (X\stackrel{d}{=}Z)&\\
+&=2\cdot\frac{1}{3}+2 E\big[HX^2+(1-H)XY\big]&\\
+&=\frac{2}{3}+2 E[HX^2]+2 E[(1-H)XY]\quad (\text{linearity})&\\
+&=\frac{2}{3}+2 E[H]\cdot E[X^2]+2 E[1-H]\cdot E[X]\cdot E[Y]\quad (\text{independence of } H, X, Y)&\\
+&=\frac{2}{3}+2\cdot\frac{1}{2}\cdot\frac{1}{3}+2\cdot\frac{1}{2}\cdot\frac{1}{2}\cdot\frac{1}{2}=\frac{5}{4}.&
+\end{align*}
+Then 
+$$ Var(X+Z)= E[(X+Z)^2]-( E[X+Z])^2=\frac{5}{4}-1^2=\frac{1}{4}\neq \frac{1}{6}= Var(X+Y).$$
+Therefore $X,Z$ are not independent, otherwise we should have equality between the two variances. 
+\end{itemize}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 4.5}
+~\\~\\
+Random variables can be pairwise independent, but not independent all together. Let $X_1, X_2$ be independent random variables, taking values in $\{-1,1\}$ and $ P(X_i=1)=0.5= P(X_i=-1)$ for $i=1,2$. Let $X_3=X_1X_2.$ Prove that 
+\begin{enumerate}[(a)]
+    \item Any two random variables are independent
+    \item the three random variables are not independent
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{enumerate}[(a)]
+    \item First of all 
+$$ P(X_3=1)= P(X_1=1,X_2=1)+ P(X_1=-1,X_2=-1)=\frac{1}{4}+\frac{1}{4}=\frac{1}{2},$$ 
+and 
+$$ P(X_3=-1)= P(X_1=1,X_2=-1)+ P(X_1=-1,X_2=1)=\frac{1}{4}+\frac{1}{4}=\frac{1}{2}.$$
+So
+$$X_1\stackrel{d}{=}X_2\stackrel{d}{=}X_3.$$
+The following four equations show that $X_1, X_3$ are independent: 
+\begin{align*}
+ P(X_1=1, X_3=1)&= P(X_1=1, X_2=1)\\
+&=\frac{1}{4}= P(X_1=1) P(X_3=1);
+\end{align*}
+\begin{align*}
+ P(X_1=-1, X_3=1)&= P(X_1=-1, X_2=-1)\\
+&=\frac{1}{4}= P(X_1=-1) P(X_3=1);
+\end{align*}
+\begin{align*}
+ P(X_1=1, X_3=-1)&= P(X_1=1, X_2=-1)\\
+&=\frac{1}{4}= P(X_1=-1) P(X_3=-1);
+\end{align*}
+\begin{align*}
+ P(X_1=-1, X_3=-1)&= P(X_1=-1, X_2=1)\\
+&=\frac{1}{4}= P(X_1=-1) P(X_3=-1).
+\end{align*}
+Similarly $X_2, X_3$ are also independent. By assumption, $X_1,X_2$ are independent. So $X_1,X_2,X_3$ are pairwise independent. 
+\item But they are not independent all together, because
+\begin{align*}
+ P(X_1=1, X_2=1, X_3=1)&= P(X_1=1, X_2=1)=\frac{1}{4}\\
+&\neq \frac{1}{8}= P(X_1=1)\cdot P(X_2=1)\cdot P(X_3=1).
+\end{align*}
+\end{enumerate}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 4.6}
+~\\~\\
+Let $X, Y$ be two independent random variables with the same pmf 
+$$f(k)=\begin{cases} \frac{1}{4}, \quad \text{ if } k= 1,2,3,4\\
+0,\quad \text{ otherwise}\end{cases}$$
+Find the pmf of $Z=X+Y.$
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+The sample space of $Z$ is $\{2,3,4,5,6,7,8\}$. For $k\in \{2,3,4,5\}$, we have  
+$$ P(Z=k)=\sum_{i=1}^{k-1} P(X=i, Y=k-i)=\sum_{i=1}^{k-1} P(X=i) P(Y=k-i)=\sum_{i=1}^{k-1}\frac{1}{4}*\frac{1}{4}=\frac{k-1}{16}.$$
+For $k\in\{6,7,8\}$, we have 
+$$ P(Z=k)=\sum_{i=k-4}^{4} P(X=i, Y=k-i)=\sum_{i=k-4}^{4} P(X=i) P(Y=k-i)=\sum_{i=k-4}^{4}\frac{1}{4}*\frac{1}{4}=\frac{9-k}{16}.$$
+Then the pmf of $Z$ is 
+\begin{equation*}
+f_{Z}(k)=\left\{\begin{array}{lr}
+\frac{k-1}{16}, & k=2,3,4,5;\\
+\frac{9-k}{16}, & k=6,7,8;\\
+0, & \text{ otherwise}.
+\end{array}\right.
+\end{equation*}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 5.1}
+~\\~\\
+The probability of a man hitting the target at a shooting range is 1/4. He shoots 10 times. 
+\begin{enumerate}
+\item[(a)]  What is the probability that he hits the target exactly three times?
+\item[(b)]  What is the probability that he hits the target at least once?
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{enumerate}
+\item[(a)]  $ P(X=3)={10\choose 3}(1/4)^3*(1-1/4)^7=0.2503.$
+\item[(b)]  $ P(X\geq 1)=1- P(X=0)=1-(1-1/4)^{10}=0.9437.$
+\end{enumerate}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 5.2}
+~\\~\\
+A gambler tosses a coin and wants to get a head within 4 tosses. The gambler hopes that the probability for this event to happen is higher or equal to $1/2$. If $p$ be the probability of tossing a head. Which values of $p$ satisfy the gambler's requirement?
+\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+ Let $p$ be the probability of getting a head for one toss. Let $X$ be the number of heads within 4 tosses. Then $X\sim B(4,p)$. The gambler wants that 
+$$ P(X\geq 1)=1- P(X=0)=1-(1-p)^4\geq 1/2.$$
+Solving the equation yields $p\in[0.1591.1]$. 
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 5.3}
+~\\~\\
+Show that if $X\sim B(n,p)$ then 
+$$E[X]=np, \quad Var(X)=np(1-p).$$
+Do this {\it without} appealing to the sum of means of indecent Bernouilli trials. Hint: $\displaystyle k{n \choose k}=n{n-1 \choose k-1}.$
+\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+We provide two approaches:
+Note that $f_X(k)={n\choose k}p^k(1-p)^{n-k}$ for $k=0,1,2,\cdots,n.$ Then using $k{n\choose k}=n{n-1\choose k-1}$, we obtain
+    \begin{align*}
+        E[X]&=\sum_{k=0}^nkf_X(k)=\sum_{k=0}^nk{n\choose k}p^k(1-p)^{n-k}&\\
+        &=\sum_{k=1}^nn{n-1\choose k-1}p^k(1-p)^{n-k}\quad \text{ (here we use $k{n\choose k}=n{n-1\choose k-1}$)}&\\
+        &=np\sum_{k=1}^n{n-1\choose k-1}p^{k-1}(1-p)^{n-1-(k-1)}=np\left(p+(1-p)\right)^{n-1}=np.&
+    \end{align*}
+    In the fifth equality, we used the binomial theorem: 
+    $$(a+b)^m=\sum_{i=0}^m{m\choose i}a^ib^{m-i},$$ 
+    for any positive integer $m$ and any real values $a,b.$ 
+    Using the fact that $k^2=k(k-1)+k$ and $k(k-1){n\choose k}=n(n-1){n-2\choose k-2}$, we have
+    \begin{align*}
+        E[X^2]&=\sum_{k=0}^nk^2f_X(k)=\sum_{k=2}^nk(k-1){n\choose k}p^k(1-p)^{n-k}+\sum_{k=1}^nk{n\choose k}p^k(1-p)^{n-k}&\\
+        &=\sum_{k=2}^nn(n-1){n-2\choose k-2}p^k(1-p)^{n-k}+E[X]&\\
+        &=n(n-1)p^2\sum_{k=2}^n{n-2\choose k-2}p^{k-2}(1-p)^{n-2-(k-2)}+E[X]&\\
+        &=n(n-1)p^2+np.&
+    \end{align*}
+    Then
+    $$\operatorname{Var}(X)=E[X^2]-(E[X])^2=np(1-p).$$
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 5.4}
+~\\~\\
+A drug given to epileptic patients to help control their seizures is found
+to cause a skin rash in $2\%$ of people. A doctor plans to review the 57 patients
+to whom she gave this drug to find out how many of them have experienced the
+rash. 
+\begin{enumerate}[(a)]
+\item Assuming the number of patients experiencing the rash follows a binomial distribution, calculate the probability of at least 4 of the patients experiencing a rash. 
+\item Use the Poisson approximation to the binomial distribution to estimate
+the probability that at least 4 of the patients experience a rash. 
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{enumerate}[(a)]
+\item Let $X$ be the number of patients  experiencing the rash. Then $X\sim B(57, 0.02).$ Then the probability of at least 4 of the patients experiencing a rash is 
+$$P(X\geq 4)=1- P(X=0)- P(X= 1)- P(X= 2)- P(X= 3)= 0.0273.$$
+\item The binomial distribution $B(n,p)$ can be approximated by $Poi(np)$ if $n$ is very large, and $np$ is not too large nor too small. 
+We can apply it to our case where $n=57, p=0.02.$ Then setting $Y\sim Poi(57*0.02)=Poi(1.14)$, we have 
+$$P(X=0)\approx P(Y=0),  P(X=1)\approx  P(Y=1),$$
+$$  P(X=2)\approx  P(Y=2),  P(X=3)\approx  P(Y=3).$$ 
+Therefore $ P(X\geq 4)$ can be approximated by 
+$$ P(Y\geq 4)=1- P(Y=0)- P(Y= 1)- P(Y= 2)- P(Y= 3)=0.0288$$
+which is indeed quite close to $ P(X\geq 4)=0.0273.$
+\end{enumerate}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 5.5}
+~\\~\\
+Let $N(t)$ denote the number of earthquakes during the time interval
+$(0, t]$, for $t > 0$ (measured in years). It is known
+that $N(t)$ is a Poisson random variable with parameter $\lambda t$, for any $t > 0$. Assume $\lambda= 2$. 
+\begin{enumerate}
+\item[(a)] Find the probability that at least \(3\) earthquakes occur during the next
+\(2\) years.
+\item[(b)] Find the probability distribution of the time, starting from 0, until
+the next earthquake. Hint: consider $P(X\geq t)$ (this question is a precursor to studying the exponential distribution). 
+\end{enumerate}
+Round your answers to four decimal places. 
+\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{itemize}
+\item[(a)] In this case $t=2.$ We are asked to compute 
+$$ P(N(2)\geq 3).$$
+Note that $\lambda=2$. Since $N(t)\sim Poi(\lambda t)$, we obtain $N(2)\sim Poi(4)$. So 
+\begin{align*}
+ P(N(2)\geq 3)&=1- P(N(2)=0)- P(N(2)=1)- P(N(2)=2)&\\
+&=1-e^{-4}-4 e^{-4}-\frac{4^2e^{-4}}{2!}=0.7619.&
+\end{align*}
+\item[(b)] Let $X$ be the time until the next earthquake. Then for any $t\geq 0$, $\{X\geq t\}$ means that 
+there is no earthquake within $[0,t]$ (that is, $\{N(t)=0\}$). So 
+$$ P(X\geq t)= P(N(t)=0)=e^{-2t}.$$
+Then 
+$$f_X(t)=\frac{d}{dt} P(X\leq t)=\frac{d}{dt}\left(1- P(X\geq t)\right)=2e^{-2t},\quad t\geq 0.$$
+We will know next week that $X$ is an exponential random variable with parameter $2$.
+\end{itemize}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 6.1}
+~\\~\\
+Let \(X\sim U(a,b)\). If 
+\[E[X]=\frac{13}{2}, \quad Var(X)=\frac{81}{12},\]
+find \(a\) and \(b\).
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+Note that 
+$$E[X]=\frac{a+b}{2}=\frac{13}{2},\quad Var(X)=\frac{(a-b)^2}{12}=\frac{81}{12}.$$
+Note also that $b>a.$ 
+
+Using \(a=13-b\) we find
+\[(13-2b)^2=81,\]
+so
+\[0=88 - 52b+4b^2=4(b^2-13+22)=4(b-11)(b-2).\]
+Hence \(b=11\) and \(a=2\).
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 6.2}
+~\\~\\
+Let $X,Y,Z$ be independent normal random variables such that $$E[X]=1, E[Y]=2, E[Z]=3$$ 
+and 
+$$Var(X)=1, Var(Y)=4, Var(Z)=9$$ 
+What is the distribution of $3X+2Y+Z$? 
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+Since $X,Y,Z$ are independent normal random variables, we obtain that $3X+2Y+Z$ is also a normal random variable. 
+Moreover, by linearity 
+$$E[3X+2Y+Z]=3E[X]+2E[Y]+E[Z]=3*1+2*2+3=10.$$
+Due to the independence of $X,Y,X$, we have 
+$$Var(3X+2Y+Z)=3^2Var(X)+2^2Var(Y)+Var(Z)=9*1+4*4+9=34.$$
+A normal random variable is determined by its mean and variance. So $3X+2Y+Z$ following $N(10,34).$
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 6.3}
+~\\~\\
+If $X\sim N(\mu, \sigma^2)$, then the distribution of $X$ is symmetric about $x=\mu.$ More precisely, it means that 
+for any $c>0,$ we have 
+$$P(X\leq \mu-c)=P(X\geq \mu+c).$$
+\begin{figure}[h!]
+\includegraphics[scale=0.2]{symmetryN}
+\end{figure}
+Prove the above equality. 
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+We give two proofs:  a long one and a short one. 
+~\\~\\
+\noindent \underline{Long proof}:  the pdf of $X$ is 
+$$f_X(x)=\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}},\quad \text{ for any real number }x.$$
+Then 
+$$ P(X\leq \mu-c)=\int_{-\infty}^{\mu-c}f_X(x)dx=\int_{-\infty}^{\mu-c}\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}dx.$$
+If we make a change of variable $y=x-\mu$, then we obtain 
+$$ P(X\leq \mu-c)=\int_{-\infty}^{-c}\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{y^2}{2\sigma^2}}dy.$$
+If we make another change of variable $z=-y$, then we obtain 
+$$ P(X\leq \mu-c)=\int_{c}^{\infty}\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{z^2}{2\sigma^2}}dz.$$
+Now we make a final change of variable $x=z+\mu$, then we obtain 
+$$ P(X\leq \mu-c)=\int_{\mu+c}^{\infty}\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}dx=\int_{\mu+c}^{\infty}f_X(x)dx= P(X\geq \mu+c).$$
+Then the proof of finished. 
+~\\~\\
+\noindent \underline{Short proof}: Note that $X-\mu\sim N(0,\sigma^2)$ and $\mu-X\sim N(0,\sigma^2)$. Therefore $X-\mu$ and $\mu-X$ follow the same distribution. Then we have 
+$$ P(X-\mu\leq -c)= P(\mu-X\leq -c).$$
+The above is equivalent to 
+$$ P(X\leq \mu-c)= P(X\geq \mu+c).$$
+The proof is finished. 
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 6.4}
+~\\~\\
+Let \(a<b\in\mathbb{R}\). If \(U\) is uniformly distributed on $(0, 1)$, show that $X=a + (b-a)U$ is uniform
+on $(a, b)$.
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+First of all, we observe that $X\in (a,b)$. For any $t\in(a,b)$, we have 
+$$F_X(t)= P(X\leq t)= P(a + (b-a)U\leq t)= P\left(U\leq \frac{t-a}{b-a}\right).$$
+As \(U\) is uniform on \((0,1)\) we know that \( P(U\leq s)=s\), so
+\[F_X(t)= P\left(U\leq \frac{t-a}{b-a}\right)=\frac{t-a}{b-a}.\]
+Then 
+$$f_X(t)=\frac{d}{dt}F_X(t)=\frac{d}{dt} P(X\leq t)=\frac{1}{b-a}.$$
+So $X$ is uniform on $(a,b).$
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 6.5}
+~\\~\\
+Assume that there are $10$ batteries whose lifetimes are independent, and follow the same exponential distribution with parameter $2$ (measuring time in years).  
+\begin{enumerate}
+\item[(a)] What is the probability that exactly $4$ of them last longer than $1$ year?
+\item[(b)] What is the mean of the total lifetime of all \(10\) batteries?
+\item[(c)] What is the variance of the total lifetime of all \(10\) batteries?
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{enumerate}[(a)]
+    \item Let $X_i$ be the lifetime of the $i$-th battery for $1\leq i\leq 10$. We know that all $X_i$'s are independent and follow the same distribution $Exp(2)$. To compute the probability that exactly four of them are larger than 1, we need 2 steps. 
+    
+    Step 1: from 10 variables we choose 4 of them, how many possible ways are there? the answer is $C_{10}^4$ or ${10\choose 4}$. 
+    
+    Step 2: once four variables are chosen, what is probability that those chosen ones are larger than $1$ and the other are smaller than 1? the answer is $$ P(X_1\geq 1)^4 P(X_1<1)^6=(e^{-2*1})^4(1-e^{-2*1})^6=e^{-8}(1-e^{-2*1})^6.$$
+    Here we used the independence of the $X_i$'s. Finally the probability that exactly $4$ of them last longer than $1$ year is 
+    $${10\choose 4}*e^{-8}(1-e^{-2*1})^6=0.0294.$$
+    \item The mean of total lifetime of all batteries is $\frac{X_1+X_2+\cdots+X_{10}}{10}$. Then by linearity, 
+    $$ E[\frac{X_1+X_2+\cdots+X_{10}}{10}]=\frac{ E[X_1]+ E[X_2]+\cdots+ E[X_{10}]}{10}=\frac{1/2+1/2+\cdots+1/2}{10}=1/2.$$
+    \item The total lifetime of all batteries is $X_1+X_2+\cdots+X_{10}$. Then by the independence of all $X_i$'s, we have 
+    \begin{align*} Var(X_1+X_2+\cdots+X_{10})&= Var(X_1)+ Var(X_2)+\cdots+ Var(X_{10})\\
+    &=1/2^2+1/2^2+\cdots+1/2^2=10/4=2.5.\end{align*}
+\end{enumerate}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 6.6}
+~\\~\\
+A random variable $X$ is said to have a lognormal distribution if $\ln X$ is normally
+distributed. 
+\begin{enumerate}[(a)]
+    \item If $X$ is lognormal with $ E[\ln X] = \mu$ and $\operatorname{var}(\ln X ) = \sigma^2$,
+determine the pdf of $X$.
+    \item If $\mu=1, \sigma=2,$ compute $ P(X\leq 3)$. 
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{enumerate}[(a)]
+    \item Define $Z=\ln X$. Then $Z\sim N(\mu,\sigma^2).$ Since $X=e^{Z}$, we have $X\in(0,\infty).$
+For any $t\in(0, \infty),$ we have 
+$$F_X(t)= P(X\leq t)= P(e^Z \leq t)= P(Z\leq \ln t)=F_Z(\ln t).$$
+Then 
+\begin{align*}
+f_X(t)&=\frac{d}{dt}F_X(t)=\frac{d}{dt}F_Z(\ln t)=f_Z(\ln t)\cdot\frac{d\ln t}{dt}\\
+&=\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(\ln t -\mu)^2}{2\sigma^2}}\cdot\frac{1}{t}=\frac{1}{t\sigma\sqrt{2\pi}}e^{-\frac{(\ln t -\mu)^2}{2\sigma^2}}.
+\end{align*}
+\item $$ P(X\leq 3)= P(Z\leq \ln 3)= P\left(\frac{Z-1}{2}\leq \frac{\ln 3-1}{2}\right)= P\left(\frac{Z-1}{2}\leq 0.05\right)=0.5199.$$
+The last equality is obtained using the fact that $\frac{Z-1}{2}$ is a standard normal random variable and using the \(z\)-table or R. 
+\end{enumerate}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 7.1}
+~\\~\\
+Let $X_1,X_2,X_3$ be independent Bernoulli random variables such that 
+$$ P(X_1=0)=0.2, \quad  P(X_2=0)=0.3,\quad  P(X_3=0)=0.5.$$
+Determine $ E[\overline X], \operatorname{var}(\overline X)$.
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+Recall that if $X\sim Ber(p)$, then $ E[X]=p$, $ Var(X)=p(1-p)$. 
+Accordingly 
+$$ E[X_1]= P(X_1=1)=1- P(X_1=0)=0.8,\quad  E[X_2]=0.7,\quad  E[X_3]=0.5$$
+and 
+$$ Var(X_1)=0.16, \quad  Var(X_2)=0.21,\quad  Var(X_3)=0.25.$$
+Now $\overline X=(X_1+X_2+X_3)/3$, so
+$$ E[\overline X]=\frac{ E[X_1]+ E[X_2]+ E[X_3]}{3}=\frac{0.8+0.7+0.5}{3}=\frac{2}{3}$$
+and 
+$$ Var(\overline X)=\frac{ Var(X_1)+ Var(X_2)+ Var(X_3)}{9}=\frac{0.16+0.21+0.25}{9}=\frac{0.61}{9}=\frac{61}{900}.$$
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 7.2}
+~\\~\\
+We have a coin that we suspect may not be fair. To investigate this, we toss the coin $n$ times and count the number of heads.
+%
+Consider the difference between the frequency of heads in the $n$ tosses and the real probability of heads.
+\begin{itemize}
+\item[(a)] Using the weak law of large numbers, how large should $n$ be so that, if the coin is fair, this difference being greater than $0.01$ occurs with probability less than $0.01$?
+\item[(b)] How large does \(n\) need to be if we do not assume the coin is fair?
+\end{itemize}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{itemize}
+\item [(a)] Let $X_1\cdots, X_n$ be $n$ independent Bernoulli random variables with parameter $0.5$ such that $X_i=1$ if the $i$th coin toss gives heads and $X_i=0$ for tails. We look for $n$ such that 
+$$ P\left(\left|\overline X-0.5\right|\geq 0.01\right)\leq 0.01.$$
+Note that $ E[X_1]=0.5,  Var(X_1)=0.25.$ Applying Weak Law of Large Numbers, we obtain 
+$$ P(|\overline X-0.5|\geq 0.01)\leq \frac{0.25}{0.01^2n}= \frac{10^4}{4n}.$$
+
+Then we need to set
+$$\frac{10^4}{4n}\leq 0.01\Longrightarrow n\geq 250,000.$$
+
+\item[(b)] Let \(p\) be the probability of the coin landing on heads. Using the same set-up as in (a), we have
+\[
+ P(|\overline X-p|\geq 0.01)\leq \frac{p(1-p)}{0.01^2n}.
+\]
+
+The maximum possible value of \(p(1-p)\) is \(0.25\), which occurs if \(p=0.5\). Therefore our previous choice of \(n\) is still sufficient.
+\end{itemize}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 7.3}
+~\\~\\
+Suppose that we have a population where each member of the population falls into exactly one of two categories, $A$ and $B$. Assume the proportion in $A$ is $p=0.4$ and a
+random sample of size $n=100$ is drawn from the population. Assume that the central limit theorem applies. 
+\begin{enumerate}
+\item[(a)] What is the probability that the sample proportion  in $A$ (i.e. $\overline X=\frac{X_1+X_2+\cdots+X_{100}}{100}$) is greater than
+\(0.45\)?
+\item[(b)] What is the probability that the sample proportion in $A$  is less than \(0.3\)?
+\end{enumerate}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{itemize}
+\item[(a)] Let $X_1,\cdots, X_{100}$ be $100$ independent Bernoulli random variables with the same parameter $p$ such that $X_i=1$ if the $i$th individual in the sample is in category $A$ and $X_i=0$ for category $B$.  Recall that $ E[X_1]=p,  Var(X_1)=p(1-p)$. We aim to compute $ P(\overline X\geq 0.45)$. Since the Central Limit Theorem applies, 
+\begin{align*}
+ P(\overline X\geq 0.45)&= P\left(\frac{\overline X-p}{\sqrt{p(1-p)}/\sqrt{100}}\geq \frac{0.45-p}{\sqrt{p(1-p)}/\sqrt{100}}\right)&\\
+&= P\left(\frac{\overline X-p}{\sqrt{p(1-p)}/\sqrt{100}}\geq 1.02\right)&\\
+&=1- P\left(\frac{\overline X-p}{\sqrt{p(1-p)}/\sqrt{100}}\leq 1.02\right)&\\
+&\approx 1-0.8461=0.1539.&
+\end{align*}
+In the above we use the fact that $\frac{\overline X-p}{\sqrt{p(1-p)}/\sqrt{100}}$ can be considered as a standard normal random variable approximately. The value $0.8461$ can be found from the \(z\)--table.
+\item[(b)] This question is similar to (a). Note that 
+\begin{align*}
+ P(\overline X\leq 0.30)&= P\left(\frac{\overline X-p}{\sqrt{p(1-p)}/\sqrt{100}}\leq \frac{0.30-p}{\sqrt{p(1-p)}/\sqrt{100}}\right)&\\
+&= P\left(\frac{\overline X-p}{\sqrt{p(1-p)}/\sqrt{100}}\leq -2.04\right)&\\
+&= P\left(\frac{\overline X-p}{\sqrt{p(1-p)}/\sqrt{100}}\geq 2.04\right)&\\
+&=1- P\left(\frac{\overline X-p}{\sqrt{p(1-p)}/\sqrt{100}}\leq 2.04\right)&\\
+&\approx 1-0.9793=0.0207.&
+\end{align*}
+\end{itemize}
+Here in the third equality, we used the fact that $\frac{\overline X-p}{\sqrt{p(1-p)}/\sqrt{100}}$ can be considered as a standard normal random variable approximately, due to Central Limit Theorem, whose distribution is symmetric about $0.$
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 7.4}
+~\\~\\
+Let $X$ be a random variable. 
+\begin{itemize}
+\item[(a)] Using simulation, how can we find an approximate value of $ P(X=1)+ P(3\leq X\leq 8)$?  
+\item[(b)] How to theoretically describe the closeness between the simulated value and true value in this approximation? 
+\end{itemize}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{enumerate}
+\item[(a)] Assume we have a random sample $(X_1, X_2,\ldots, X_n)$ which are sampled from the distribution of $X$ (meaning they are i.i.d.\ and has the same distribution as that of $X$). Define the indicator function 
+$$\textbf{1}_{X_i=1, \text{ or } 3\leq X_i\leq 8}, \quad 1\leq i\leq n.$$
+Then by the Weak Law of Large Numbers, we know that for $n$ large, 
+$$\frac{\sum_{i=1}^n\textbf{1}_{ X_i=1, \text{ or } 3\leq X_i\leq 8 }}{n}\text{ approaches }  E[\textbf{1}_{X=1, \text{ or } 3\leq X_i\leq 8}]= P(X=1)+ P(3\leq X\leq 8).$$
+
+
+\item[(b)] Again by the Weak Law of Large Numbers, for any $\epsilon>0,$
+\begin{align*}
+& P\left(\left| \frac{\sum_{i=1}^n\textbf{1}_{ X_i=1, \text{ or } 3\leq X_i\leq 8 }}{n} -  P(X=1)- P(3\leq X\leq 8)\right|\geq \epsilon\right)\\
+\leq & \frac{ Var(\textbf{1}_{ X=1, \text{ or } 3\leq X\leq 8 })}{n\epsilon^2}\\
+=&\frac{p(1-p)}{n\epsilon^2}\end{align*}
+where $p= P(X=1)+ P(3\leq X\leq 8).$ Since we know that $0\le p\leq 1$ and $\sup_{0\leq p\leq 1}p(1-p)=\frac{1}{4},$ we obtain that 
+$$ P\left(\left| \frac{\sum_{i=1}^n\textbf{1}_{ X_i=1, \text{ or } 3\leq X_i\leq 8 }}{n} -  P(X=1)- P(3\leq X\leq 8)\right|\geq \epsilon\right)\leq \frac{1}{4n\epsilon^2}.$$
+
+\end{enumerate}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 8.1}
+~\\~\\
+Let $X_1, X_2, \cdots,X_n$ be i.i.d.\ normal random variables with common mean $\mu$ and common variance $\sigma^2$. Show that $\frac{\overline X-\mu}{\sigma/\sqrt{n}}\sim N(0,1)$.
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+Note that $\frac{\overline X-\mu}{\sigma/\sqrt{n}}=\frac{\sum_{i=1}^nX_i-n\mu}{\sigma\sqrt{n}}$ is a linear transformation of $X_1,X_2,\ldots, X_n.$ Since these $n$ random variables are i.i.d.\ normal, we conclude that $\frac{\overline X-\mu}{\sigma/\sqrt{n}}$ is also normal. To find its distribution, we just need to compute its mean and variance:
+$$ E\left[\frac{\overline X-\mu}{\sigma/\sqrt{n}}\right]=\frac{ E[\overline X]-\mu}{\sigma/\sqrt{n}}=0, \text{ because } E[\overline X]=\mu,$$
+$$ Var\left(\frac{\overline X-\mu}{\sigma/\sqrt{n}}\right)= Var(\frac{\overline X}{\sigma/\sqrt{n}})=\left(\frac{\sqrt{n}}{\sigma}\right)^2\cdot Var(\overline X)=\left(\frac{\sqrt{n}}{\sigma}\right)^2\cdot\frac{\sigma^2}{n}=1,$$
+because $ Var(\overline X)=\frac{\sigma^2}{n}. $ In conclusion, $\frac{\overline X-\mu}{\sigma/\sqrt{n}}\sim N(0,1)$.
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 8.2}
+~\\~\\
+A set of electric scales gives a reading equal to the true weight plus a random error that is normally distributed with mean $0$ and standard deviation $0.1$ mg. Suppose that weighing the same object five times gives the following results (in mg): 
+$$3.142,\,\, 3.163,\,\, 3.155,\,\, 3.150,\,\, 3.141.$$
+\begin{enumerate}
+\item[(a)] Determine a $90\%$  confidence interval for the true weight.
+\item[(b)] Determine a $95\%$  confidence interval for the true weight.
+\end{enumerate}
+Round to three decimal places. 
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+Let $X$ denote the random error, so $X\in N(0,0.01)$. Let $Y=\mu+X$ be the random value obtained from the measurement where $\mu$ is the true weight. Then $Y\sim N(\mu, 0.01)$. The question is about constructing a confidence interval for the mean $\mu$. 
+
+Since the distribution is normal, we can construct confidence intervals for the mean for any sample size.  Here we have sample size $n=5$ and the variance is known to be \(\sigma^2=0.01\). Therefore the $100(1-\alpha)\%$ confidence interval for the mean is 
+$$\left(\overline x-z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}},\overline x+z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}}\right),$$
+where 
+$$\overline x=\frac{3.142+3.163+3.155+3.150+3.141}{5}=3.150 \text{ (3d.p.)}.$$
+%\begin{align*}
+%s&=\sqrt{\sum_{i=1}^n\frac{(x_i-\overline x)^2}{n-1}}&\\
+%&=\sqrt{\frac{(3.142-\overline x)^2+(3.163-\overline x)^2+(3.155-\overline x)^2+(3.150-\overline x)^2+(3.141-\overline x)^2}{4}}&\\
+%&=0.010 \text{ (3d.p.)}.&
+%\end{align*}
+Then the interval becomes
+\begin{align*}
+\bigg(3.150-z_{\frac{\alpha}{2}}\cdot\frac{0.1}{\sqrt{5}}\, & , \,3.150+z_{\frac{\alpha}{2}}\cdot\frac{0.1}{\sqrt{5}}\bigg)\\
+&=\left(3.150-0.045\cdot z_{\frac{\alpha}{2}}\, , \, 3.150+0.045\cdot z_{\frac{\alpha}{2}}\right).
+\end{align*}
+\begin{itemize}
+\item[(a)] In this case we have $\alpha=0.1$. By checking the $z$--table or using R,  $z_{\frac{\alpha}{2}}=z_{0.05}=1.645$, so the $90\%$ confidence interval for the mean is 
+$$\left(3.150-0.045\cdot z_{\frac{\alpha}{2}}\, , \,3.150+0.045\cdot z_{\frac{\alpha}{2}}\right)=(3.076, 3.224).$$
+\item[(b)] In this case we have $\alpha=0.05$. By checking the $z$--table or using R,   $z_{\frac{\alpha}{2}}=z_{0.025}=1.96$. Therefore the $95\%$ confidence interval for the mean is 
+$$\left(\, 3.150-0.045\cdot z_{\frac{\alpha}{2}}\, , \,3.150+0.045\cdot z_{\frac{\alpha}{2}}\, \right)=(3.062, 3.238).$$
+\end{itemize}
+Since the distribution is normal, we can construct confidence intervals for the mean for any sample size.  Here we have sample size $n=5$ and the variance is known to be \(\sigma^2=0.01\). Therefore the $100(1-\alpha)\%$ confidence interval for the mean is 
+$$\left(\overline x-z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}},\overline x+z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}}\right),$$
+where 
+$$\overline x=\frac{3.142+3.163+3.155+3.150+3.141}{5}=3.150 \text{ (3d.p.)}.$$
+Then the interval becomes
+\begin{align*}
+\bigg(3.150-z_{\frac{\alpha}{2}}\cdot\frac{0.1}{\sqrt{5}}\, & , \,3.150+z_{\frac{\alpha}{2}}\cdot\frac{0.1}{\sqrt{5}}\bigg)\\
+&=\left(3.150-0.045\cdot z_{\frac{\alpha}{2}}\, , \, 3.150+0.045\cdot z_{\frac{\alpha}{2}}\right).
+\end{align*}
+\begin{itemize}
+\item[(a)] In this case we set $\alpha=0.1$. Then $z_{\frac{\alpha}{2}}=z_{0.05}=1.645$, so the $90\%$ confidence interval for the mean is 
+$$\left(3.150-0.045\cdot z_{\frac{\alpha}{2}}\, , \,3.150+0.045\cdot z_{\frac{\alpha}{2}}\right)=(3.076, 3.224).$$
+\item[(b)] In this case we have $\alpha=0.05$, so $z_{\frac{\alpha}{2}}=z_{0.025}=1.96$. Therefore the $95\%$ confidence interval for the mean is 
+$$\left(\, 3.150-0.045\cdot z_{\frac{\alpha}{2}}\, , \,3.150+0.045\cdot z_{\frac{\alpha}{2}}\, \right)=(3.062, 3.238).$$
+\end{itemize}
+
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 8.3}
+~\\~\\
+An airline is interested in determining the proportion of its customers who are flying for business reasons. If they want to be $90\%$ confident that their estimate will be correct to within 2\%, how large a random sample should they take?
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+In this exercise,  we know the confidence level (90\%), the largest margin of error (2\%), and we have to find the smallest possible sample size.  Normally, we still need to know the sample variance. But since the random variables are Bernoulli, the sample variance can be written as a function of the sample mean (which is not true in general).  
+
+Assume a customer flies with probability $p$ and does not fly with probability $1-p$.
+Let $X_1,X_2,\ldots, X_n$ be a sample of i.i.d.\ Bernoulli random variables with distribution $Ber(p)$. Then an estimator of $p$ is $\hat p=\overline X$ since $ E[\overline X]=p.$ The sample variance is 
+\begin{align*}S^2=\frac{\sum_{i=1}^n(X_i-\overline X)^2}{n-1}&=\frac{\sum_{i=1}^nX_i^2-2\overline X\sum_{i=1}^nX_i+n\overline X^2}{n-1}\\
+&=\frac{\sum_{i=1}^nX_i^2-n\overline X^2}{n-1} \quad \text{(use $\sum_{i=1}^nX_i=n\overline X$)}\\
+&=\frac{\sum_{i=1}^nX_i-n\overline X^2}{n-1} \quad \text{(use $X_i^2=X_i$)}\\
+&=\frac{n\overline X-n\overline X^2}{n-1} \quad \text{(use $\sum_{i=1}^nX_i=n\overline X$)}\\
+&=\frac{n\hat p-n(\hat p)^2}{n-1} \quad \text{(use $\hat p=\overline X$)}\\
+&=\frac{n\hat p(1-\hat p)}{n-1}.
+\end{align*}
+Then the margin of error is 
+$$z_{\frac{\alpha}{2}}\frac{S}{\sqrt{n}}=z_{\frac{\alpha}{2}}\cdot\sqrt{\frac{\hat p\cdot (1-\hat p)}{n-1}}.$$
+
+
+If the confidence level is $90\%=100(1-\alpha)\%$, then $\alpha=0.1$. 
+For the estimate to be correct to within 2\%, the margin of error should be less than or equal to $0.02$: 
+$$z_{\frac{\alpha}{2}}\cdot\sqrt{\frac{\hat p\cdot (1-\hat p)}{n-1}}=z_{0.05}\cdot\sqrt{\frac{\hat p\cdot (1-\hat p)}{n-1}}\leq 0.02.$$
+By checking the \(z\)--table or using R, we know that $z_{0.05}=1.645.$ Moreover 
+$$\hat p\cdot (1-\hat p)\leq \frac{1}{4},$$
+and $\frac{1}{4}$ is attained at $\hat p=\frac{1}{2}$. Hence it suffices to set 
+$$z_{0.05}\cdot\sqrt{\frac{\hat p\cdot (1-\hat p)}{n-1}}\leq 1.645\times \sqrt{\frac{1}{4(n-1)}}\leq 0.02\quad\Rightarrow n\geq 1693. $$
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 8.4}
+~\\~\\
+A survey finds that a $95\%$ confidence interval for the mean annual salary of a police patrol officer in California in 2016 is $\$52516$ to $\$53500$. A student is surprised that so few police officers make more than $\$53500$. Explain what is wrong with the student's interpretation.
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+First of all, a single confidence interval should be used carefully when making conclusions. Another person with a different sample can get a very different confidence interval. 
+
+Secondly, The student has taken the interval given as a statement about the distribution of salaries. Since a small part of the interval lies above $\$53500$, they have concluded that few of the salaries lie above $\$53500$. However, this is not what the result is saying.
+
+The confidence interval records what is known about the position of the mean, but does not tell us about the spread of the values around the mean.  It might be that most of those in the survey earn more than $\$53500$, but the mean was pulled down by a number of voluntary staff. On the other hand, there could be a lot of staff with salaries around $\$52500$, and a small number who are more highly paid. A range of different situations could lead to the same confidence interval. 
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 8.5}
+~\\~\\
+Hoping to support the growth of small businesses, a city builds a new public car park in the central business district. The city plans to pay for the structure through parking fees. During a two-month period (44 working days), daily fees collected averaged £$126$, with a sample standard deviation of £$15$.
+\begin{enumerate}
+\item[(a)] Find a $90\%$ confidence interval for the mean daily income this car park will generate.
+\item[(b)] Interpret this confidence interval in context.
+\item[(c)] Explain what ``$90\%$ confidence'' means here.
+\item[(d)] The consultant who advised the city on this project predicted  that parking revenue would average £$130$ per day. Based on your confidence interval, do you think the consultant was correct?  Why? 
+\end{enumerate}
+Round to four decimal places. 
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{itemize}
+\item[(a)] We know the sample mean $\overline x=126$ and sample standard deviation $s=15$. We do not know whether the distribution is normal or not, and neither do we know the mean $\mu$ or the variance $\sigma^2$.  However, the sample size $n=44$ is large enough ($44\geq 30$) to apply the Central Limit Theorem, so we can still construct the confidence interval with confidence level $90\%$:
+$$\left(\overline x-z_{\frac{\alpha}{2}}\cdot\frac{s}{\sqrt{n}}\, ,\, \overline x+z_{\frac{\alpha}{2}}\cdot\frac{s}{\sqrt{n}}\right).$$
+Note that setting $100(1-\alpha)\%=90\%$ implies that $\alpha=0.1.$ Then $z_{\frac{\alpha}{2}}=z_{0.05}=1.645.$
+Plugging all the values into the above formula, we get the confidence interval as follows: 
+$$(126-3.720, 126+3.720)=(122.280, 129.720).$$
+
+\item[(b)] We are $90\%$ confident that the mean daily income this car park will generate falls in the interval $(122.280, 129.720).$
+
+\item[(c)] If we draw many samples and construct the corresponding \(90\%\) confidence intervals, then around $90\%$ of these intervals will contain the  mean daily income this car park will generate.
+
+\item[(d)] We are $90\%$ confident that the consultant is not correct because \(130\) is not in the interval $(122.280, 129.720).$
+\end{itemize}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 8.6}
+~\\~\\
+If the distribution is not normal, but $\sigma^2$ is known. Find the rejection region for the two-sided test for 
+$$H_0: \mu=\mu_0,\quad H_1: \mu\neq \mu_0,$$
+given very large sample size $n$ and significance level $\alpha$. 
+
+If the distribution is not normal, and $\sigma^2$ is unknown but $s^2$ is known. Find the rejection region for the one-sided test for 
+$$H_0: \mu=\mu_0,\quad H_1: \mu> \mu_0,$$
+given very large sample size $n$ and significance level $\alpha$. 
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+Since the sample size is very large, we can consider $\frac{\overline X-\mu_0}{\frac{\sigma}{\sqrt{n}}}$ or  $\frac{\overline X-\mu_0}{\frac{S}{\sqrt{n}}}$ as standard normal random variables, using the central limit theorem.  Then everything is the same as for the case the distribution being normal.
+\begin{itemize}
+\item If $\sigma$ is known, since we are dealing with a two-sided test,  the rejection region for $\overline x$ is $$\left(-\infty,\quad  \mu_0-z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}}\right]\cup \left[\mu_0+z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}},\quad \infty\right);$$
+\item If $\sigma$ is known but $s^2$ is known, since we are dealing with a one-sided test,   the rejection region for $\overline x$ is  $$\left[\mu_0+z_{\alpha}\cdot\frac{s}{\sqrt{n}},\quad \infty\right).$$
+\end{itemize}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 8.7}
+~\\~\\
+In 1990, according to the U.S.\ Bureau of the Census, \(25.5\) percent of the population of those aged 18 or above smoked. A scientist believes that this percentage has since increased, and to investigate this she has randomly sampled \(500\) individuals from the population. If \(138\) of them are smokers, does this support her belief? Use the \(5\%\) significance level. 
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+In this exercise, the distribution is Bernoulli $B(p)$ where $p$ is unknown. We know that $\mu= E[X]=p$ if $X\sim B(p)$ so $p$ can also be considered as the mean. Therefore, we can use the hypothesis testing for the mean to test statements about $p.$ Let $p$ be the percentage of the population of those aged 18 or above who smoke (that is, the average of recording \(1\) for those who smoke and \(0\) for those who don't). The variance is $\sigma^2=p(1-p)$ since we are dealing with the Bernoulli distribution $B(p)$. We have $n=500$, $\hat p=\overline x=\frac{138}{500}=0.276$, $\alpha=0.05$. The hypotheses are
+$$H_0: p=0.255,\quad H_1: p>0.225.$$
+Thus we are dealing with a one-sided test with the distribution not normal and $\sigma^2$ is known. Following Exercise 36, we reject $H_0$ if 
+\begin{equation}\label{rej}
+\frac{\hat p-p}{\frac{\sigma}{\sqrt{n}}}=\frac{\hat p-p}{\sqrt{\frac{p\cdot(1-p)}{n}}}\geq z_\alpha.
+\end{equation}
+The left hand side equals 
+$$\frac{0.276-0.255}{\sqrt{\frac{0.255(1-0.255)}{500}}}=1.0773.$$
+By checking the $z$--table (or Rstudio), the right hand side is 
+$$z_{0.05}=1.645.$$
+Therefore \eqref{rej} does not hold, so we fail to reject the null hypothesis that the percentage of the population of those aged 18 or above who smoke is equal to that in 1990 at the significance level $5\%.$
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 8.8}
+~\\~\\
+A British pharmaceutical company, Glaxo Holdings, patented the migraine medication 
+sumatriptan in 1982.
+Among the claims Glaxo made for its drug was that the mean time it takes to enter bloodstream is less than 10 mins. To convince the Food and Drug Administration of the validity of this claim, Glaxo conducted an experiment on a randomly chosen set of migraine sufferers. 
+
+\begin{enumerate}
+\item[(a)] To support this claim, what should they have taken as the null hypothesis, and what as the alternative hypothesis?
+\item[(b)] If the sample size is $81$, the sample mean is $7$, and the sample variance is $100$, test the above hypothesis at the $5\%$ significance level.
+\item[(c)] What would be the practical implication of a type I error in this context?
+\item[(d)] What would be the practical implication of a type II error in this context?
+\end{enumerate} 
+
+\begin{maybePrint}{showAnswers}
+\color{red}{
+Let $\mu$ be the mean time. 
+\begin{itemize}
+\item[(a)] $H_0: \mu=10, \quad H_1: \mu<10.$
+($H_0$ is something you want to reject; $H_1$ is something you want to provide supporting evidence for by rejecting $H_0.$)
+\item[(b)]  Note that $n=81, \overline x=7, s^2=100, \alpha=0.05.$ Then $z_\alpha=1.645.$ Then 
+$$\frac{\overline x-10}{s/\sqrt{n}}=-2.7<-1.645=-z_{0.05}.$$
+So we reject $H_0$ at the significance level $5\%.$  (It means that $H_1$ is more plausible than $H_0$ by the test).
+\item[(c)] A type I error would mean the drug appeared to be fast-acting even though this wasn't true. As a result, customers would be paying a premium for a drug that was not as good as it claimed.
+\item[(d)] A type II error would mean that the drug was fast-acting, but the company failed to find sufficient evidence for this. As a result, the company would not be able to capitalise on the development of the drug (limiting their ability to invest in other projects), and customers would not have the benefit of the better drug.
+\end{itemize} 
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 8.9}
+~\\~\\
+A particular population distribution is known to have standard deviation $20$. Determine the $p$--value of a test of the hypothesis that the population mean is equal to $50$, if the average of a sample of \(64\) observations is $55$.
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+We know that $\sigma=20$, $n=64$ and $\overline x=55$. The hypotheses are 
+$$H_0: \mu=50, \quad H_1: \mu\neq 50.$$
+The $p$--value is equal to 
+\begin{align*}
+2 P\left(Z\geq\left|\frac{\overline x-\mu_0}{\sigma/\sqrt{n}}\right|\right)&=2 P\left(Z\geq2\right)=2\big(1- P(Z< 2)\big)\\&=2(1-0.9772)=0.0456.
+\end{align*}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 8.10}
+~\\~\\
+True or false? Give a reason for each. 
+\begin{itemize}
+\item[(a)] Rejecting \(H_0\) means accepting \(H_1\).
+\item[(b)] The significance level is the total amount of risk that a statistician will bear when doing a hypothesis test.
+\item[(c)] The significance level should always be chosen as small as possible.
+\end{itemize}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+These are all false.
+\begin{itemize}
+\item[(a)] In a hypothesis test, we never accept a hypothesis. However rejecting $H_0$ does provide some evidence for $H_1$. But that does not mean we accept $H_1$. Acceptance is a term that is too strong for a statistician to use (although some scientists may disagree).  
+\item[(b)] The significance level is the risk of committing a type I error. There is also a risk of making a type II error.
+\item[(c)] Decreasing the significance level will decrease the risk of committing a type I error but will increase the risk of a type II error.
+\end{itemize}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 9.1}
+~\\~\\
+To ascertain whether a certain die was fair, 1000 rolls of the die were recorded with the following results. 
+\begin{table}[h]
+\centering
+\begin{tabular}{rr}
+  \hline
+Outcome & Number of occurrences\\
+\hline
+1& 158\\
+2&172\\
+3&164\\
+4&181\\
+5&160\\
+6&165\\
+\hline
+\end{tabular}
+\end{table}
+Test the hypothesis that the die is fair (that is, that $p_i=\frac{1}{6}$ for any $i=1,2,\cdots,6$) at the 5\% significance level. Round to three decimal places.
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+This is a goodness-of-fit test. Note that $k=6$, $n=1000$ and $n\cdot p_i=\frac{1000}{6}\geq 5$, so the sample size condition is satisfied. 
+%Denote 
+%$$M_{n,1}=158, M_{n,1}=172, M_{n,3}=164, M_{n,4}=181, M_{n,5}=160, M_{n,6}=165.$$
+The hypotheses are 
+$$H_0: \text{ the die is fair}, \quad H_1: \text{ the die is not fair. } $$
+We reject $H_0$ at the significance level $\alpha=0.05$ if 
+\begin{equation}\label{rejchi}
+\chi^2=\sum_{i=1}^k\frac{(c_i-n\cdot p_i)^2}{n\cdot p_i}>\chi^2_{k-1,\alpha}.
+\end{equation}
+The left hand side is 
+\begin{align*}
+\chi^2&=\frac{(158-1000/6)^2}{1000/6}+\frac{(172-1000/6)^2}{1000/6}+\frac{(164-1000/6)^2}{1000/6}\\
+&+\frac{(181-1000/6)^2}{1000/6}+\frac{(160-1000/6)^2}{1000/6}+\frac{(165-1000/6)^2}{1000/6}\\
+&=2.180.
+\end{align*}
+By checking the chi-squared table, we find that the right hand side is 
+$$\chi^2_{k-1,\alpha}=\chi^2_{5, 0.05}=11.070.$$
+Therefore \eqref{rejchi} does not hold, so we fail to reject $H_0$ at the $0.05$ significance level.
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 9.2}
+~\\~\\
+Neutrino radiation was observed over an extended period, and the number of hours in which $0,1,2,\ldots$ signals were received was recorded. 
+
+\begin{table}[h]
+\centering
+\begin{tabular}{cc}
+  \hline
+Signals per hour & Hours with this frequency\\
+\hline
+0& 1924\\
+1&541\\
+2&103\\
+3&17\\
+4&1\\
+5 or more &1\\
+\hline
+\end{tabular}
+\end{table}
+
+Test, at the $0.01$ significance level, the hypothesis that the observations come from a population having a Poisson distribution with mean $0.3.$ Round to four decimal places. Is there any problem with this test? 
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+This is also a goodness-of-fit test. Note that $k=6$, and $n=1924+541+103+17+1+1=2587$. 
+%Denote 
+%$$M_{n,0}=1924, M_{n,1}=541, M_{n,2}=103, M_{n,3}=17, M_{n,4}=1, M_{n,5}=1.$$
+Let $N\sim Poi(0.3).$ Write 
+$$p_i= P(N=i),\quad i=0,1,2,3,4$$
+and $$p_5= P(N\geq 5).$$
+Then 
+\begin{align*}
+p_0=0.7408,\quad & p_1=0.2222,\quad  p_2=0.0333,\\
+ p_3=0.0033,\quad & p_4=0.0003,\quad  p_5=0.0001,
+\end{align*}
+and 
+\begin{align*}
+ n\cdot p_0=1914.45,\quad & n\cdot p_1=574.8314,\quad  n\cdot p_2=86.1471,\\
+ n\cdot p_3=8.5371,\quad  & n\cdot p_4=0.7761,\quad  n\cdot p_5=0.2587.
+\end{align*}
+The hypotheses are 
+$$H_0: \text{ the population is Poisson distributed with parameter }0.3, \quad H_1: H_0 \text{ is not true.} $$
+%Then we reject $H_0$ at the significance level $\alpha=0.01$ if 
+%\begin{equation}\label{rejchi2}\sum_{i=1}^k\frac{(M_{n,i}-n\cdot p_i)^2}{np_i}>\chi^2_{k-1,\alpha}.\end{equation}
+The test statistic is $\chi^2=15.8960$. By checking the chi-squared table, the critical value is
+$$\chi^2_{k-1,\alpha}=\chi^2_{5,0.01}=15.086.$$
+Since \(\chi^2 > \chi^2_{k-1,\alpha}\), we reject $H_0$ at the $0.01$ significance level. This test is flawed because the sample size condition is not satisfied ($n\cdot p_4<5, n\cdot p_5<5$). 
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 9.3}
+~\\~\\
+The following data compares a mother's age to whether her child has a low birthweight. 
+  
+\begin{table}[h]
+\centering
+\begin{tabular}{rrr}
+  \hline
+Maternal Age & Less than 2.5kg & 2.5kg or more\\
+\hline
+under 25 years old & 10 & 40 \\
+25 or older & 15 & 135\\
+\hline
+\end{tabular}
+\end{table}
+\begin{enumerate}
+\item[(a)] Test the hypothesis that the baby's birthweight is independent of the mother's age at the  $5\%$ significance level. 
+\item[(b)] What is the $p$--value? 
+\item[(c)] What does the comparison between $5\%$ and the $p$--value imply? 
+\end{enumerate}
+Round to four decimal places. 
+
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{itemize}
+\item[(a)]
+This is a test of independence. Note that $k=l=2$ and $n=10+40+15+135=200.$
+%Denote 
+%$$M_{n,1,1}=10, M_{n,2,1}=15, M_{n,1,2}=40, M_{n,2,2}=135.$$
+%Moreover 
+We can calculate the estimates for the probability of the mother being under or over 25:
+$$\hat p_1=\frac{10+40}{200}=0.25, \quad \hat p_2=1-\hat p_1=0.75;$$
+and of the baby having low birthweight or otherwise:
+$$ \hat q_1=\frac{10+15}{200}=0.125, \quad  \hat q_2=1-\hat q_1=0.875.$$
+From these we can calculate the values we would expect to see:
+
+\begin{table}[h]
+\centering
+\hspace{-0.75cm}
+\begin{tabular}{rrr}
+  \hline
+Maternal Age & Less than 2.5kg & 2.5kg or more\\
+\hline
+under 25 years old & \(0.25\times 0.125\times 200=6.25\) & \(0.25\times 0.875\times 200=43.75\) \\
+25 or older & \(0.75\times 0.125\times 200=18.75\) & \(0.75\times 0.875\times 200=131.25\)\\
+\hline
+\end{tabular}
+\end{table}
+Each of these values is greater than \(5\), so the sample size condition is met.
+%Then we can verify that the Expected Cell Frequency Condition: 
+%$$n\hat p_i\hat q_j\geq 5,  \quad 1\leq i,j \leq 2.$$
+The hypotheses are 
+$$H_0: \text{ mother's age and the birthweight of her child are independent }$$ 
+and $$ H_1: \text{ they are dependent}. $$
+%We reject $H_0$ at the significance level $\alpha=0.05$ if 
+%$$\sum_{1\leq i\leq k, 1\leq j\leq l}\frac{\left(M_{n,i,j}-n\hat p_i\hat q_j\right)^2}{n\hat p_i\hat q_j}>\chi^2_{(k-1)(l-1),\alpha}.$$
+The test statistic is
+\begin{align*}
+\chi^2&=\frac{(10-6.25)^2}{6.25}+\frac{(40-43.75)^2}{43.75}+\frac{(15-18.75)^2}{18.75}+\frac{(135-131.25)^2}{131.25}\\
+&\approx 3.429.
+\end{align*}
+From the chi-squared table, the critical value is $\chi^2_{1,0.05}=3.841$. As \(\chi^2<\chi_{1,0.05}\), we fail to reject $H_0$ at the $0.05$ significance level.
+\item[(b)]
+Let $X\sim \chi^2_{(k-1)(l-1)}=\chi^2_1.$ Then the $p$--value is 
+$$ P\left(X>\chi^2\right)= P(X>3.429)=0.0641.$$
+This last value is obtained using R.
+\item[(c)]
+The $p$--value is larger than $\alpha=0.05$. We can use this fact to conclude that we fail 
+to reject $H_0$ at the $0.05$ significance level.
+\end{itemize}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 10.1}
+~\\~\\
+	A company is testing the effectiveness of a new training program by measuring employee productivity (tasks completed per day) before and after training. A random sample of \( n = 30 \) employees is selected, and the improvement in their productivity is recorded. The sample mean improvement is \( \bar{x} = 3.2 \) tasks per day, and the sample standard deviation is \( s = 1.5 \).  
+	
+	The company claims that the training program leads to an average improvement of at least 3 tasks per day. Test this claim at the \( \alpha = 0.05 \) significance level using:  
+	\begin{enumerate}[(a)]
+		\item A normal approximation (incorrect, since population variance is unknown).  
+		\item The t-distribution (correct for estimated variance).  
+	\end{enumerate}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+    \begin{itemize}
+		\item Null hypothesis: \( H_0: \mu = 3 \), where \( \mu \) is the mean improvement.
+		\item Alternative hypothesis: \( H_1: \mu > 3 \) (one-tailed test).
+		\item Sample mean \( \bar{x} = 3.2 \), sample standard deviation \( s = 1.5 \), sample size \( n = 30 \).
+	\end{itemize}
+    \begin{enumerate}[(a)]
+        \item Using the normal approximation (incorrect):
+    	\[
+    	Z = \frac{\bar{x} - \mu}{s / \sqrt{n}} = \frac{3.2 - 3}{1.5 / \sqrt{30}} = \frac{0.2}{0.2739} = 0.73.
+    	\]
+    	The p-value for \( Z = 0.73 \) is \( P(Z > 0.73) = 0.2324 \), which is greater than 0.05. Hence, we fail to reject \( H_0 \).
+    	\item t-Distribution:
+    	Using the t-distribution (correct):
+    	\[
+    	t = \frac{\bar{x} - \mu}{s / \sqrt{n}} = \frac{3.2 - 3}{1.5 / \sqrt{30}} = 0.73.
+    	\]
+    	Degrees of freedom: \( df = n - 1 = 29 \).
+    	From the t-table, the critical value for \( t \) at \( \alpha = 0.05 \) and \( df = 29 \) is \( t^* = 1.699 \). The p-value for \( t = 0.73 \) with 29 degrees of freedom is \( P(T > 0.73) = 0.234 \), which is also greater than 0.05. Hence, we fail to reject \( H_0 \). \textbf{Conclusion:} Both the normal and t-tests lead to the same conclusion: we fail to reject \( H_0 \). However, the normal approximation is incorrect as it assumes the population variance is known.
+    \end{enumerate}
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 10.2}
+~\\~\\
+A nutritionist is analyzing the sodium content (in mg) of a new brand of snack. A random sample of snack packs is taken, and the sodium content is recorded to the nearest $10mg$ in the frequency table below:
+	\[
+	\begin{array}{c|ccccc}
+		\hline
+		\text{Sodium Content (mg)} & 120 & 130 & 140 & 150 & 160 \\
+		\hline
+		\text{Frequency} & 2 & 3 & 5 & 3 & 2 \\
+		\hline
+	\end{array}
+	\]
+	The manufacturer claims that the average sodium content per pack is \( 145 \) mg. State the null hypothesis and perform a statistical test at the 1\% significance level, assuming normality.
+    ~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{itemize}
+		\item Null hypothesis: \( H_0: \mu = 145 \), where \( \mu \) is the mean sodium content.
+		\item Alternative hypothesis: \( H_1: \mu \neq 145 \) (two-tailed test).
+	\end{itemize}
+	First, calculate the sample mean \( \bar{X} \). Using the formula for the weighted mean:
+	\[
+	\bar{X} = \frac{2(120) + 3(130) + 5(140) + 3(150) + 2(160)}{2 + 3 + 5 + 3 + 2} = \frac{240 + 390 + 700 + 450 + 320}{15} = \frac{2100}{15} = 140.
+	\]
+	Now, calculate the sample variance \( s^2 \):
+	\[
+	s^2 = \frac{2(120 - 140)^2 + 3(130 - 140)^2 + 5(140 - 140)^2 + 3(150 - 140)^2 + 2(160 - 140)^2}{15 - 1}.
+	\]
+	Breaking down the squared deviations:
+	\[
+	(120 - 140)^2 = 400, \quad (130 - 140)^2 = 100, \quad (140 - 140)^2 = 0, \quad (150 - 140)^2 = 100, \quad (160 - 140)^2 = 400.
+	\]
+	\[
+	s^2 = \frac{2(400) + 3(100) + 5(0) + 3(100) + 2(400)}{14} = \frac{800 + 300 + 0 + 300 + 800}{14} = \frac{2200}{14} = 157.14.
+	\]
+	The sample standard deviation is \( s = \sqrt{157.14} = 12.55 \).
+	Using the t-statistic formula:
+	\[
+	t = \frac{\bar{X} - \mu}{s / \sqrt{n}} = \frac{140 - 145}{12.55 / \sqrt{15}} = \frac{-5}{3.24} = -1.54.
+	\]
+	Degrees of freedom: \( df = 15 - 1 = 14 \). From the t-table, the critical value for \( \alpha = 0.01 \) (two-tailed) and \( df = 14 \) is \( t^* = \pm 2.977 \). Since \( |t| = 1.54 < 2.977 \), we fail to reject \( H_0 \). \textbf{Conclusion:} There is insufficient evidence to reject the manufacturer's claim.
+}
+~\\~\\
+\end{maybePrint}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 10.3}
+~\\~\\
+A researcher is studying the effect of sleep deprivation on reaction time (measured in milliseconds). A sample of 11 participants undergoes a reaction time test after 24 hours of sleep deprivation, yielding a mean reaction time of \( \bar{x} = 250 \) ms and a sample standard deviation of \( s = 20 \) ms.
+	\begin{enumerate}[(a)]
+		\item Construct 90\%, 95\%, and 99\% confidence intervals for the true mean reaction time using the t-distribution.
+		\item Comment on how the confidence intervals change as the confidence level increases.
+	\end{enumerate}
+\begin{maybePrint}{showAnswers}
+\color{red}{
+\begin{enumerate}[(a)]
+    \item Using the formula for the confidence interval:
+	\[
+	\bar{x} \pm t^* \times \frac{s}{\sqrt{n}}.
+	\]
+	Substitute the values:
+	\[
+	\bar{x} = 250, \quad s = 20, \quad n = 11, \quad df = 10.
+	\]
+	From the t-table, the critical values for \( df = 10 \) are:
+	\[
+	t_{10,.95} = 1.812 \quad \text{for 90\%}, \quad t_{10,.975} = 2.228 \quad \text{for 95\%}, \quad t_{10,.995} = 3.169 \quad \text{for 99\%}.
+	\]
+	Now, compute the standard error:
+	\[
+	\frac{s}{\sqrt{n}} = \frac{20}{\sqrt{11}} = \frac{20}{3.317} = 6.02.
+	\]
+    90\% Confidence Interval:
+	\[
+	250 \pm 1.812 \times 6.02 = 250 \pm 10.91 = (239.09, 260.91).
+	\]
+	95\% Confidence Interval:
+	\[
+	250 \pm 2.228 \times 6.02 = 250 \pm 13.41 = (236.59, 263.41).
+	\]
+	99\% Confidence Interval:
+	\[
+	250 \pm 3.169 \times 6.02 = 250 \pm 19.06 = (230.94, 269.06).
+	\]
+	\item As the confidence level increases, the width of the confidence interval also increases. This is because a higher confidence level means that we need a wider range to be more certain that the true population parameter lies within that range.
+\end{enumerate}
+}
+~\\~\\
+\end{maybePrint}
+\end{document}
+
+\begin{comment}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{\bf Question 1}
+~\\~\\
+
+~\\~\\
+\begin{maybePrint}{showAnswers}
+\color{red}{
+
+}
+~\\~\\
+\end{maybePrint}
+
+\end{comment}

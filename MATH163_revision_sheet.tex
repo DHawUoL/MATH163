@@ -1,0 +1,351 @@
+
+%============================================================
+% MATH163 — Comprehensive but Concise Revision Navigator (v3)
+%============================================================
+\documentclass[11pt]{article}
+
+% Page + Typography
+\usepackage[top=2.2cm,bottom=2.2cm,left=2.2cm,right=2.2cm]{geometry}
+\usepackage{microtype}
+\usepackage{mathpazo}
+\linespread{1.06}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+% Maths & Tables
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{pifont}
+\setlist{nosep,leftmargin=*}
+
+% Colors & Boxes
+\usepackage[dvipsnames]{xcolor}
+\definecolor{Navy}{HTML}{1B3A57}
+\definecolor{Accent}{HTML}{0B6FA4}
+\definecolor{Soft}{HTML}{F4F7FB}
+\usepackage[skins,most]{tcolorbox}
+\tcbset{enhanced,boxsep=2pt,arc=1.5pt,outer arc=1.5pt}
+
+% Titles
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries\color{Navy}}{}{0em}{}
+\titleformat{\subsection}{\large\bfseries\color{Navy}}{}{0em}{}
+
+% Hyperref
+\usepackage[hidelinks]{hyperref}
+
+% Boxes
+\newtcolorbox{keybox}{colback=Soft,colframe=Accent,left=6pt,right=6pt,top=8pt,bottom=8pt}
+\newtcolorbox{notebox}{colback=white,colframe=Accent,left=6pt,right=6pt,top=6pt,bottom=6pt}
+
+\usepackage{rotating}
+\usepackage{array}
+\setlength{\extrarowheight}{6pt} % extra vertical spacing in rows
+
+%============================================================
+\begin{document}
+
+{\LARGE\bfseries MATH163 — Concise Revision Navigator}\par
+{\large \textcolor{Navy}{A complete but compact map of ideas for fast revision.}}
+\vspace{0.7em}
+\hrule
+\vspace{1em}
+
+%============================================================
+\section{Foundations: Random Variables, PMF/PDF, CDF}
+
+\begin{keybox}
+Random variables model \textbf{distributions of possible values}. A \textbf{parameter} describes a population; a \textbf{statistic} summarises a sample; an \textbf{estimator} is a sample-based function estimating a parameter.
+\end{keybox}
+
+\subsection*{PMF, PDF, CDF}
+For a discrete $X$ with PMF $p_X(x)$:
+\[
+\Pr(X=x)=p_X(x), \qquad \sum_x p_X(x)=1.
+\]
+For a continuous $Y$ with PDF $f_Y(y)$:
+\[
+\Pr(a<Y<b)=\int_a^b f_Y(t)\,dt, \qquad \int_{-\infty}^{\infty} f_Y(y)\,dy=1.
+\]
+CDFs:
+\[
+F_X(x)=\Pr(X\le x)=\sum_{i\le x} p_X(i),
+\qquad
+F_Y(y)=\Pr(Y\le y)=\int_{-\infty}^y f_Y(t)\,dt.
+\]
+CDFs are monotone, defined on all real numbers; continuous RVs have continuous CDFs.
+
+\subsection*{Expectations and variance}
+\[
+\mathbb E[X]=\sum_x x p_X(x),
+\quad
+\mathrm{Var}(X)=\sum_x (x-\mathbb E[X])^2p_X(x)=\mathbb E[X^2]-\left(\mathbb E[X]\right)^2.
+\]
+\[
+\mathbb E[Y]=\int y f_Y(y)dy,
+\quad
+\mathrm{Var}(Y)=\int (y-\mathbb E[Y])^2 f_Y(y)dy=\mathbb E[Y^2]-\left(\mathbb E[Y]\right)^2.
+\]
+Median $m$ satisfies $F(m)=1/2$.
+
+%============================================================
+\section{Transformations, Linearity, Covariance}
+
+\subsection*{Linearity}
+\[
+\mathbb E[aX+b]=a\mathbb E[X]+b,
+\qquad
+\mathrm{Var}(aX+b)=a^2\mathrm{Var}(X).
+\]
+If $X,Y$ independent:
+\[
+\mathbb E[XY]=\mathbb E[X]\mathbb E[Y],
+\qquad
+\mathrm{Var}(X+Y)=\mathrm{Var}(X)+\mathrm{Var}(Y).
+\]
+Covariance:
+\[
+\operatorname{Cov}(X,Y)=\mathbb E[XY]-\mathbb E[X]\mathbb E[Y].
+\]
+General variance identity:
+\[
+\mathrm{Var}(X+Y)=\mathrm{Var}(X)+\mathrm{Var}(Y)+2\operatorname{Cov}(X,Y).
+\]
+
+\textit{Note:} Covariance $=0$ does not imply independence except in special families (e.g.\\ multivariate normal).
+
+\subsection*{Transformations and the 5-step method}
+If $Y=G(X)$ with $G$ monotone:
+\[
+f_Y(y)=f_X(G^{-1}(y))\,\left|\frac{d}{dy} G^{-1}(y)\right|.
+\]
+\begin{notebox}
+\textbf{5‑step method used in lectures:} (1) write CDF of $X$, (2) express $F_Y(y)=\Pr(G(X)\le y)$, (3) invert, (4) apply CDF of $X$, (5) differentiate.
+\end{notebox}
+
+%============================================================
+%\section{Distribution Reference Sheet}
+%Distributions marked with \ding{72} require memorised means and variances.
+
+\begin{sidewaystable}%[Ht]
+	\centering
+	\small
+	\renewcommand{\arraystretch}{1.6}
+	\begin{tabular}{l l l l l}
+		\toprule
+		\textbf{Distribution} & \textbf{Parameters} & \textbf{Mean} & \textbf{Variance} & \textbf{What it models} \\
+		\midrule
+		\ding{72} Bernoulli 
+		& $p$ 
+		& $p$ 
+		& $p(1-p)$ 
+		& Single success/failure trial \\
+		
+		\ding{72} Binomial 
+		& $n,p$ 
+		& $np$ 
+		& $np(1-p)$ 
+		& Number of successes in $n$ trials \\
+		
+		\ding{72} Geometric$^{*}$ 
+		& $p$ 
+		& $(1-p)/p$ 
+		& $(1-p)/p^2$ 
+		& Failures before first success \\
+		
+		Negative Binomial 
+		& $r,p$ 
+		& $r(1-p)/p$ 
+		& $r(1-p)/p^2$ 
+		& Failures before the $r$th success \\
+		
+		Hypergeometric 
+		& $N,K,n$ 
+		& $nK/N$ 
+		& $n(K/N)(1-K/N)\tfrac{N-n}{N-1}$ 
+		& Sampling without replacement \\
+		
+		\ding{72} Poisson 
+		& $\lambda$ 
+		& $\lambda$ 
+		& $\lambda$ 
+		& Count of events in fixed time/space \\
+		
+		\ding{72} Exponential 
+		& $\lambda$ 
+		& $1/\lambda$ 
+		& $1/\lambda^2$ 
+		& Time to next event in Poisson process \\
+		
+		\ding{72} Continuous Uniform $(a,b)$ 
+		& $a<b$ 
+		& $(a+b)/2$ 
+		& $(b-a)^2/12$ 
+		& Constant density on an interval \\
+		
+		Normal 
+		& $\mu,\sigma^2$ 
+		& $\mu$ 
+		& $\sigma^2$ 
+		& Real-valued measurements with symmetric variation (CLT/averages) \\
+		\bottomrule
+	\end{tabular}
+	
+	\footnotesize $^{*}$Geometric counts failures before first success; trials-to-success version has mean $1/p$.
+	\caption{Reference table of distributions studied in MATH163. Distributions marked with \ding{72} require memorised mean/variance.}
+\end{sidewaystable}
+
+%============================================================
+\section{Probability Tools}
+
+\textbf{Total probability:}
+\[
+\Pr(B)=\sum_i \Pr(B\mid A_i)\Pr(A_i).
+\]
+\textbf{Bayes' rule:}
+\[
+\Pr(A\mid B)=\frac{\Pr(B\mid A)\Pr(A)}{\Pr(B)}.
+\]
+
+%============================================================
+\section*{Bias}
+
+An estimator $\hat{\theta}$ of a parameter $\theta$ has \textbf{bias}
+\[
+\text{Bias}(\hat{\theta}) = \mathbb{E}[\hat{\theta}] - \theta.
+\]
+
+\begin{itemize}
+	\item \textbf{Unbiased estimator}: $\mathbb{E}[\hat{\theta}] = \theta$.
+	\item \textbf{Biased estimator}: expectation differs from the true parameter.
+	\item Sample mean $\bar X_n$ is unbiased for $\mu$.
+	\item Sample variance $s^2 = \frac{1}{n-1}\sum (x_i - \bar x)^2$ is unbiased for $\sigma^2$.
+\end{itemize}
+
+%============================================================
+\section*{Consistency}
+
+An estimator $\hat{\theta}_n$ is \textbf{consistent} for $\theta$ if
+\[
+\hat{\theta}_n \xrightarrow{p} \theta,
+\]
+i.e.\ it converges in probability to the true parameter as $n \to \infty$.
+
+\begin{itemize}
+	\item Equivalent: $\mathbb{E}[\hat{\theta}_n] \to \theta$ and $\mathrm{Var}(\hat{\theta}_n) \to 0$.
+	\item $\bar X_n$ is consistent for $\mu$.
+	\item Many biased estimators can still be consistent.
+\end{itemize}
+
+%============================================================
+\section*{Limit laws}
+
+\textbf{Law of Large Numbers (LLN):}
+\[
+\bar X_n \xrightarrow{p} \mu.
+\]
+The sample mean stabilises around the population mean as $n$ increases.
+
+\textbf{Central Limit Theorem (CLT):}
+\[
+\sqrt{n}(\bar X_n - \mu) \xrightarrow{d} N(0, \sigma^2).
+\]
+For large $n$, $\bar X_n$ is approximately normal even if the data are not.
+
+These justify large-sample $z$-tests and confidence intervals.
+
+%============================================================
+\section{Statistical Tests: z and t}
+
+\begin{keybox}
+Hypotheses: two‑tail $H_0: \mu=\mu_0$; one‑tail $H_0: \mu\le \mu_0$ or $H_0: \mu\ge \mu_0$.\\
+Test statistic:
+\[
+\frac{\bar X-\mu_0}{\mathrm{SE}}.
+\]
+\textbf{SE for $z$}: $\sigma/\sqrt{n}$.\\
+\textbf{SE for $t$}: $s/\sqrt{n}$ (df $=n-1$).\\
+Use $z$ if $\sigma$ known or $n$ large; $t$ otherwise.\\
+Small samples ($n<30$) require approximate normality. 
+\end{keybox}
+
+Raw data formulas:
+\[
+\bar x=\frac1n\sum x_i,
+\qquad
+s^2=\frac1{n-1}\sum (x_i-\bar x)^2.
+\]
+For frequency data:
+\[
+\bar x=\frac{1}{n}\sum_j f_j v_j,
+\qquad
+s^2=\frac1{n-1}\sum_j f_j (v_j-\bar x)^2=\frac n{n-1}\left[\overline{x^2}-(\bar x)^2\right].
+\]
+
+%============================================================
+\section{Statistical Tests: $\chi^2$}
+Statistic:
+\[
+\chi^2=\sum_i \frac{(O_i-E_i)^2}{E_i}.
+\]
+Always right‑tail.
+
+Degrees of freedom:
+\begin{itemize}
+    \item Goodness of fit with $k$ categories: $k-1-$ parameters estimated.
+    \item Independence/homogeneity ($r\times c$): $(r-1)(c-1)$ \text{ (no parameters to be estimated).}
+\end{itemize}
+Conditions: independent samples; expected counts usually $\ge5$.
+
+%============================================================
+%\clearpage
+\section*{Typical exam format}
+
+\begin{itemize}
+	\item Section A contains 10 multiple choice questions, each worth 6 marks. Section A carries 60\% of the available marks. 
+	\item In Section A, unless stated otherwise, 3 marks are awarded for the correct option and 3 marks for justification/working.
+	\item Section B contains 2 longer questions worth 20 marks each, and carries 40\% of the available marks.
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Typical MCQ topics include:}
+\begin{itemize}
+	\item Identifying a data type
+	\item Applying basic probability rules
+	\item Counting ordered / unordered combinations
+	\item Transforming a discrete random variable
+	\item Mean/variance of transformations or combinations of RVs
+	\item Covariance; identifying (in)dependence
+	\item Identifying the correct RV model in context
+	\item Bias of estimators; identifying unbiased estimators
+	\item Limit laws; confidence intervals — selecting correct statements
+	\item Properties of hypothesis tests, e.g.\ degrees of freedom
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{QB1: Given a PDF or CDF, tasks may include:}
+\begin{itemize}
+	\item Determining the normalisation constant
+	\item Giving the CDF or PDF (including piecewise form)
+	\item Computing the mean $\mathbb E[X]$
+	\item Finding the median and commenting on skewness
+	\item Computing the variance
+	\item Applying a monotone transformation and giving the new PDF
+	\item Giving summary statistics of the transformed RV
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{QB2: Statistical testing. Tasks may include:}
+\begin{itemize}
+	\item Identifying the correct test ($z$, $t$, or $\chi^2$; one‐tail or two‐tail)
+	\item Formulating the null and alternative hypotheses
+	\item Determining the degrees of freedom
+	\item Computing the test statistic or the $p$–value
+	\item Deciding whether to reject $H_0$
+	\item Interpreting the decision in context
+	\item Identifying assumptions or limitations of the test
+\end{itemize}
+
+%============================================================
+\end{document}
